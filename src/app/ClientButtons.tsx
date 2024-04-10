@@ -17,7 +17,7 @@ const LogoutButton = ({children}:{children:string}) => {
       removeCookies("accessToken")
       router.push("/")
     };
-    return <Button onClick={handleLogout}>{children}</Button>;
+    return <Button size="sm" onClick={handleLogout}>{children}</Button>;
 };
 
 export default LogoutButton;

@@ -10,14 +10,17 @@ import {
   CardBody,
   CardHeader,
 } from "@nextui-org/react";
-import LoginForm from "@/components/login/LoginForm";
+
 import { Cookies } from "react-cookie";
 import useAuthCookie from "@/auth-cookie/cookies";
 import { redirect, useSearchParams } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
-import SignUpForm from "@/components/login/SignUpForm";
-import SellerLoginForm from "@/components/login/SellerLoginForm";
+
+import LoginForm from "../components/login/LoginForm";
+import SignUpForm from "../components/login/SignUpForm";
+import SellerLoginForm from "../components/login/SellerLoginForm";
+
 
 export default function App() {
   const searchParams = useSearchParams()

@@ -1,10 +1,10 @@
 "use client"
-import SellerLoginForm from '@/components/login/SellerLoginForm';
-import SellerSignUpForm from '@/components/login/SellerSignUpForm';
-import SignUpForm from '@/components/login/SignUpForm';
+
 import { Card, CardBody, Tabs, Tab } from '@nextui-org/react';
 import { useSearchParams } from 'next/navigation';
 import React from 'react';
+import SignUpForm from '../components/login/SignUpForm';
+import SellerSignUpForm from '../components/login/SellerSignUpForm';
 
 const SignUpPage = () => {
     const searchParams = useSearchParams()

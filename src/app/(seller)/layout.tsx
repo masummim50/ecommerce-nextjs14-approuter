@@ -6,18 +6,17 @@ import { useRouter } from "next/navigation";
 import { cookies } from "next/headers";
 import { jwtDecode } from "jwt-decode";
 import MyHeader from "../MyHeader";
-import SellerSidebar from "@/components/layout/SellerSidebar";
+import SellerSidebar from "../components/layout/SellerSidebar";
 
 const SellerLayout = ({ children }: { children: React.ReactNode }) => {
-  console.log('seller layout compo')
+
   return (
     <div className="flex">
-      <SellerSidebar/>
-      <div>
+      <SellerSidebar />
+      <div className="flex-1">
+        <MyHeader />
 
-      <MyHeader />
-      
-      {children}
+        {children}
       </div>
     </div>
   );

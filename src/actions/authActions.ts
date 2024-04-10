@@ -22,7 +22,7 @@ export async function loginAction(prevState: any, formData: FormData) {
     return { message: data.message };
   }
   console.log("data: ", data);
-  cookies().set("accessToken", data.data.accessToken);
+  cookies().set("accessToken", data.data.accessToken, { maxAge: 360000 });
   redirect("/");
 }
 export async function signUpAction(prevState: any, formData: FormData) {
@@ -82,6 +82,6 @@ export async function sellerLoginAction(prevState: any, formData: FormData) {
     console.log(data.message);
     return { message: data.message };
   }
-  cookies().set("accessToken", data.data.accessToken);
+  cookies().set("accessToken", data.data.accessToken, { maxAge: 360000 });
   redirect("/seller");
 }

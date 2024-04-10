@@ -21,9 +21,12 @@ const MyHeader = () => {
     }
 
     return (
-        <div className='flex justify-between max-w-[1100px] m-auto'>
+        <div className="bg-[#f0f0f0] shadow-md">
+
+        <div className='flex justify-between max-w-[1100px] m-auto p-1'>
             <div className="logo">Logo</div>
             <DynamicLinks user={user}/>
+        </div>
         </div>
     );
 };
