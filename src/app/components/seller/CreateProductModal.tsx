@@ -1,5 +1,11 @@
 "use client";
-import React, { ChangeEvent, SetStateAction, useState } from "react";
+import React, {
+  ChangeEvent,
+  FormEvent,
+  SetStateAction,
+  useRef,
+  useState,
+} from "react";
 import {
   Modal,
   ModalContent,
@@ -12,61 +18,97 @@ import {
   Progress,
 } from "@nextui-org/react";
 
-import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import {
   createProductAction,
   createStoreAction,
 } from "@/actions/sellerActions";
+import { useFormState, useFormStatus } from "react-dom";
+import SubmitButton from "./SubmitButton";
+import { revalidatePath } from "next/cache";
+import { getRandomData } from "./data";
 
 interface IFormInput {
   name: string;
   description: string;
   price: number;
   stock: number;
-  images: string[] | null;
+  images: string[] | undefined;
 }
 
-
 const CreateProductModal = () => {
-  const { control, handleSubmit } = useForm({
-    defaultValues: {
-      name:'',
-      description:'',
-      price:0,
-      stock:0,
-      images:null
-    },
+  const [showResponseMessage, setShowResponseMessage] = useState({
+    show: false,
+    message: "",
   });
+  const imageref = useRef<HTMLInputElement | null>(null);
+  const [pending, setPending] = useState(false);
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [uploadValue, setUploadValue] = useState(0);
+  const [uploadValue, setUploadValue] = useState(-1);
 
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
 
-  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    if(typeof data.price === 'string'){
-      data.price = parseInt(data.price)
+  const submitFunction = async (data: IFormInput) => {
+    setPending(true);
+    if (typeof data.price === "string") {
+      data.price = parseInt(data.price);
     }
-    if(typeof data.stock === 'string'){
-      data.stock = parseInt(data.stock)
+    if (typeof data.stock === "string") {
+      data.stock = parseInt(data.stock);
     }
-    console.log("onsubmit clicked:", uploadedImages);
-    data.images = [...uploadedImages];
-    console.log(data);
 
     const createProductData = await createProductAction(data);
+    setMyValues({
+      name: "",
+      description: "",
+      category: "",
+      price: 0,
+      stock: 0,
+      images: [],
+    });
+    if (imageref.current && imageref.current.value) {
+      imageref.current.value = "";
+    }
+    setPending(false);
+    setUploadedImages([]);
+    setUploadValue(-1);
+    setShowResponseMessage({ show: true, message: createProductData.message });
+    setTimeout(() => {
+      setShowResponseMessage({ show: false, message: "" });
+    }, 1000);
     console.log("create product data action ended: ", createProductData);
   };
 
+  const [myValues, setMyValues] = useState<{
+    name: string;
+    description: string;
+    category: string;
+    price: number;
+    stock: number;
+    images: string[];
+  }>({
+    name: "",
+    description: "",
+    category: "",
+    price: 0,
+    stock: 0,
+    images: [],
+  });
   const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    // clear generated images field
+    setMyValues((prev) => {
+      return { ...prev, images: [] };
+    });
     setUploadedImages([]);
     const images = e.target.files;
     console.log("image upload selected: ", images);
     setUploadValue(0);
+    const myimages = [];
     if (images) {
       for (let i = 0; i < images.length; i++) {
         const imageData = new FormData();
-        imageData.set("key", "e714769a5c6946f2db13d49ca7ee48b3");
+        // imageData.set("key", "e714769a5c6946f2db13d49ca7ee48b3");
+        imageData.set("key", process.env.NEXT_PUBLIC_IMGBB_API_KEY as string);
         imageData.set("image", images[i]);
         const upload = await fetch("https://api.imgbb.com/1/upload", {
           method: "POST",
@@ -76,15 +118,45 @@ const CreateProductModal = () => {
           setUploadValue(100 / (images.length - i));
           const data = await upload.json();
           console.log("upload: ", data);
-          setUploadedImages(prev=> [...prev, data?.data?.display_url])
+          await setUploadedImages((prev) => [...prev, data?.data?.display_url]);
+          // setMyValues({
+          //   ...myValues,
+          //   images: [...myValues.images, data?.data?.display_url],
+          // });
+          setMyValues((prev) => {
+            return {
+              ...prev,
+              images: [...prev.images, data?.data?.display_url],
+            };
+          });
+          myimages.push(data?.data?.display_url);
           console.log("one image uploaded: ", uploadedImages);
         } else {
-          console.log("upload failed");
+          console.log("upload failed: ", upload);
         }
       }
     }
+    console.log("array of uploaded images: ", myimages);
   };
 
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("my form data: ", myValues);
+    submitFunction(myValues);
+  };
+
+  const generateValues = () => {
+    const data = getRandomData();
+    setUploadValue(100);
+    setMyValues({
+      name: data.name,
+      description: data.description,
+      category: data.category,
+      price: data.price,
+      stock: data.stock,
+      images: data.images,
+    });
+  };
   return (
     <div className="">
       <Button size="sm" color="primary" onPress={onOpen}>
@@ -100,96 +172,109 @@ const CreateProductModal = () => {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Modal Title
+                Create Product
+                <Button size="sm" onClick={generateValues}>
+                  Add a random product
+                </Button>
+                <div>{showResponseMessage.show && "response"}</div>
               </ModalHeader>
               <ModalBody>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                  <Controller
+                <form onSubmit={(e) => handleSubmit(e)}>
+                  <Input
+                    value={myValues.name}
+                    onChange={(e) =>
+                      setMyValues({ ...myValues, name: e.target.value })
+                    }
                     name="name"
-                    control={control}
-                    render={({ field }) => (
-                      <Input defaultValue="" isRequired label="Product name" {...field} />
-                    )}
+                    isRequired
+                    label="Product name"
                   />
-                  <Controller
+                  <Input
+                    value={myValues.description}
+                    onChange={(e) =>
+                      setMyValues({ ...myValues, description: e.target.value })
+                    }
                     name="description"
-                    control={control}
-                    render={({ field }) => (
-                      <Input isRequired label="description" {...field} />
-                    )}
+                    isRequired
+                    label="description"
                   />
-                  
-                  <Controller
+                  <Input
+                    value={myValues.category}
+                    onChange={(e) =>
+                      setMyValues({ ...myValues, category: e.target.value })
+                    }
+                    name="category"
+                    isRequired
+                    label="category"
+                  />
+
+                  <Input
+                    value={myValues.price as any}
+                    onChange={(e) =>
+                      setMyValues({
+                        ...myValues,
+                        price: parseFloat(e.target.value),
+                      })
+                    }
+                    isRequired
+                    min={1}
+                    label="price"
+                    type="number"
+                    step={1}
                     name="price"
-                    control={control}
-                    rules={{required:true}}
-                    render={({ field }) => (
-                      <Input
-                      isRequired
-                        min={1}
-                        label="price"
-                        type="number"
-                        step={1}
-                        value={field.value as any}
-                        onChange={field.onChange}
-                      />
-                    )}
                   />
-                  <Controller
+                  <Input
+                    value={myValues.stock as any}
+                    onChange={(e) =>
+                      setMyValues({
+                        ...myValues,
+                        stock: parseInt(e.target.value),
+                      })
+                    }
+                    isRequired
+                    min={1}
+                    label="stock"
+                    type="number"
+                    step={1}
                     name="stock"
-                    rules={{required:true}}
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                      isRequired
-                        min={1}
-                        label="stock"
-                        type="number"
-                        step={1}
-                        value={field.value as any}
-                        onChange={field.onChange}
-                      />
-                    )}
                   />
-                  <Controller
-                    name="images"
-                    control={control}
-                    render={({ field }) => (
-                      <input
-                        type="file"
-                        multiple
-                        onChange={(e) => handleImageUpload(e)}
-                      />
-                    )}
+                  <input
+                    ref={imageref}
+                    type="file"
+                    multiple
+                    onChange={(e) => {
+                      handleImageUpload(e);
+                    }}
                   />
-                  <Progress
-                    label={uploadValue === 100 ? "Uploaded" : "Uploading..."}
-                    size="sm"
-                    value={uploadValue}
-                    color="success"
-                    showValueLabel={true}
-                    className="max-w-md"
-                  />
+                  {uploadValue !== -1 && (
+                    <Progress
+                      label={uploadValue === 100 ? "Uploaded" : "Uploading..."}
+                      size="sm"
+                      value={uploadValue}
+                      color="success"
+                      showValueLabel={true}
+                      className="max-w-md"
+                    />
+                  )}
 
                   <Button
                     color="primary"
                     className="disabled:bg-gray-400"
-                    disabled={uploadValue !== 100}
+                    disabled={uploadValue !== 100 || pending}
                     type="submit"
                   >
-                    Create Store
+                    {pending ? "Creating..." : "Create Product"}
                   </Button>
-                  
                 </form>
               </ModalBody>
-              <ModalFooter>
+              {/* <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
                   Close
                 </Button>
                 <Button color="primary" onPress={onClose}>
                   Action
                 </Button>
-              </ModalFooter>
+              </ModalFooter> */}
             </>
           )}
         </ModalContent>

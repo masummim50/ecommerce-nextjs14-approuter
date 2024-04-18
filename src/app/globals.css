@@ -12,3 +12,17 @@
 html {
   scroll-behavior: smooth !important;
 }
+
+.embla {
+  overflow: hidden;
+}
+.embla__container {
+  display: flex;
+  gap:10px;
+}
+.embla__slide {
+  flex: 0 0 20%;
+  min-width: 0;
+  box-shadow: 1px solid black;
+  /* min-width:20% */
+}

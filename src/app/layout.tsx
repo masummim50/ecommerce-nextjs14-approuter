@@ -5,7 +5,6 @@ import Link from "next/link";
 import { Button } from "@nextui-org/react";
 import NextUiProvider from "./NextUiProvider";
 import AuthProvider from "@/providers/AuthProvider";
-import Header from "@/components/layout/Header";
 import ThemeContextProvider from "@/providers/ThemeContextProvider";
 import Provider from "@/providers/Provider";
 import MyHeader from "./MyHeader";

@@ -1,8 +1,9 @@
 import { Button } from "@nextui-org/react";
 import React from "react";
 import CreateProductModal from "./CreateProductModal";
-import { productType } from "@/app/interfaces/productInterface";
-import SellerProductCard from "./SellerProductCard";
+import Link from "next/link";
+import Products from "@/app/(seller)/seller/store/Products";
+import TestForm from "./TestForm";
 
 const StoreFound = ({ store }: { store: any }) => {
   return (
@@ -13,25 +14,19 @@ const StoreFound = ({ store }: { store: any }) => {
         <p>{store?.followers?.length} Followers</p>
         <p className="text-sm">{store.description}</p>
       </div>
+
       <div>
         {store?.products?.length === 0 && (
           <div>
             <p>No product has been added to the store</p>
-            <CreateProductModal/>
+            <CreateProductModal />
           </div>
         )}
       </div>
       <div>
         {store?.products?.length > 0 && (
-            <CreateProductModal/>
+          <CreateProductModal />
         )}
-      </div>
-      <div>
-        {
-          store?.products?.map((product:productType)=> (
-            <SellerProductCard key={product.id} product={product}/>
-          ))
-        }
       </div>
     </div>
   );

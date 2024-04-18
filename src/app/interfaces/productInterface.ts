@@ -17,7 +17,9 @@ export type productType = {
   description: string;
   price: number;
   stock: number;
+  discount: number;
   images: string[];
+  category: string;
   sales: number;
   storeId: string;
   store: {};

@@ -5,6 +5,16 @@
  */
 const nextConfig = {
     /* config options here */
+    images: {
+      remotePatterns: [
+        {
+          protocol: 'https',
+          hostname: "i.ibb.co",
+          port: '',
+          // pathname: '/account123/**',
+        },
+      ],
+    }
   }
    
   export default nextConfig

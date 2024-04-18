@@ -3,6 +3,7 @@ import DynamicLinks from './DynamicLinks';
 import { cookies } from 'next/headers';
 import { jwtDecode } from 'jwt-decode';
 import { useAppSelector } from '@/redux/hooks';
+import Link from 'next/link'
 
 import { RootState } from '@/redux/store';
 interface decodedUser  {
@@ -24,7 +25,7 @@ const MyHeader = () => {
         <div className="bg-[#f0f0f0] shadow-md">
 
         <div className='flex justify-between max-w-[1100px] m-auto p-1'>
-            <div className="logo">Logo</div>
+            <Link href="/" className="logo">Logo</Link>
             <DynamicLinks user={user}/>
         </div>
         </div>

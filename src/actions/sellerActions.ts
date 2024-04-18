@@ -1,7 +1,7 @@
 "use server";
 
 import { baseUrl } from "@/shared/urls";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -33,7 +33,6 @@ export async function createStoreAction(createStoreData: any) {
   revalidatePath("/seller/store");
   redirect("/seller/store");
 }
-
 export async function createProductAction(createStoreData: any) {
   console.log("starting create product action function");
   const cookieStore = cookies();
@@ -50,9 +49,29 @@ export async function createProductAction(createStoreData: any) {
   });
 
   const data = await result.json();
-  console.log("create product data: ", data);
-  if (result.status !== 200) {
-    console.log(data.message);
-    return { message: data.message };
-  }
+
+  revalidateTag("sellerProducts");
+  return data;
+}
+export async function deleteProductAction(productId: string) {
+  console.log("starting delete product function");
+  const cookieStore = cookies();
+  const token = cookieStore.get("accessToken")?.value;
+
+  const result = await fetch(
+    `http://localhost:5000/api/v1/product/${productId}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  const data = await result.json();
+  console.log("delete data: ", data);
+
+  revalidatePath("/seller/store");
+  return data;
 }
