@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { productType } from "@/app/interfaces/productInterface";
 
 // Define a type for the slice state
-interface cartItemType extends productType {
+export interface cartItemType extends productType {
   quantity: number | 1;
 }
 
@@ -25,7 +25,7 @@ export const productSlice = createSlice({
   reducers: {
     setProduct: (state, action) => {
       console.log("payload from setuser authslice reducer: ", action.payload);
-      state.products = [...action.payload];
+      state.products = action.payload;
       state.products.forEach((product) => {
         if (!product.quantity) {
           product.quantity = 1;

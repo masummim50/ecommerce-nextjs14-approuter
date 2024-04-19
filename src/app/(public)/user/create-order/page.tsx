@@ -5,6 +5,7 @@ import { RootState } from "@/redux/store";
 import { Button } from "@nextui-org/react";
 import Image from "next/image";
 import React from "react";
+import OrderDetails from "./OrderDetails";
 
 const CreateOrderPage = () => {
     const dispatch = useAppDispatch()
@@ -39,12 +40,7 @@ const CreateOrderPage = () => {
         })}
       </div>
       <div className="w-[40%]">
-        <div className="shadow-lg">
-
-        <h2>Order Details:</h2>
-        
-        
-        </div>
+        <OrderDetails/>
       </div>
     </div>
   );

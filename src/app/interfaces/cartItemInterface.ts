@@ -7,14 +7,14 @@
 //     user      User   @relation(fields: [userId], references: [id])
 //     productId String
 //   }
-import { productType } from "./productInterface";
-import { userType } from "./userInterface";
+// import { productType } from "./productInterface";
+// import { userType } from "./userInterface";
 
-export type cartItemType = {
-  id: string;
-  product: productType;
-  quantity: number;
-  userId: string;
-  user: userType;
-  productId: string;
-};
+// export type cartItemType = {
+//   id: string;
+//   product: productType;
+//   quantity: number;
+//   userId: string;
+//   user: userType;
+//   productId: string;
+// };

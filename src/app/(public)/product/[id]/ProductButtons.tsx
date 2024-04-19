@@ -1,4 +1,5 @@
 "use client";
+import { addProductToCartAction } from "@/actions/userActions";
 import { productType } from "@/app/interfaces/productInterface";
 import { userType } from "@/app/interfaces/userInterface";
 import { setProduct } from "@/redux/features/product/productSlice";
@@ -19,12 +20,17 @@ const ProductButtons = ({product}:{product:productType}) => {
     router.push("/user/create-order");
 
   }
+
+  const handleAddToCart = async()=> {
+    await addProductToCartAction(product.id);
+    console.log("product added to cart")
+  }
   return (
     <div>
       {userFromStore.role === "seller" ? null : (
         <div className="buttons">
             <Button onClick={handleBuyNowClick}>Buy Now</Button>
-          <Button>Add to Cart</Button>
+          <Button onClick={handleAddToCart}>Add to Cart</Button>
         </div>
       )}
     </div>
