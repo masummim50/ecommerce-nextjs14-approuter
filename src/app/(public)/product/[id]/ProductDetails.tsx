@@ -3,6 +3,7 @@ import { Button } from "@nextui-org/react";
 import Image from "next/image";
 import React from "react";
 import ProductButtons from "./ProductButtons";
+import Link from "next/link";
 
 const ProductDetails = ({ product }: { product: productType }) => {
   return (
@@ -20,6 +21,7 @@ const ProductDetails = ({ product }: { product: productType }) => {
             <p>Category: {product.category}</p>
             <p>{product.stock} items in stock</p>
             <p>{product.sales} items sold</p>
+            <p>Sold by: <Link href={`/store/${product.storeId}`}>{product.store.name}</Link></p>
           </div>
           <div className="buttons flex justify-between items-center">
             <div className="price">{product.price} USD</div>

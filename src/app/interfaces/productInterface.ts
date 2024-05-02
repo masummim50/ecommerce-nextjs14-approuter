@@ -11,6 +11,8 @@
 // CartItem    CartItem[]
 // OrderItem   OrderItem[]
 
+import { storeType } from "./storeInterface";
+
 export type productType = {
   id: string;
   name: string;
@@ -22,7 +24,7 @@ export type productType = {
   category: string;
   sales: number;
   storeId: string;
-  store: {};
+  store: storeType;
   reviews: [];
   CartItem: [];
   OrderItem: [];

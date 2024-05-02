@@ -5,7 +5,9 @@ import PublicProductCard from "../components/product/PublicProductCard";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import Link from "next/link";
-const PopularSectionCarousel = ({ products }: { products: productType[] }) => {
+
+
+const NewSectionCarousel = ({ products }: { products: productType[] }) => {
   const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay({delay:1000, stopOnMouseEnter:true,stopOnInteraction:false})]);
 
   return (
@@ -25,4 +27,4 @@ const PopularSectionCarousel = ({ products }: { products: productType[] }) => {
   );
 };
 
-export default PopularSectionCarousel;
+export default NewSectionCarousel;

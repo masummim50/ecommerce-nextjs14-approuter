@@ -59,7 +59,7 @@ const DynamicLinks = ({
             <Dropdown>
               <DropdownTrigger>
                 <Button size="md" radius="full" isIconOnly>
-                  <CgProfile className="w-full h-full"/>
+                  <CgProfile className="w-full h-full" />
                 </Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="Static Actions">
@@ -90,8 +90,21 @@ const DynamicLinks = ({
                 </Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="Static Actions">
-                <DropdownItem key="new">
-                  <Link href="/user/cart">Cart</Link>
+                <DropdownItem key="cart" className="p-0">
+                  <Link
+                    className=" w-full h-full inline-block p-2"
+                    href="/user/cart"
+                  >
+                    Cart
+                  </Link>
+                </DropdownItem>
+                <DropdownItem key="orders" className="p-0">
+                  <Link
+                    className=" w-full h-full inline-block p-2"
+                    href="/user/orders"
+                  >
+                    My Orders
+                  </Link>
                 </DropdownItem>
                 <DropdownItem key="copy">Copy link</DropdownItem>
                 <DropdownItem key="edit">Edit file</DropdownItem>

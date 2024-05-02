@@ -9,14 +9,15 @@ export interface cartItemType extends productType {
   quantity: number | 1;
 }
 
+// type productState = {
+//   products: cartItemType[];
+// };
 type productState = {
-  products: cartItemType[];
+  [key: string]: cartItemType[];
 };
 
 // Define the initial state using that type
-const initialState: productState = {
-  products: [],
-};
+const initialState: productState = {};
 
 export const productSlice = createSlice({
   name: "product",
@@ -24,26 +25,38 @@ export const productSlice = createSlice({
   initialState,
   reducers: {
     setProduct: (state, action) => {
-      console.log("payload from setuser authslice reducer: ", action.payload);
-      state.products = action.payload;
-      state.products.forEach((product) => {
-        if (!product.quantity) {
-          product.quantity = 1;
+      console.log(
+        "payload from setproducts productslice reducer: ",
+        action.payload
+      );
+      const newState = action.payload.reduce((prev: any, curr: any) => {
+        if (prev[curr.storeId]) {
+          prev[curr.storeId].push({ ...curr });
+        } else {
+          prev[curr.storeId] = [{ ...curr }];
         }
-      });
-      return state;
+        return prev;
+      }, {});
+      // state.products = action.payload;
+      // state.products.forEach((product) => {
+      //   if (!product.quantity) {
+      //     product.quantity = 1;
+      //   }
+      // });
+      console.log("new state after reduce function: ", newState);
+      return newState;
     },
     increaseQuantity: (state, action) => {
-      state.products.forEach((product) => {
-        if (product.id === action.payload) {
+      state[action.payload.storeId].forEach((product) => {
+        if (product.id === action.payload.productId) {
           product.quantity++;
         }
       });
       return state;
     },
     decreaseQuantity: (state, action) => {
-      state.products.forEach((product) => {
-        if (product.id === action.payload) {
+      state[action.payload.storeId].forEach((product) => {
+        if (product.id === action.payload.productId) {
           product.quantity--;
         }
       });

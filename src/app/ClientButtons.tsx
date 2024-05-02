@@ -9,10 +9,12 @@ import { useRouter } from "next/navigation";
 
 
 const LogoutButton = ({children}:{children:string}) => {
+  
   const dispatch = useAppDispatch();
     const router = useRouter()
     const {removeCookies} = useAuthCookie()
     const handleLogout = () => {
+      console.log("handling logout clicked")
       dispatch(removeUser())
       removeCookies("accessToken")
       router.push("/")

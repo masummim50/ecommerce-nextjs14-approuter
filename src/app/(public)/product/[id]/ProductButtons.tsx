@@ -16,7 +16,7 @@ const ProductButtons = ({product}:{product:productType}) => {
   const router = useRouter(); 
   const handleBuyNowClick = ()=> {
 
-    dispatch(setProduct([product]))
+    dispatch(setProduct([{...product,quantity:1}]))
     router.push("/user/create-order");
 
   }
