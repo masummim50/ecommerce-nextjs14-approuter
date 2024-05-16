@@ -1,5 +1,6 @@
 "use server";
 
+import { productType } from "@/app/interfaces/productInterface";
 import { baseUrl } from "@/shared/urls";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
@@ -8,7 +9,6 @@ import { redirect } from "next/navigation";
 export async function createStoreAction(createStoreData: any) {
   const cookieStore = cookies();
   const token = cookieStore.get("accessToken")?.value;
-  console.log("form data from createstore: ", createStoreData);
   //   const payload = {
   //     email: formData.get("email")?.toString(),
   //     password: formData.get("password")?.toString(),
@@ -25,19 +25,15 @@ export async function createStoreAction(createStoreData: any) {
     }
   );
   const data = await result.json();
-  console.log("create store data: ", data);
   if (result.status !== 200) {
-    console.log(data.message);
     return { message: data.message };
   }
   revalidatePath("/seller/store");
   redirect("/seller/store");
 }
 export async function createProductAction(createStoreData: any) {
-  console.log("starting create product action function");
   const cookieStore = cookies();
   const token = cookieStore.get("accessToken")?.value;
-  console.log("form data from createproduct: ", createStoreData);
 
   const result = await fetch("http://localhost:5000/api/v1/product/create", {
     method: "POST",
@@ -53,8 +49,32 @@ export async function createProductAction(createStoreData: any) {
   revalidateTag("sellerProducts");
   return data;
 }
+
+export async function updateProductAction(
+  productId: string,
+  data: Partial<productType>
+) {
+  const cookieStore = cookies();
+  const token = cookieStore.get("accessToken")?.value;
+
+  const result = await fetch(
+    `http://localhost:5000/api/v1/product/${productId}`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  const returnedData = await result.json();
+
+  revalidatePath("/seller/store");
+  return returnedData;
+}
 export async function deleteProductAction(productId: string) {
-  console.log("starting delete product function");
   const cookieStore = cookies();
   const token = cookieStore.get("accessToken")?.value;
 
@@ -70,8 +90,67 @@ export async function deleteProductAction(productId: string) {
   );
 
   const data = await result.json();
-  console.log("delete data: ", data);
 
   revalidatePath("/seller/store");
+  return data;
+}
+
+export async function acceptOrderByIdAction(orderId: string) {
+  const cookieStore = cookies();
+  const token = cookieStore.get("accessToken")?.value;
+
+  const result = await fetch(
+    `http://localhost:5000/api/v1/order/accept/${orderId}`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  const data = await result.json();
+  revalidatePath("/seller/orders");
+  return data;
+}
+
+export async function shipOrderByIdAction(orderId: string) {
+  const cookieStore = cookies();
+  const token = cookieStore.get("accessToken")?.value;
+
+  const result = await fetch(
+    `http://localhost:5000/api/v1/order/ship/${orderId}`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  const data = await result.json();
+  revalidatePath("/seller/orders");
+  return data;
+}
+
+export async function cancelOrderByIdAction(orderId: string) {
+  const cookieStore = cookies();
+  const token = cookieStore.get("accessToken")?.value;
+
+  const result = await fetch(
+    `http://localhost:5000/api/v1/order/cancel/${orderId}`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  const data = await result.json();
+  revalidatePath("/seller/orders");
   return data;
 }

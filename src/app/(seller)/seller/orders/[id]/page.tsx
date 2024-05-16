@@ -15,7 +15,7 @@ const SellerOrderDetails = async({params}:{params:{id:string}})=> {
   });
   const data = await result.json();
     return (
-        <div className="p-2">
+        <div className="p-2 text-black dark:text-gray-400">
             <SellerOrderDetailsContainer orderDetails={data.data}/>
         </div>
     )

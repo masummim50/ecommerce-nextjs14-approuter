@@ -3,7 +3,7 @@
 import useAuthCookie from "@/auth-cookie/cookies";
 import { removeUser } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/hooks";
-import { Button } from "@nextui-org/react";
+import { Button } from "@nextui-org/button";
 import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
 
@@ -14,7 +14,6 @@ const LogoutButton = ({children}:{children:string}) => {
     const router = useRouter()
     const {removeCookies} = useAuthCookie()
     const handleLogout = () => {
-      console.log("handling logout clicked")
       dispatch(removeUser())
       removeCookies("accessToken")
       router.push("/")

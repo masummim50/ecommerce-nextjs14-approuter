@@ -47,14 +47,14 @@ const SellerLoginForm = () => {
       <Input
         onChange={(e) => handleEmailOnChange(e)}
         color={decideColor()}
-        defaultValue="masum@gmail.comseller"
+        defaultValue="masum@gmail.comselle"
         label="Email"
         name="email"
       />
       <Input
         onChange={(e) => setPassword(e.target.value)}
         label="Password"
-        defaultValue="1234"
+        defaultValue="123"
         name="password"
       />
       <p className={`${showErrorMessage ? "block" : "hidden"} text-red-700 text-small`}>

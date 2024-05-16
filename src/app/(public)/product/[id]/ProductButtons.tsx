@@ -5,7 +5,7 @@ import { userType } from "@/app/interfaces/userInterface";
 import { setProduct } from "@/redux/features/product/productSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
-import { Button } from "@nextui-org/react";
+import { Button } from "@nextui-org/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -23,7 +23,6 @@ const ProductButtons = ({product}:{product:productType}) => {
 
   const handleAddToCart = async()=> {
     await addProductToCartAction(product.id);
-    console.log("product added to cart")
   }
   return (
     <div>

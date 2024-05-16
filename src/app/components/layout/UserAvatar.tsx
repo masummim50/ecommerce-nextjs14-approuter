@@ -1,19 +1,24 @@
 "use client"
 import useAuthCookie from "@/auth-cookie/cookies";
 import {
-  Avatar,
-  Button,
+  NavbarItem,
+} from "@nextui-org/navbar";
+import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-  NavbarItem,
-} from "@nextui-org/react";
+} from "@nextui-org/dropdown";
+import {
+  Button
+} from "@nextui-org/button";
+import {
+  Avatar
+} from "@nextui-org/avatar";
 import { redirect } from "next/navigation";
 import React from "react";
 
 const UserAvatar = () => {
-console.log("rendering avatar")
   const { removeCookies } = useAuthCookie();
   const handleLogout = ()=> {
     removeCookies("accessToken");

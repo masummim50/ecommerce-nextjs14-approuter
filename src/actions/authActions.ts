@@ -5,7 +5,6 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function loginAction(prevState: any, formData: FormData) {
-  console.log("calling log in action");
   const payload = {
     email: formData.get("email")?.toString(),
     password: formData.get("password")?.toString(),
@@ -16,12 +15,9 @@ export async function loginAction(prevState: any, formData: FormData) {
     headers: { "Content-Type": "application/json" },
   });
   const data = await result.json();
-  console.log("login data: ", data);
   if (result.status !== 200) {
-    console.log(data.message);
     return { message: data.message };
   }
-  console.log("data: ", data);
   cookies().set("accessToken", data.data.accessToken, { maxAge: 360000 });
   redirect("/");
 }
@@ -31,7 +27,6 @@ export async function signUpAction(prevState: any, formData: FormData) {
     email: formData.get("email")?.toString(),
     password: formData.get("password")?.toString(),
   };
-  console.log("payload: ", payload);
   const result = await fetch(`${baseUrl}/auth/user/signup`, {
     method: "POST",
     body: JSON.stringify(payload),
@@ -39,7 +34,6 @@ export async function signUpAction(prevState: any, formData: FormData) {
   });
   const data = await result.json();
   if (result.status !== 200) {
-    console.log(data.message);
     return { message: data.message };
   }
   redirect("/login");
@@ -50,7 +44,6 @@ export async function sellerSignUpAction(prevState: any, formData: FormData) {
     email: formData.get("email")?.toString(),
     password: formData.get("password")?.toString(),
   };
-  console.log("payload: ", payload);
   const result = await fetch(`${baseUrl}/auth/seller/signup`, {
     method: "POST",
     body: JSON.stringify(payload),
@@ -58,13 +51,11 @@ export async function sellerSignUpAction(prevState: any, formData: FormData) {
   });
   const data = await result.json();
   if (result.status !== 200) {
-    console.log(data.message);
     return { message: data.message };
   }
   redirect("/login?tab=seller");
 }
 export async function sellerLoginAction(prevState: any, formData: FormData) {
-  console.log("calling log in action");
   const payload = {
     email: formData.get("email")?.toString(),
     password: formData.get("password")?.toString(),
@@ -79,7 +70,6 @@ export async function sellerLoginAction(prevState: any, formData: FormData) {
   );
   const data = await result.json();
   if (result.status !== 200) {
-    console.log(data.message);
     return { message: data.message };
   }
   cookies().set("accessToken", data.data.accessToken, { maxAge: 360000 });

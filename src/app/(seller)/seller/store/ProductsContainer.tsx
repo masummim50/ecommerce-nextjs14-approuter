@@ -2,6 +2,7 @@
 import { productType } from "@/app/interfaces/productInterface";
 import React, { useOptimistic } from "react";
 import SellerProductCard from "./SellerProductCard";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 const ProductsContainer = ({ products }: { products: productType[] }) => {
   const [OptimisticProducts, deleteOptimisticProduct] = useOptimistic<
@@ -11,9 +12,10 @@ const ProductsContainer = ({ products }: { products: productType[] }) => {
     const filtered = state.filter((p: productType) => p.id !== id);
     return [...filtered];
   });
+  const [parent] = useAutoAnimate()
 
   return (
-    <div>
+    <div ref={parent}>
       {OptimisticProducts.map((product: productType) => {
         return (
           <SellerProductCard

@@ -12,7 +12,6 @@ const Products = async ({storeId}:{storeId:string}) => {
         next:{tags:['sellerProducts']}
       });
       const data = await result.json();
-      console.log("product from products component", data)
     return (
         <div>
             <ProductsContainer products={data.data}/>

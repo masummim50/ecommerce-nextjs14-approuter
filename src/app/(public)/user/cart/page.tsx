@@ -18,7 +18,6 @@ const CartPage = async () => {
   });
 
   const data = await result.json();
-  console.log("cart data: ", data);
   return (
     <div className="bg-gray-100">
 

@@ -6,11 +6,11 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button,
   useDisclosure,
-  Input,
-  Progress,
-} from "@nextui-org/react";
+} from "@nextui-org/modal";
+import { Button } from "@nextui-org/button";
+import { Input } from "@nextui-org/input";
+import { Progress } from "@nextui-org/progress";
 
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import {
@@ -60,9 +60,7 @@ const CreateProductPage = () => {
     if (typeof data.stock === "string") {
       data.stock = parseInt(data.stock);
     }
-    console.log("onsubmit clicked:", uploadedImages);
     data.images = [...uploadedImages];
-    console.log(data);
 
     const createProductData = await createProductAction(data);
     reset();
@@ -76,14 +74,11 @@ const CreateProductPage = () => {
     setTimeout(() => {
       setShowResponseMessage({ show: false, message: "" });
     }, 1000);
-    console.log("create product data action ended: ", createProductData);
-
   };
 
   const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     setUploadedImages([]);
     const images = e.target.files;
-    console.log("image upload selected: ", images);
     setUploadValue(0);
     if (images) {
       for (let i = 0; i < images.length; i++) {
@@ -97,9 +92,7 @@ const CreateProductPage = () => {
         if (upload.ok) {
           setUploadValue(100 / (images.length - i));
           const data = await upload.json();
-          console.log("upload: ", data);
           setUploadedImages((prev) => [...prev, data?.data?.display_url]);
-          console.log("one image uploaded: ", uploadedImages);
         } else {
           console.log("upload failed");
         }

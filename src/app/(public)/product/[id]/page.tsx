@@ -1,7 +1,7 @@
 import { calculateRating } from "@/app/components/product/PublicProductCard";
 import { productType } from "@/app/interfaces/productInterface";
 import { baseUrl } from "@/shared/urls";
-import { Button } from "@nextui-org/react";
+import { Button } from "@nextui-org/button";
 import Image from "next/image";
 import ProductDetails from "./ProductDetails";
 import { Suspense } from "react";

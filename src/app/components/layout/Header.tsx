@@ -27,10 +27,9 @@ import { SearchIcon } from "./SearchIcon";
 import UserAvatar from "./UserAvatar";
 
 export default function Header({token}: {token:undefined | string}) {
-  console.log("rendering header")
+
   // const { dark, setDark } = useThemeContext();
   // const changetheme = () => {
-  //   console.log("change theme clicked");
   //   setDark((prev) => !prev);
   // };
   const menuItems = [

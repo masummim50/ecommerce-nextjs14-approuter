@@ -27,7 +27,7 @@ const StoreNotFound = () => {
   });
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    console.log(data);
+
     // close the modal
     createStoreAction(data);
     onOpenChange()

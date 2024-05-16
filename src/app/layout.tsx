@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
-import { Button } from "@nextui-org/react";
+import { Button } from "@nextui-org/button";
 import NextUiProvider from "./NextUiProvider";
 import AuthProvider from "@/providers/AuthProvider";
 import ThemeContextProvider from "@/providers/ThemeContextProvider";

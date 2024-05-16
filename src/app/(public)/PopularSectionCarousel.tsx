@@ -6,7 +6,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import Link from "next/link";
 const PopularSectionCarousel = ({ products }: { products: productType[] }) => {
-  const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay({delay:1000, stopOnMouseEnter:true,stopOnInteraction:false})]);
+  const [emblaRef] = useEmblaCarousel({ loop: false });
 
   return (
     <div className="mb-5">

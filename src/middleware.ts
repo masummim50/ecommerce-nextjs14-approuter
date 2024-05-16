@@ -13,7 +13,6 @@ interface decoded {
 
 // export async function middleware(request: NextRequest) {
 //   const { pathname } = request.nextUrl;
-//   console.log("middleware pathname: ", pathname);
 //   const cookie = request.cookies.get("accessToken");
 //   const token = cookie?.value;
 //   const publicRoutes = ["/"];
@@ -46,14 +45,12 @@ interface decoded {
 // updated middleware
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  console.log("middleware pathname: ", pathname);
   const cookie = request.cookies.get("accessToken");
   const token = cookie?.value;
   const publicRoutes = ["/"];
   const userRoutes = ["/user"];
   const sellerRoutes = ["/seller"];
   if (token) {
-    console.log("token found: ", token);
     const user = jwtDecode(token) as decoded;
     if (user.role === "seller") {
       if (!pathname.startsWith("/user")) {
@@ -62,7 +59,6 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL("/seller", request.url));
       }
     } else if (user.role === "customer") {
-      console.log("customer logged in");
       if (!pathname.startsWith("/seller")) {
         return NextResponse.next();
       } else {
@@ -71,10 +67,8 @@ export async function middleware(request: NextRequest) {
     }
   } else {
     if (!pathname.startsWith("/user") && !pathname.startsWith("/seller")) {
-      console.log("accessing public routes");
       return NextResponse.next();
     } else {
-      console.log("not logged in, so redirecting to /login");
       return NextResponse.redirect(new URL("/login", request.url));
     }
   }

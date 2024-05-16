@@ -25,10 +25,6 @@ export const productSlice = createSlice({
   initialState,
   reducers: {
     setProduct: (state, action) => {
-      console.log(
-        "payload from setproducts productslice reducer: ",
-        action.payload
-      );
       const newState = action.payload.reduce((prev: any, curr: any) => {
         if (prev[curr.storeId]) {
           prev[curr.storeId].push({ ...curr });
@@ -43,7 +39,6 @@ export const productSlice = createSlice({
       //     product.quantity = 1;
       //   }
       // });
-      console.log("new state after reduce function: ", newState);
       return newState;
     },
     increaseQuantity: (state, action) => {

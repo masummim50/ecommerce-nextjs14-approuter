@@ -8,7 +8,6 @@ const RelatedProducts = async({category, currentProductId}:{category:string, cur
     // do the fetch request here
     const data = await fetch(`${baseUrl}/product/category/${category}`);
     const result = await data.json();
-    console.log("related p: ", result)
     return (
         <div>
             <h2>Other Products you might like</h2>

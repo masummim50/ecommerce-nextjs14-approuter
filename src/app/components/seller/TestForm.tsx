@@ -17,7 +17,7 @@ const TestForm = () => {
   });
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    console.log(data);
+    // console.log(data);
   };
 
   return (

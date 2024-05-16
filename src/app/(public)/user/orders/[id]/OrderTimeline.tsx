@@ -17,12 +17,12 @@ const OrderTimeline = ({
         ></div>
         <div
           className={`line grow h-[4px] bg-gray-400 ${
-            status === "shipped" && "bg-green-500"
+            (status === "shipped" || status === 'delivered') && "bg-green-500"
           }`}
         ></div>
         <div
           className={`box w-[20px] h-[20px]  border-1 rounded-full ${
-            status === "shipped" ? "bg-green-500 border-green-500" : "bg-gray-400"
+            (status === "shipped" || status === 'delivered') ? "bg-green-500 border-green-500" : "bg-gray-400"
           }`}
         ></div>
         <div

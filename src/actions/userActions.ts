@@ -1,8 +1,9 @@
 "use server";
+import { baseUrl } from "@/shared/urls";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 export async function addProductToCartAction(productId: string) {
-  console.log("starting add product action");
   const cookieStore = cookies();
   const token = cookieStore.get("accessToken")?.value;
 
@@ -23,7 +24,6 @@ export async function addProductToCartAction(productId: string) {
   return data;
 }
 export async function increaseQuantityOfCartItemAction(cartItemId: string) {
-  console.log("starting add product action");
   const cookieStore = cookies();
   const token = cookieStore.get("accessToken")?.value;
 
@@ -44,7 +44,6 @@ export async function increaseQuantityOfCartItemAction(cartItemId: string) {
   return data;
 }
 export async function decreaseQuantityOfCartItemAction(cartItemId: string) {
-  console.log("starting add product action");
   const cookieStore = cookies();
   const token = cookieStore.get("accessToken")?.value;
 
@@ -65,7 +64,6 @@ export async function decreaseQuantityOfCartItemAction(cartItemId: string) {
   return data;
 }
 export async function createOrderAction(orderItems: any) {
-  console.log("starting add product action");
   const cookieStore = cookies();
   const token = cookieStore.get("accessToken")?.value;
 
@@ -82,6 +80,24 @@ export async function createOrderAction(orderItems: any) {
   );
 
   const data = await result.json();
+
+  return data;
+}
+
+export async function orderReceivedAction(orderId: any) {
+  const cookieStore = cookies();
+  const token = cookieStore.get("accessToken")?.value;
+
+  const result = await fetch(`${baseUrl}/order/deliver/${orderId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await result.json();
+  revalidatePath("/user/orders/[id]");
 
   return data;
 }

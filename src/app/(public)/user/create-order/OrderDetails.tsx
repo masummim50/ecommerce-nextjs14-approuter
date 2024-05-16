@@ -18,7 +18,6 @@ const calculateMoneyDetails = (param:stateType)=> {
     for(const [key, value] of Object.entries(param)){
       deliveryCharge+=50;
       value.forEach((product)=> {
-        console.log("value: ", product)
         items+= product.quantity;
         cost = cost +(product.price * product.quantity)
       })
@@ -34,7 +33,6 @@ const OrderDetails = () => {
 
   const handlePlaceOrder = async()=> {
     // find the array of objects to create order
-    console.log("products from redux store: ", products)
 
     await createOrderAction(products)
   }

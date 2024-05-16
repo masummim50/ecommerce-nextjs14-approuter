@@ -9,7 +9,7 @@ const StoreFound = ({ store }: { store: any }) => {
   return (
     <div>
       {/* store information here */}
-      <div className="bg-sky-600 text-white flex flex-col items-center justify-center p-3 rounded-md">
+      <div className="bg-indigo-500 text-white flex flex-col items-center justify-center p-3 rounded-md">
         <h2 className="text-lg">{store.name}</h2>
         <p>{store?.followers?.length} Followers</p>
         <p className="text-sm">{store.description}</p>

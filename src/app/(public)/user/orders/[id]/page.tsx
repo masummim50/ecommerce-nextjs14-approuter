@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import OrderInfoDetails from "./OrderInfoDetails";
 
 const OrderDetailsPage = async ({ params }: { params: { id: string } }) => {
-  console.log(params.id);
+
   const cookieStore = cookies();
   const token = cookieStore.get("accessToken")?.value;
 
@@ -15,7 +15,6 @@ const OrderDetailsPage = async ({ params }: { params: { id: string } }) => {
     },
   });
   const result = await data.json();
-  console.log("order details: ", result);
   return (
     <div className="bg-gray-100 h-[100vh]">
       <div className="max-w-[1100px] m-auto p-2">

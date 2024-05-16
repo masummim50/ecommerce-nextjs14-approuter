@@ -76,7 +76,6 @@ const CreateProductModal = () => {
     setTimeout(() => {
       setShowResponseMessage({ show: false, message: "" });
     }, 1000);
-    console.log("create product data action ended: ", createProductData);
   };
 
   const [myValues, setMyValues] = useState<{
@@ -101,7 +100,6 @@ const CreateProductModal = () => {
     });
     setUploadedImages([]);
     const images = e.target.files;
-    console.log("image upload selected: ", images);
     setUploadValue(0);
     const myimages = [];
     if (images) {
@@ -117,7 +115,6 @@ const CreateProductModal = () => {
         if (upload.ok) {
           setUploadValue(100 / (images.length - i));
           const data = await upload.json();
-          console.log("upload: ", data);
           await setUploadedImages((prev) => [...prev, data?.data?.display_url]);
           // setMyValues({
           //   ...myValues,
@@ -130,18 +127,15 @@ const CreateProductModal = () => {
             };
           });
           myimages.push(data?.data?.display_url);
-          console.log("one image uploaded: ", uploadedImages);
         } else {
           console.log("upload failed: ", upload);
         }
       }
     }
-    console.log("array of uploaded images: ", myimages);
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("my form data: ", myValues);
     submitFunction(myValues);
   };
 
@@ -159,7 +153,7 @@ const CreateProductModal = () => {
   };
   return (
     <div className="">
-      <Button size="sm" color="primary" onPress={onOpen}>
+      <Button size="sm" className="bg-indigo-500 hover:bg-indigo-600 mt-2" onPress={onOpen}>
         Add a new product
       </Button>
       <Modal

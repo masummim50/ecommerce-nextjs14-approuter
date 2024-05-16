@@ -20,7 +20,6 @@ const SelectedItems = ({
     cartItems.forEach(item=> {
         cartProducts.push({quantity:item.quantity, ...item.product})
     })
-    console.log("cart products: ", cartProducts)
 
     const handleBuyNow = ()=> {
         dispatch(setProduct(cartProducts));

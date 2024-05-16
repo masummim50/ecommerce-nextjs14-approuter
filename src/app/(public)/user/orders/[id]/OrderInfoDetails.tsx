@@ -1,6 +1,8 @@
 import { formatDate } from "@/helpers/formatDate";
 import Link from "next/link";
 import OrderTimeline from "./OrderTimeline";
+import MarkAsReceivedButton from "./MarkAsReceivedButton";
+
 
 
 function estimateDelivery(dateString:string):string {
@@ -48,6 +50,7 @@ type orderDetailsType = {
 };
 
 const OrderInfoDetails = ({ details }: { details: orderDetailsType }) => {
+
   return <div>
     <h2>Order details:</h2>
     <div className="p-2 shadow-md flex justify-between items-center mb-2 bg-white">
@@ -63,8 +66,11 @@ const OrderInfoDetails = ({ details }: { details: orderDetailsType }) => {
         <h2>Package 1</h2>
         <p>Sold by <Link href={`/store/${details.storeId}`}>{details.Store.name}</Link></p>
     </div>
-    <div className="p-2 mb-2 bg-white">
-        <h2>{details.status === 'delivered' ? `Delivered On ${formatDate(details.id)}` : `Estimated Delivery date: ${formatDate(estimateDelivery(details.updatedAt))}`}</h2>
+    <div className="p-2 mb-2 bg-white flex justify-between">
+        <h2>{details.status === 'delivered' ? `Delivered On ${formatDate(details.updatedAt)}` : `Estimated Delivery date: ${formatDate(estimateDelivery(details.updatedAt))}`}</h2>
+        {
+          details.status === 'shipped' && <MarkAsReceivedButton id={details.id}/>
+        }
     </div>
     <OrderTimeline status={details.status} date={details.updatedAt}/>
   </div>;

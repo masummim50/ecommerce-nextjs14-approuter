@@ -16,7 +16,7 @@ const SellerOrderPage = async () => {
   const data = await result.json();
 
   return (
-    <div className="bg-gray-100">
+    <div className="bg-gray-100 dark:bg-gray-900">
       <div className="p-2">
         {data?.data.length === 0 && (
           <div className="h-[200px] flex items-center justify-center shadow-lg p-2">

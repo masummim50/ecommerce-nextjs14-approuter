@@ -1062,9 +1062,7 @@ export function getRandomData(): {
   category: string;
   images: string[];
 } {
-  console.log("random data clicked");
   const baseDataLength = randomData.length;
-  console.log("length: ", baseDataLength);
   const i = Math.floor(Math.random() * (baseDataLength - 1 - 0) + 0);
   const selectedData = randomData[i];
   const { name, description, price } =
@@ -1077,6 +1075,5 @@ export function getRandomData(): {
     category: selectedData.category,
     images: pickImages(selectedData.images),
   };
-  console.log("data to return: ", returnData);
   return returnData;
 }

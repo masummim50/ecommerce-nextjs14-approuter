@@ -8,7 +8,7 @@ import Link from "next/link";
 
 
 const NewSectionCarousel = ({ products }: { products: productType[] }) => {
-  const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay({delay:1000, stopOnMouseEnter:true,stopOnInteraction:false})]);
+  const [emblaRef] = useEmblaCarousel({ loop: false }, [Autoplay({delay:1000, stopOnMouseEnter:true,stopOnInteraction:false})]);
 
   return (
     <div className="mb-5">
