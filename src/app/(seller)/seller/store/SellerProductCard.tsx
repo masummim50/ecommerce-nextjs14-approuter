@@ -26,44 +26,36 @@ const SellerProductCard = ({
   return (
     <Link
       href={`/seller/store/product/${product.id}`}
-      className="flex  flex-col md:flex-row justify-between items-start md:items-center mb-2 shadow-md rounded-md dark:bg-gray-800 p-3"
+      className="flex  flex-col md:flex-row justify-between items-start md:items-center mb-2 shadow hover:bg-gray-200 dark:hover:bg-gray-700 hover:shadow-md rounded-md dark:bg-gray-800 p-3 transition-all duration-75"
     >
+      
       <div className="flex w-full md:w-[70%]  gap-2">
-        {/* <Image
-          className="rounded-md w-[70px] h-[70px] md:w-auto md:h-auto"
+        
+        <Image
+        className="flex-shrink-0 flex-grow-0 rounded-sm"
           src={product.images[0]}
           alt="product image"
           height={100}
           width={100}
-          style={{ width: "auto", height: "auto" }}
-          /> */}
-        <div className="w-[300px] h-[100px] relative">
-          <Image
-            className="rounded-md"
-            src={product.images[0]}
-            alt="product image"
-            fill
-            sizes="100vw"
-            style={{objectFit:'cover'}}
-          />
-        </div>
+        />
 
         <div>
-          <p className="dark:text-white">{product.name}</p>
-          <p className="line-clamp-2 text-sm text-gray-500">
+          <p className="dark:text-white text-xs md:text-lg">{product.name}</p>
+          <p className="line-clamp-2 text-[10px] md:text-sm text-gray-500">
             {product.description}
           </p>
         </div>
       </div>
+
       <div className="flex md:w-[30%] justify-end mt-2 md:mt-0 w-full">
         <button
-          className="text-xs md:text-sm px-4 py-0 bg-gray-200 rounded-md dark:bg-gray-700 dark:text-white md:px-5 md:py-2"
+          className="text-xs md:text-sm  bg-indigo-500 hover:bg-indigo-600 rounded-md text-white px-4 py-1"
           onClick={(e) => handleEditClick(e)}
         >
           Edit
         </button>
         <button
-          className="text-xs md:text-sm px-4 py-1 bg-gray-200 rounded-md dark:bg-gray-700 dark:text-white md:px-5 md:py-2"
+          className="text-xs md:text-sm  bg-red-500 hover:bg-red-600 rounded-md  text-white px-4 py-1"
           onClick={async (e) => {
             e.preventDefault();
             startTransition(() => {

@@ -13,10 +13,18 @@ const ProductDetailsPage = async ({ params }: { params: { id: string } }) => {
   const result = await data.json();
   return (
     <div className="max-w-[1100px] m-auto">
+      {result.data?.id && 
       <ProductDetails product={result.data} />
+      }
+      {
+        !result.data?.id && 'no produt found'
+      }
+      {
+        result.data?.id && 
       <Suspense fallback={<p>Related products loading...</p>}>
         <RelatedProducts category={result?.data?.category} currentProductId={result?.data?.id}/>
       </Suspense>
+      }
     </div>
   );
 };

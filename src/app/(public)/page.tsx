@@ -8,7 +8,7 @@ import NewArrivalSection from "./NewArrivalSection";
 
 const PublicPage = () => {
   return (
-    <div className="max-w-[1100px] m-auto mt-4">
+    <div className="max-w-[1100px] m-auto mt-4 px-2">
       <div>
         <h1 className="text-large border-b-4 inline-block">Popular Items</h1>
         <Suspense fallback={<p>loading popular contents</p>}>

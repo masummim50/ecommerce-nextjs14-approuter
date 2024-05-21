@@ -145,7 +145,7 @@ export default function EditProductForm({ product }: { product: productType }) {
         </div>
         <div className="flex justify-end">
           <Button
-          disabled={updating}
+          disabled={updating || !isDirty}
             className={`px-8 ${
               isDirty ? "bg-indigo-500 text-white hover:bg-indigo-600" : ""
             } `}

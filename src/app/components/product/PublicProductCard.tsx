@@ -43,15 +43,19 @@ const PublicProductCard = ({ product }: { product: productType }) => {
     //     ({count}) {rating}star {product.sales} item sold
     //   </div>
     // </div>
-    <div className="shadow-lg relative h-[150px] bg-gray-200 rounded-md overflow-hidden">
-
+    <div className="group shadow-lg relative h-[150px] bg-gray-200 rounded-md overflow-hidden">
       {/* put the image here */}
-      <Image src={product.images[0]} fill={true} alt={product.name} />
+      <Image
+        className="group-hover:scale-125  transition-all"
+        src={product.images[0]}
+        fill={true}
+        alt={product.name}
+      />
 
-{/* the blurry part */}
-<div className="absolute bottom-0 left-0 z-20 bg-black/20 text-white w-full">
-some info here
-</div>
+      {/* the blurry part */}
+      <div className="absolute bottom-0 left-0 z-20 py-2 bg-black/50 text-white w-full backdrop-blur-sm">
+        <p>some info here</p>
+      </div>
     </div>
   );
 };

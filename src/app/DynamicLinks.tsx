@@ -60,7 +60,7 @@ const DynamicLinks = ({
               </DropdownTrigger>
               <DropdownMenu aria-label="Static Actions">
                 <DropdownItem key="new">
-                  <Link href="/seller">Dashboard</Link>
+                  <Link className="block" href="/seller">Dashboard</Link>
                 </DropdownItem>
                 <DropdownItem key="copy">Copy link</DropdownItem>
                 <DropdownItem key="edit">Edit file</DropdownItem>
@@ -118,8 +118,8 @@ const DynamicLinks = ({
       }
     } else {
       return (
-        <Button>
-          <Link href="/login">Login</Link>
+        <Button className="px-0 py-0">
+          <Link className="w-[100%] h-[100%] flex items-center  justify-center" href="/login">Login</Link>
         </Button>
       );
     }

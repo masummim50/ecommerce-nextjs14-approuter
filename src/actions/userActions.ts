@@ -97,7 +97,7 @@ export async function orderReceivedAction(orderId: any) {
   });
 
   const data = await result.json();
-  revalidatePath("/user/orders/[id]");
+  revalidatePath(`/user/orders/${orderId}`);
 
   return data;
 }

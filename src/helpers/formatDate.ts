@@ -28,3 +28,58 @@ export function formatDate(str: string, short: boolean = true): string {
     months[monthIndex]
   } ${year} ${hours}:${minutes}:${seconds}`;
 }
+
+export function dateOnly(dateString) {
+  // Parse the date string
+  const date = new Date(dateString);
+
+  // Check if the date is valid
+  if (isNaN(date)) {
+    throw new Error("Invalid date string");
+  }
+
+  // Extract the day, month, and year
+  const day = date.getDate();
+  const month = date.getMonth(); // Note: months are zero-based in JavaScript
+  const year = date.getFullYear();
+
+  // Function to get the ordinal suffix for a day
+  function getOrdinalSuffix(day) {
+    if (day > 3 && day < 21) return "th"; // special case for 11th to 20th
+    switch (day % 10) {
+      case 1:
+        return "st";
+      case 2:
+        return "nd";
+      case 3:
+        return "rd";
+      default:
+        return "th";
+    }
+  }
+
+  // Array of month names
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  // Format the day with the appropriate suffix
+  const formattedDay = day + getOrdinalSuffix(day);
+
+  // Get the month name
+  const formattedMonth = monthNames[month];
+
+  // Construct the formatted date string
+  return `${formattedDay} ${formattedMonth}`;
+}

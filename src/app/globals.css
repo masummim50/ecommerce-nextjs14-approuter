@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+*{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
 
 @layer utilities {
   .text-balance {
@@ -21,8 +26,22 @@ html {
   gap:10px;
 }
 .embla__slide {
-  flex: 0 0 20%;
+  flex: 0 0 50%;
   min-width: 0;
   box-shadow: 1px solid black;
   /* min-width:20% */
+}
+
+
+
+@media only screen and (min-width: 600px) {
+  .embla__slide {
+    flex: 0 0 33.33%;
+  }
+}
+
+@media only screen and (min-width: 1000px) {
+  .embla__slide {
+    flex: 0 0 20%;
+  }
 }
