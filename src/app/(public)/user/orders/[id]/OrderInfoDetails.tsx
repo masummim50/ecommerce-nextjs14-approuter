@@ -2,6 +2,7 @@ import { formatDate } from "@/helpers/formatDate";
 import Link from "next/link";
 import OrderTimeline from "./OrderTimeline";
 import MarkAsReceivedButton from "./MarkAsReceivedButton";
+import ItemsSection from "./ItemsSection";
 
 
 
@@ -35,7 +36,7 @@ type storeType = {
     createdAt:string;
     updatedAt:string;
 }
-type orderDetailsType = {
+export type orderDetailsType = {
   id: string;
   status: "pending" | "confirmed" | "shipped" | "delivered";
   storeId: string;
@@ -53,7 +54,7 @@ const OrderInfoDetails = ({ details }: { details: orderDetailsType }) => {
 
   return <div>
     <h2>Order details:</h2>
-    <div className="p-2 shadow-md flex justify-between items-center mb-2 bg-white">
+    <div className="p-2 shadow-md flex justify-between items-center mb-2 bg-white dark:bg-gray-800">
         <div>
             <p>Order #{details.id}</p>
             <p>Order Placed on: {formatDate(details.createdAt)}</p>
@@ -62,17 +63,18 @@ const OrderInfoDetails = ({ details }: { details: orderDetailsType }) => {
             <p>Total: ${details.paymentAmount}</p>
         </div>
     </div>
-    <div className="p-2 border-b-[1px] border-gray-300 bg-white">
+    <div className="p-2 border-b-[1px] border-gray-300 bg-white dark:bg-gray-800">
         <h2>Package 1</h2>
         <p>Sold by <Link href={`/store/${details.storeId}`}>{details.Store.name}</Link></p>
     </div>
-    <div className="p-2 mb-2 bg-white flex justify-between">
+    <div className="p-2 mb-2 bg-white flex justify-between dark:bg-gray-800">
         <h2>{details.status === 'delivered' ? `Delivered On ${formatDate(details.updatedAt)}` : `Estimated Delivery date: ${formatDate(estimateDelivery(details.updatedAt))}`}</h2>
         {
           details.status === 'shipped' && <MarkAsReceivedButton id={details.id}/>
         }
     </div>
     <OrderTimeline status={details.status} date={details.updatedAt}/>
+    <ItemsSection details={details}/>
   </div>;
 };
 

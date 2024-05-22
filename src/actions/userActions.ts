@@ -101,3 +101,41 @@ export async function orderReceivedAction(orderId: any) {
 
   return data;
 }
+
+export async function addReviewAction(productId: string, review: any) {
+  console.log("add review action");
+  const cookieStore = cookies();
+  const token = cookieStore.get("accessToken")?.value;
+
+  const result = await fetch(`${baseUrl}/review/create/${productId}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(review),
+  });
+
+  const data = await result.json();
+
+  return data;
+}
+
+export async function updateReviewAction(reviewId: string, review: any) {
+  console.log("update review action");
+  const cookieStore = cookies();
+  const token = cookieStore.get("accessToken")?.value;
+
+  const result = await fetch(`${baseUrl}/review/update/${reviewId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(review),
+  });
+
+  const data = await result.json();
+
+  return data;
+}

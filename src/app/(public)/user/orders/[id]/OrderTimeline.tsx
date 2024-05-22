@@ -7,7 +7,7 @@ const OrderTimeline = ({
   status: "pending" | "confirmed" | "shipped" | "delivered", date:string
 }) => {
   return (
-    <div className="bg-white">
+    <div className="bg-white py-4 dark:bg-gray-800">
     <div className="flex flex-col p-2 max-w-[500px] m-auto">
       <div className="flex items-center px-8">
         <div
@@ -42,8 +42,8 @@ const OrderTimeline = ({
         <p>Delivered</p>
       </div>
     </div>
-    <div className="p-4 rounded-md border-gray-500 border-1 max-w-[700px] m-auto bg-gray-200">
-       <span className="text-sm text-gray-500"> {formatDate(date,false)}</span> {
+    <div className="p-4 rounded-md border-gray-500 border-1 max-w-[700px] m-auto bg-gray-200 dark:bg-gray-500 dark:text-white">
+       <span className="text-sm text-gray-500 dark:text-gray-300"> {formatDate(date,false)}</span> {
             status === 'pending' ? 'Your Order is being reviewed' : status ==='confirmed' ? 'Order confirmed, Your package is being prepared' : status ==='shipped' ? 'Your package has been shipped' : 'Package has been delivered'
         }
     </div>

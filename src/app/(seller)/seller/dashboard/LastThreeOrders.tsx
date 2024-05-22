@@ -1,4 +1,5 @@
 import { orderType } from "@/app/interfaces/orderInterface";
+import Link from "next/link";
 import React from "react";
 
 // pending gray, confirmed blue, shipped teal, delivered green canceled red
@@ -25,7 +26,7 @@ const LastThreeOrders = ({ orders }: { orders: orderType[] }) => {
       <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
         {orders.map((order: orderType) => {
           return (
-            <div
+            <Link href={`/seller/orders/${order.id}`}
               key={order.id}
               className={` last:col-span-2 md:last:col-span-1 col-span-1 p-3 rounded-md ${cardColor(order.status)} text-white`}
             >
@@ -41,7 +42,7 @@ const LastThreeOrders = ({ orders }: { orders: orderType[] }) => {
                 <p>${order.paymentAmount}</p>
               </div>
               <div className="rounded-md">{order.status}</div>
-            </div>
+            </Link>
           );
         })}
       </div>

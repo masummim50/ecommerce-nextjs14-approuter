@@ -16,7 +16,7 @@ const OrderDetailsPage = async ({ params }: { params: { id: string } }) => {
   });
   const result = await data.json();
   return (
-    <div className="bg-gray-100 h-[100vh]">
+    <div className="bg-gray-100 h-[100vh] dark:bg-gray-900 text-black dark:text-gray-400">
       <div className="max-w-[1100px] m-auto p-2">
         {/* {JSON.stringify(result)} */}
         <OrderInfoDetails details={result.data} />

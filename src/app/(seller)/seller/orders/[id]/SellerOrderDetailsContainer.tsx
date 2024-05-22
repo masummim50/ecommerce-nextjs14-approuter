@@ -21,12 +21,17 @@ const SellerOrderDetailsContainer = ({
   orderDetails: sellerOrderDetails;
 }) => {
   const [showStockError, setShowStockError] = useState<boolean>(false);
+  const [updating, setUpdating] = useState({accepting:false, shipping:false, cancelling:false})
 
   const handleCancelOrder = async () => {
+    setUpdating(prev=> ({...prev, cancelling:true}))
     await cancelOrderByIdAction(orderDetails.order.id);
+    setUpdating(prev=> ({...prev, cancelling:false}))
   };
   const handleShipOrder = async () => {
+    setUpdating(prev=> ({...prev, shipping:true}))
     await shipOrderByIdAction(orderDetails.order.id);
+    setUpdating(prev=> ({...prev, shipping:false}))
   };
   const handleAcceptOrder = async () => {
     console.log("order details: ", orderDetails);
@@ -41,7 +46,9 @@ const SellerOrderDetailsContainer = ({
     });
     setShowStockError(stockerror);
     if (!stockerror) {
+      setUpdating(prev=> ({...prev, accepting:true}))
       await acceptOrderByIdAction(orderDetails.order.id);
+      setUpdating(prev=> ({...prev, accepting:false}))
     } else {
       setTimeout(() => {
         setShowStockError(false);
@@ -54,19 +61,20 @@ const SellerOrderDetailsContainer = ({
       case "pending":
         return (
           <div className="flex justify-end">
-            <Button color="success" onClick={handleAcceptOrder}>
-              Accept Order
+            <Button disabled={updating.accepting} color="success" onClick={handleAcceptOrder}>
+              {updating.accepting ?'Accepting'  : 'Accept Order'}
             </Button>
-            <Button color="danger" onClick={handleCancelOrder}>
-              Cancle Order
+            <Button disabled={updating.cancelling} color="danger" onClick={handleCancelOrder}>
+              {updating.cancelling ?  'Cancelling'
+               :'Cancle Order'}
             </Button>
           </div>
         );
       case "confirmed":
         return (
           <div className="flex justify-end">
-            <Button color="primary" onClick={handleShipOrder}>
-              Mark as Shipped
+            <Button disabled={updating.shipping} color="primary" onClick={handleShipOrder}>
+              {updating.shipping ? 'Shipping': 'Mark as Shipped' }
             </Button>
           </div>
         );
