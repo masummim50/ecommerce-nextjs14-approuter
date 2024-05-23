@@ -19,7 +19,7 @@ const CartPage = async () => {
 
   const data = await result.json();
   return (
-    <div className="bg-gray-100">
+    <div className="bg-gray-100 dark:bg-gray-900 p-2 text-black dark:text-gray-300 min-h-[100vh]">
 
     <div className="max-w-[1100px] m-auto">
       <CartContainer cartItems={data?.data} />

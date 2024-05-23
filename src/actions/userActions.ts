@@ -2,10 +2,15 @@
 import { baseUrl } from "@/shared/urls";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export async function addProductToCartAction(productId: string) {
   const cookieStore = cookies();
   const token = cookieStore.get("accessToken")?.value;
+
+  if (!token) {
+    redirect("/login");
+  }
 
   const result = await fetch(
     `http://localhost:5000/api/v1/product/addtocart/${productId}`,

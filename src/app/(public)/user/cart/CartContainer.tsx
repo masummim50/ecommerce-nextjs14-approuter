@@ -63,7 +63,7 @@ const CartContainer = ({
                   color="primary"
                   classNames={{
                     base: cn(
-                      "inline-flex w-full max-w-[100%] bg-white mb-1 shadow-md justify-start",
+                      "inline-flex w-full max-w-[100%] bg-white dark:bg-gray-800 mb-1 shadow-md justify-start",
                       // "hover:bg-content2 ",
                       "cursor-pointer rounded-lg gap-2 border-transparent",
                       "data-[selected=true]:border-primary"

@@ -21,7 +21,7 @@ const MyOrders = async()=> {
   
   const orders = await result.json();
     return (
-        <div className="max-w-[1100px] m-auto">
+        <div className="max-w-[1100px] m-auto text-black dark:text-gray-300 p-2">
             <h2>My orders:</h2>
             {
               orders?.data?.map((order:orderType)=> {

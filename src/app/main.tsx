@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import useAuthCookie from "@/auth-cookie/cookies";
 import { setUser } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/hooks";
@@ -8,16 +8,16 @@ import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
 
 const Main = ({ children }: { children: React.ReactNode }) => {
-    const dispatch = useAppDispatch()
-    const {cookies} = useAuthCookie();
-    const token = cookies.accessToken;
-  useEffect(()=> {
-    if(token){
-        const decoded = jwtDecode(token);
-        dispatch(setUser({user:decoded, accessToken:token}));
+  const dispatch = useAppDispatch();
+  const { cookies } = useAuthCookie();
+  const token = cookies.accessToken;
+  useEffect(() => {
+    if (token) {
+      const decoded = jwtDecode(token);
+      dispatch(setUser({ user: decoded, accessToken: token }));
     }
-  },[token,dispatch])
-  
+  }, [token, dispatch]);
+
   return (
     <div className="bg-white dark:bg-neutral-900 min-h-[100vh]">{children}</div>
   );

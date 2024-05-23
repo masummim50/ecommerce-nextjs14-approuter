@@ -19,6 +19,8 @@ const ProductButtons = ({ product }: { product: productType }) => {
     router.push("/user/create-order");
   };
 
+  
+
   const handleAddToCart = async () => {
     await addProductToCartAction(product.id);
   };
@@ -26,8 +28,8 @@ const ProductButtons = ({ product }: { product: productType }) => {
     <div>
       {userFromStore.role === "seller" ? null : (
         <div className="buttons">
-          <Button onClick={handleBuyNowClick}>Buy Now</Button>
-          <Button onClick={handleAddToCart}>Add to Cart</Button>
+          <Button className="text-xs py-1 rounded-md md:text-sm md:py-2 md:px-3 h-auto " onClick={handleBuyNowClick}>Buy Now</Button>
+          <Button className="text-xs py-1 rounded-md md:text-sm md:py-2 md:px-3 h-auto " onClick={handleAddToCart}>Add to Cart</Button>
         </div>
       )}
     </div>

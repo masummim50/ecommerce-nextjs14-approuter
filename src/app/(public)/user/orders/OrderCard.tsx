@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { orderType } from "@/app/interfaces/orderInterface";
 import { formatDate } from "@/helpers/formatDate";
 import Link from "next/link";
@@ -9,8 +10,8 @@ const OrderCard = ({ order }: { order: orderType }) => {
     return prev;
   }, 0);
   return (
-    <div className="shadow-md mb-2 rounded-sm overflow-hidden">
-      <div className="border-b-[1px] border-gray-200">
+    <div className="shadow-md mb-2 rounded-sm overflow-hidden bg-white dark:bg-gray-800">
+      <div className="border-b-[1px] border-gray-200 p-1">
         <h2>
           Order{" "}
           <Link className="text-sky-600" href={`/user/orders/${order.id}`}>
