@@ -4,15 +4,22 @@ import CreateProductModal from "./CreateProductModal";
 import Link from "next/link";
 import Products from "@/app/(seller)/seller/store/Products";
 import TestForm from "./TestForm";
+import SearchBox from "./SearchBox";
+import StoreEditButton from "./StoreEditButton";
+import EditStoreInfoModal from "@/app/(seller)/seller/store/EditStoreInfoModal";
 
 const StoreFound = ({ store }: { store: any }) => {
   return (
     <div>
       {/* store information here */}
-      <div className="bg-indigo-500 text-white flex flex-col items-center justify-center p-3 rounded-md">
+      <div className="bg-indigo-500 text-white flex flex-col items-center justify-center p-3 rounded-md relative">
         <h2 className="text-lg">{store.name}</h2>
         <p>{store?.followers?.length} Followers</p>
         <p className="text-sm">{store.description}</p>
+        {/* <StoreEditButton /> */}
+        <div className="absolute top-0 right-0">
+          <EditStoreInfoModal store={store}/>
+        </div>
       </div>
 
       <div>
@@ -25,7 +32,10 @@ const StoreFound = ({ store }: { store: any }) => {
       </div>
       <div>
         {store?.products?.length > 0 && (
-          <CreateProductModal />
+          <div className="flex items-center justify-center">
+            <CreateProductModal />
+            <SearchBox />
+          </div>
         )}
       </div>
     </div>

@@ -1,4 +1,5 @@
 import { productType } from "@/app/interfaces/productInterface";
+import { FaStarHalfAlt } from "react-icons/fa";
 import { reviewType } from "@/app/interfaces/reviewInterface";
 import Image from "next/image";
 import React from "react";
@@ -22,28 +23,9 @@ export const calculateRating = (reviews: reviewType[]) => {
 };
 
 const PublicProductCard = ({ product }: { product: productType }) => {
-  const { count, rating } = calculateRating(product.reviews);
+  const { count, rating } = calculateRating(product?.reviews);
+  console.log(rating);
   return (
-    // <div className="shadow-lg">
-    //   <div className="relative h-[150px]">
-    //     <Image src={product.images[0]} alt="product image" fill={true} />
-    //     {
-    //       product.discount &&
-    //     <div className="absolute z-20 bg-sky-600/50 text-white font-bold rounded-lg px-3 py-1 right-0">{product.discount}% OFF</div>
-    //     }
-    //     <div className="blur-lg p-2 absolute bottom-0 left-0 z-30">
-    //       <div className="flex justify-between">
-    //         <h2 className="truncate grow">{product.name}</h2>
-    //         <p>{product.price}</p>
-    //       </div>
-    //       <p className="line-clamp-2">{product.description}</p>
-    //     </div>
-    //   </div>
-    //   <h1 className="text-[12px]">{product.name}</h1>
-    //   <div className="text-sky-600 text-[11px]">
-    //     ({count}) {rating}star {product.sales} item sold
-    //   </div>
-    // </div>
     <div className="group text-black dark:text-gray-300 bg-white dark:bg-gray-800">
       <div className=" shadow-lg relative h-[150px] bg-gray-200 rounded-md overflow-hidden">
         {/* put the image here */}
@@ -80,12 +62,17 @@ const PublicProductCard = ({ product }: { product: productType }) => {
 
         {product?.reviews?.length > 0 ? (
           <div className="flex  items-center">
-            {Array(rating)
+            {Array(Math.floor(rating))
               .fill("")
               .map((a, i) => {
-                return <FaStar className="inline-block text-indigo-500" key={i} />;
+                return (
+                  <FaStar className="inline-block text-indigo-500" key={i} />
+                );
               })}
-            {Array(5 - rating)
+            {Math.ceil(rating) !== rating && (
+              <FaStarHalfAlt className="inline-block text-indigo-500" />
+            )}
+            {Array(5 - Math.ceil(rating))
               .fill("")
               .map((a, i) => {
                 return (
@@ -96,9 +83,14 @@ const PublicProductCard = ({ product }: { product: productType }) => {
           </div>
         ) : (
           <div>
-            <p className=" font-extralight dark:text-gray-400 text-gray-700">No review</p>
+            <p className=" font-extralight dark:text-gray-400 text-gray-700">
+              No review
+            </p>
           </div>
         )}
+      </div>
+      <div className="flex jusitfy-center items-center w-full rounded-md overflow-hidden">
+        <div className="line w-0 group-hover:w-full bg-gray-500 h-[1px] transition-all m-auto"></div>
       </div>
     </div>
   );

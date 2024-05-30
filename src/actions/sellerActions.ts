@@ -154,3 +154,24 @@ export async function cancelOrderByIdAction(orderId: string) {
   revalidatePath("/seller/orders");
   return data;
 }
+
+export async function updateStoreInformationAction(storeId: string, data: any) {
+  const cookieStore = cookies();
+  const token = cookieStore.get("accessToken")?.value;
+
+  const result = await fetch(
+    `http://localhost:5000/api/v1/seller/updatestore/${storeId}`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  const update = await result.json();
+  revalidatePath("/seller/store");
+  return update;
+}

@@ -19,7 +19,7 @@ const RelatedProducts = async ({
       {/* related products will go here {result.data?.length} */}
       <div className="bg-white dark:bg-gray-700 p-4 rounded-sm">
         <RelatedProductsContents
-          products={result.data.filter(
+          products={result?.data?.filter(
             (product: productType) => product.id !== currentProductId
           )}
         />

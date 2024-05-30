@@ -1,11 +1,12 @@
 "use client";
 
-import { ErrorMessage } from "@hookform/error-message"
+import { ErrorMessage } from "@hookform/error-message";
 import { updateProductAction } from "@/actions/sellerActions";
 import { productType } from "@/app/interfaces/productInterface";
 import { Button } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 interface submitUpdateType {
   id: string;
@@ -32,6 +33,9 @@ export default function EditProductForm({ product }: { product: productType }) {
       discount: product.discount.toString(),
     },
   });
+  const router = useRouter();
+
+  const [showUpdateSuccess,setShowUpdateSuccess] = useState(false);
 
   const onSubmit = async (data: Partial<submitUpdateType>) => {
     setUpdating(true);
@@ -48,7 +52,11 @@ export default function EditProductForm({ product }: { product: productType }) {
       }
     }
     await updateProductAction(product.id, dataToSend);
+    setShowUpdateSuccess(true);
     setUpdating(false);
+    setTimeout(() => {
+      router.push(`/seller/store/product/${product.id}`)
+    }, 1000);
   };
 
   function textAreaSize(): number {
@@ -76,13 +84,18 @@ export default function EditProductForm({ product }: { product: productType }) {
 
   return (
     <div>
+      <div className={`absolute bg-black/20 backdrop-blur-sm h-[100vh] z-[200] top-0 left-0 ${showUpdateSuccess ? "flex": "hidden"} justify-center items-center w-full`}>
+        <div className="rounded-md p-5 bg-white dark:bg-gray-600  text-green-500 font-semibold">
+          <p>Update successful</p>
+        </div>
+      </div>
       <h2>Edit product Information:</h2>
       <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col md:flex-row gap-0 md:gap-2">
           <div className="flex flex-col grow">
             <label htmlFor="name">Name</label>
             <input
-            disabled={updating}
+              disabled={updating}
               required
               className="max-w-[600px] dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:focus:border-gray-400 outline-none border-2 border-gray-200 rounded-md mb-2 p-3 focus:border-gray-400"
               type="text"
@@ -91,7 +104,7 @@ export default function EditProductForm({ product }: { product: productType }) {
             />
             <label htmlFor="description">Description</label>
             <textarea
-            disabled={updating}
+              disabled={updating}
               placeholder="Description"
               rows={textAreaRow}
               className="max-w-[600px] dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:focus:border-gray-400 outline-none border-2 border-gray-200 rounded-md mb-2 p-3 focus:border-gray-400 "
@@ -101,7 +114,7 @@ export default function EditProductForm({ product }: { product: productType }) {
           <div className="flex flex-col grow">
             <label htmlFor="price">Price</label>
             <input
-            disabled={updating}
+              disabled={updating}
               className="max-w-[600px] dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:focus:border-gray-400 outline-none border-2 border-gray-200 rounded-md mb-2 p-3 focus:border-gray-400"
               type="number"
               step="0.01"
@@ -110,7 +123,7 @@ export default function EditProductForm({ product }: { product: productType }) {
             />
             <label htmlFor="stock">Stock</label>
             <input
-            disabled={updating}
+              disabled={updating}
               className="max-w-[600px] dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:focus:border-gray-400 outline-none border-2 border-gray-200 rounded-md mb-2 p-3 focus:border-gray-400"
               type="number"
               placeholder="stock"
@@ -118,24 +131,28 @@ export default function EditProductForm({ product }: { product: productType }) {
             />
             <label htmlFor="discount">Discount</label>
             <input
-            disabled={updating}
+              disabled={updating}
               className="max-w-[600px] dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:focus:border-gray-400 outline-none border-2 border-gray-200 rounded-md mb-2 p-3 focus:border-gray-400"
               type="number"
               step="0.01"
               placeholder="discount"
-              {...register("discount", { required: {value:true, message:'this field is required'}, min: 0,maxLength: {
-                value: 1,
-                message: "This input is number only.",
-              }, })}
+              {...register("discount", {
+                required: { value: true, message: "this field is required" },
+                min: 0,
+                maxLength: {
+                  value: 1,
+                  message: "This input is number only.",
+                },
+              })}
             />
             <ErrorMessage
-        errors={errors}
-        name="discount"
-        render={({ message }) => <p>{message}</p>}
-      />
+              errors={errors}
+              name="discount"
+              render={({ message }) => <p>{message}</p>}
+            />
             <label htmlFor="category">Category</label>
             <input
-            disabled={updating}
+              disabled={updating}
               className="max-w-[600px] dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:focus:border-gray-400 outline-none border-2 border-gray-200 rounded-md mb-2 p-3 focus:border-gray-400"
               type="text"
               placeholder="category"
@@ -145,13 +162,13 @@ export default function EditProductForm({ product }: { product: productType }) {
         </div>
         <div className="flex justify-end">
           <Button
-          disabled={updating || !isDirty}
+            disabled={updating || !isDirty}
             className={`px-8 ${
               isDirty ? "bg-indigo-500 text-white hover:bg-indigo-600" : ""
             } `}
             type="submit"
           >
-            {updating ? 'Updating...' : 'Update'}
+            {updating ? "Updating..." : "Update"}
           </Button>
         </div>
       </form>

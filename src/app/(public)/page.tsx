@@ -5,18 +5,35 @@
 import { Suspense } from "react";
 import PopularSection from "./PopularSection";
 import NewArrivalSection from "./NewArrivalSection";
+import Link from "next/link";
 
 const PublicPage = () => {
   return (
     <div className="max-w-[1100px] m-auto mt-4 px-2">
       <div>
-        <h1 className="text-large border-b-4 inline-block">Popular Items</h1>
+        <div className="flex justify-between mb-2 text-black dark:text-gray-300 items-center">
+          <h1 className="text-large border-b-4 inline-block">Popular Items</h1>
+          <Link
+            href="/product/popular"
+            className="bg-indigo-400 px-3 py-1 rounded-md hover:bg-indigo-500"
+          >
+            View All
+          </Link>
+        </div>
         <Suspense fallback={<p>loading popular contents</p>}>
           <PopularSection />
         </Suspense>
       </div>
       <div>
-        <h1 className="text-large border-b-4 inline-block">Newest Arrival </h1>
+      <div className="flex justify-between mb-2 text-black dark:text-gray-300 items-center">
+          <h1 className="text-large border-b-4 inline-block">Newest Arrival</h1>
+          <Link
+            href="/product/newest"
+            className="bg-indigo-400 px-3 py-1 rounded-md hover:bg-indigo-500"
+          >
+            View All
+          </Link>
+        </div>
         <Suspense fallback={<p>loading new items</p>}>
           <NewArrivalSection />
         </Suspense>

@@ -6,6 +6,7 @@ import { useAppSelector } from '@/redux/hooks';
 import Link from 'next/link'
 
 import { RootState } from '@/redux/store';
+import SearchBox from './components/seller/SearchBox';
 interface decodedUser  {
     id: string;
     name: string;
@@ -23,8 +24,11 @@ const MyHeader = () => {
     return (
         <div className="bg-[#f0f0f0] shadow-md dark:bg-gray-800 dark:text-gray-400 px-2">
 
-        <div className='flex justify-between max-w-[1100px] m-auto p-1'>
+        <div className='flex justify-between items-center max-w-[1100px] m-auto p-1'>
             <Link href="/" className="logo">Logo</Link>
+            <div className="flex">
+                <SearchBox />
+            </div>
             <DynamicLinks user={user}/>
         </div>
         </div>

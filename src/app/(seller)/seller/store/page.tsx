@@ -8,9 +8,7 @@ import Products from "./Products";
 import { Suspense } from "react";
 import { ProductsLoading } from "./ProductsLoading";
 
-
-
-async function SellerStorePage() {
+async function SellerStorePage({searchParams}:{searchParams:any}) {
   const cookieStore = cookies();
   const token = cookieStore.get("accessToken")?.value;
   const result = await fetch(`${baseUrl}/seller/store`, {
@@ -25,9 +23,9 @@ async function SellerStorePage() {
   return (
     <div className="p-2">
       {data?.data ? <StoreFound store={data.data} /> : <StoreNotFound />}
-      <div className="p-2">
+      <div className="pt-2">
         <Suspense fallback={<ProductsLoading />}>
-          <Products storeId={data?.data?.id} />
+          <Products storeId={data?.data?.id} searchParams={searchParams}/>
         </Suspense>
       </div>
     </div>
@@ -35,4 +33,3 @@ async function SellerStorePage() {
 }
 
 export default SellerStorePage;
-

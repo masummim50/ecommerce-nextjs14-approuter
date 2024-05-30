@@ -4,16 +4,14 @@ import Image from "next/image";
 import React from "react";
 import ProductButtons from "./ProductButtons";
 import Link from "next/link";
+import ProductImages from "./ProductImages";
 
 const ProductDetails = ({ product }: { product: productType }) => {
   return (
     <>
       <div className=" mt-4 gap-5 flex justify-center bg-white dark:bg-gray-800 p-4 rounded-md">
         <div className="w-[40%]">
-          <div className="w-[100%] h-full relative items-center gap-2">
-            {/* <img className="rounded-md max-h-[300px] " src={product?.images[0]} alt="product image" /> */}
-            <Image height={300} width={300} style={{}} className="rounded-md w-full max-h-[300px]" src={product?.images[0]} alt="product image" />
-          </div>
+          <ProductImages images={product.images} />
         </div>
 
         <div className="w-[60%] flex flex-col justify-between">

@@ -2,42 +2,62 @@
 import { useAppSelector } from "@/redux/hooks";
 import { Button, Radio, RadioGroup } from "@nextui-org/react";
 import React, { useState } from "react";
-import { RootState } from '@/redux/store';
+import { RootState } from "@/redux/store";
 import { productType } from "@/app/interfaces/productInterface";
 import { cartItemType } from "@/redux/features/product/productSlice";
 import { createOrderAction } from "@/actions/userActions";
+import { useRouter } from "next/navigation";
 
 type stateType = {
-  [key:string]: cartItemType[]
-}
+  [key: string]: cartItemType[];
+};
 
-const calculateMoneyDetails = (param:stateType)=> {
-    let items = 0;
-    let cost = 0;
-    let deliveryCharge = 0;
-    for(const [key, value] of Object.entries(param)){
-      deliveryCharge+=50;
-      value.forEach((product)=> {
-        items+= product.quantity;
-        cost = cost +(product.price * product.quantity)
-      })
-    }
-    
-    return {items,cost, deliveryCharge};
-}
+const calculateMoneyDetails = (param: stateType) => {
+  let items = 0;
+  let cost = 0;
+  let deliveryCharge = 0;
+  for (const [key, value] of Object.entries(param)) {
+    deliveryCharge += 50;
+    value.forEach((product) => {
+      items += product.quantity;
+      cost = cost + product.price * product.quantity;
+    });
+  }
+
+  return { items, cost, deliveryCharge };
+};
 
 const OrderDetails = () => {
-    const products = useAppSelector((state:RootState)=> state.product);
-    const {cost, items,deliveryCharge} = calculateMoneyDetails(products);
+  const router = useRouter();
+  const products = useAppSelector((state: RootState) => state.product);
+  const { cost, items, deliveryCharge } = calculateMoneyDetails(products);
   const [paymentType, setPaymentType] = useState("later");
 
-  const handlePlaceOrder = async()=> {
-    // find the array of objects to create order
+  const [placingOrder, setPlacingOrder] = useState(false);
+  const [orderPlaced, setOrderPlaced] = useState(false);
 
+  const handlePlaceOrder = async () => {
+    // find the array of objects to create order
+    setPlacingOrder(true);
     await createOrderAction(products)
-  }
+    setOrderPlaced(true);
+    setPlacingOrder(false);
+    setTimeout(() => {
+      console.log("s");
+      router.push("/user/orders")
+    }, 2000);
+  };
   return (
     <div className="shadow-lg">
+      <div
+        className={`absolute h-[100vh] bg-black/10 backdrop-blur-sm top-0 left-0 w-full z-[200] ${
+          orderPlaced ? "flex opacity-100" : "hidden opacity-0"
+        } transition-opacity duration-1000 justify-center items-center`}
+      >
+        <div className="rounded-md bg-white dark:bg-gray-800 p-2">
+          <p className="text-green-500 font-bold">Order placed successfully</p>
+        </div>
+      </div>
       <h2>Order Details:</h2>
       <div className="flex justify-between items-center">
         <p>Total Items: </p>
@@ -54,7 +74,7 @@ const OrderDetails = () => {
       <div className="border-b-3"></div>
       <div className="flex justify-between items-center">
         <p>Total: </p>
-        <p>{cost+deliveryCharge}</p>
+        <p>{cost + deliveryCharge}</p>
       </div>
 
       <div className="flex">
@@ -74,7 +94,12 @@ const OrderDetails = () => {
       </div>
       <div className="flex">
         {paymentType === "now" && <Button fullWidth>Checkout</Button>}
-        {paymentType === "later" && <Button onClick={handlePlaceOrder} fullWidth>Place Order</Button>}
+        {paymentType === "later" && (
+          <Button onClick={handlePlaceOrder} fullWidth>
+            {" "}
+            {placingOrder ? "Ordering" : "Place Order"}
+          </Button>
+        )}
       </div>
     </div>
   );

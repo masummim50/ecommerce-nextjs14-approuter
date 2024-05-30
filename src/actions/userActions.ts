@@ -1,6 +1,6 @@
 "use server";
 import { baseUrl } from "@/shared/urls";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -142,5 +142,35 @@ export async function updateReviewAction(reviewId: string, review: any) {
 
   const data = await result.json();
 
+  return data;
+}
+
+export async function followStoreAction(storeId: string) {
+  const cookieStore = cookies();
+  const token = cookieStore.get("accessToken")?.value;
+  const result = await fetch(`${baseUrl}/user/followstore/${storeId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await result.json();
+  revalidateTag("userStoreInformation");
+  return data;
+}
+
+export async function unFollowStoreAction(storeId: string) {
+  const cookieStore = cookies();
+  const token = cookieStore.get("accessToken")?.value;
+  const result = await fetch(`${baseUrl}/user/unfollowstore/${storeId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await result.json();
+  revalidateTag("userStoreInformation");
   return data;
 }

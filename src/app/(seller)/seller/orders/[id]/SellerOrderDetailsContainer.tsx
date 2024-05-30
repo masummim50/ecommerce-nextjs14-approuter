@@ -127,8 +127,8 @@ const SellerOrderDetailsContainer = ({
                   alt={item.productName}
                 />
                 <Link
-                  href={`/seller/store/edit-product/${item.productId}`}
-                  className="truncate grow"
+                  href={!haveStock && orderDetails.order.status === "pending" ? `/seller/store/edit-product/${item.productId}` : `/seller/store/product/${item.productId}`}
+                  className="truncate grow text-indigo-500 font-semibold"
                 >
                   {item.productName}
                 </Link>

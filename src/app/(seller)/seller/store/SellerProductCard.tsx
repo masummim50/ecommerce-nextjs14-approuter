@@ -7,6 +7,8 @@ import { deleteProductAction } from "@/actions/sellerActions";
 import Link from "next/link";
 
 import { useRouter } from "next/navigation";
+import { calculateRating } from "@/app/components/product/PublicProductCard";
+import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 
 const SellerProductCard = ({
   product,
@@ -22,6 +24,9 @@ const SellerProductCard = ({
     e.preventDefault();
     router.push(`/seller/store/edit-product/${product.id}`);
   };
+
+
+  const {count,rating} = calculateRating(product.reviews);
 
   return (
     <Link
@@ -44,6 +49,26 @@ const SellerProductCard = ({
           <p className="line-clamp-2 text-[10px] md:text-sm text-gray-500">
             {product.description}
           </p>
+          {
+            <div className="flex  items-center text-black dark:text-gray-400">
+            {Array(Math.floor(rating))
+              .fill("")
+              .map((a, i) => {
+                return <FaStar className="inline-block text-indigo-500" key={i} />;
+              })}
+              {Math.ceil(rating) !== rating && (
+              <FaStarHalfAlt className="inline-block text-indigo-500" />
+            )}
+            {Array(5 - Math.ceil(rating))
+              .fill("")
+              .map((a, i) => {
+                return (
+                  <FaStar className="text-gray-300 dark:text-gray-500 inline-block" key={i} />
+                );
+              })}
+            <div className="inline-block">({count})</div>
+          </div>
+          }
         </div>
       </div>
 
@@ -67,6 +92,7 @@ const SellerProductCard = ({
           Delete
         </button>
       </div>
+      
     </Link>
   );
 };

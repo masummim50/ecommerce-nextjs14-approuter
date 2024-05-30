@@ -152,8 +152,12 @@ const CreateProductModal = () => {
     });
   };
   return (
-    <div className="">
-      <Button size="sm" className="bg-indigo-500 hover:bg-indigo-600 mt-2" onPress={onOpen}>
+    <div className="m-auto h-auto">
+      <Button
+        size="sm"
+        className="bg-indigo-500 hover:bg-indigo-600 mt-2 text-white"
+        onPress={onOpen}
+      >
         Add a new product
       </Button>
       <Modal
