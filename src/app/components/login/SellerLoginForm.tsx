@@ -4,6 +4,7 @@ import { Button, Input } from "@nextui-org/react";
 import Link from "next/link";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
+import { LoginButton } from "./LoginButton";
 
 const SellerLoginForm = () => {
   const [email, setEmail] = useState("");
@@ -61,14 +62,15 @@ const SellerLoginForm = () => {
         {state.message}
       </p>
       <div className="flex gap-2 justify-end">
-        <Button
+        <LoginButton text="Login as Seller" pendingText="Logging In..." formIsFilled={checkFormisFilled()}/>
+        {/* <Button
         type="submit"
           fullWidth
           color={checkFormisFilled() ? "primary" : "danger"}
           disabled={!checkFormisFilled()}
         >
           {pending ? "Logging in..." : "Login as seller"}
-        </Button>
+        </Button> */}
       </div>
       <div className="flex justify-center mt-5">
         <Button color="success" size="sm">

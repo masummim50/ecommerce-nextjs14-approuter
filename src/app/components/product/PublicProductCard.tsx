@@ -24,7 +24,6 @@ export const calculateRating = (reviews: reviewType[]) => {
 
 const PublicProductCard = ({ product }: { product: productType }) => {
   const { count, rating } = calculateRating(product?.reviews);
-  console.log(rating);
   return (
     <div className="group text-black dark:text-gray-300 bg-white dark:bg-gray-800">
       <div className=" shadow-lg relative h-[150px] bg-gray-200 rounded-md overflow-hidden">

@@ -3,12 +3,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "@/redux/features/auth/authSlice";
 import productReducer from "@/redux/features/product/productSlice";
 import { apiSlice } from "./features/api/apiSlice";
+import prevSearchAndPaginationReducer from "@/redux/features/searchAndPagination/searchAndPaginationSlice";
 
 export const store = configureStore({
   reducer: {
     [apiSlice.reducerPath]: apiSlice.reducer,
     auth: authReducer,
     product: productReducer,
+    prevSearchAndPagination: prevSearchAndPaginationReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),

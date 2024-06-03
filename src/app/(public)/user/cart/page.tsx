@@ -22,8 +22,17 @@ const CartPage = async () => {
     <div className="bg-gray-100 dark:bg-gray-900 p-2 text-black dark:text-gray-300 min-h-[100vh]">
 
     <div className="max-w-[1100px] m-auto">
-      <CartContainer cartItems={data?.data} />
-    </div>
+      {
+        data?.data?.length > 0 ?
+        <CartContainer cartItems={data?.data} />
+
+        : 
+        <div className="flex justify-center items-center bg-gray-200 dark:bg-gray-800 text-black dark:text-gray-400 h-[200px] rounded-md">
+          You have not added anything to cart
+
+        </div>
+      }
+        </div>
     </div>
   );
 };

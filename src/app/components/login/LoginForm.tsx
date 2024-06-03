@@ -5,8 +5,10 @@ import { Button, Input } from "@nextui-org/react";
 import Link from "next/link";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
+import { LoginButton } from "./LoginButton";
 
 const LoginForm = () => {
+  const [pending, setPending] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const handleEmailOnChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -41,7 +43,6 @@ const LoginForm = () => {
       }, 1000);
     }
   }, [state]);
-  const {pending} = useFormStatus()
 
   return (
     <form action={formAction} autoComplete="off">
@@ -60,26 +61,30 @@ const LoginForm = () => {
         type="password"
       />
 
-      <p className={`${showErrorMessage ? "block" : "hidden"} text-red-700 text-small`}>
+      <p
+        className={`${
+          showErrorMessage ? "block" : "hidden"
+        } text-red-700 text-small`}
+      >
         {state.message}
       </p>
 
       <div className="flex gap-2 justify-end">
-        <Button
+        {/* <Button
           type="submit"
           fullWidth
           color={checkFormisFilled() ? "primary" : "danger"}
           disabled={!checkFormisFilled() || pending}
         >
           {pending ? "Logging in..." : "Login"}
-        </Button>
+        </Button> */}
+        <LoginButton  text="Login" pendingText="Loggin In..." formIsFilled={checkFormisFilled()}/>
       </div>
       <div className="flex justify-center mt-5">
         <Button color="success" size="sm">
-        <Link href="/register">Sign up</Link>
+          <Link href="/register">Sign up</Link>
         </Button>
       </div>
-
     </form>
   );
 };

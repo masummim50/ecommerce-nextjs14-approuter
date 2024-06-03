@@ -7,29 +7,26 @@ import { CiSearch } from "react-icons/ci";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 
-const SearchBox = () => {
+const SellerSearchBox = () => {
   const searchParams = useSearchParams();
+  console.log(
+    "search params from component: ",
+    searchParams.get("query")?.toString()
+  );
   const pathname = usePathname();
   const { replace, push } = useRouter();
 
   const handleSearch = useDebouncedCallback((term) => {
-    console.log(`Searching... ${term}`);
-
     const params = new URLSearchParams(searchParams);
     if (term) {
       params.set("query", term);
+      params.delete("page")
     } else {
       params.delete("query");
     }
-    if (pathname === "/" || pathname === "/search") {
-      console.log("params: ", params);
-      // replace(`/${pathname}/search?${params.toString()}`);
-      if (term !== "") {
-        push(`/search?${params.toString()}`);
-      }
-    } else {
-      replace(`${pathname}?${params.toString()}`);
-    }
+
+      replace(`${pathname}/?${params.toString()}`);
+    
   }, 500);
 
   return (
@@ -70,4 +67,4 @@ const SearchBox = () => {
   );
 };
 
-export default SearchBox;
+export default SellerSearchBox;

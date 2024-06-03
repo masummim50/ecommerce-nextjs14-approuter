@@ -12,13 +12,15 @@ const OrderCard = ({ order }: { order: orderType }) => {
   return (
     <div className="shadow-md mb-2 rounded-sm overflow-hidden bg-white dark:bg-gray-800">
       <div className="border-b-[1px] border-gray-200 p-1">
-        <h2>
+        <h2 className="line-clamp-1">
           Order{" "}
           <Link className="text-sky-600" href={`/user/orders/${order.id}`}>
             {order.id}
           </Link>
         </h2>
-        <p>Placed on: {formatDate(order.createdAt, false)}</p>
+        <p className="text-xs md:text-sm">
+          Placed on: {formatDate(order.createdAt, false)}
+        </p>
       </div>
       <div className="px-2">
         {order.items.map((item) => {
@@ -27,7 +29,7 @@ const OrderCard = ({ order }: { order: orderType }) => {
               key={item.productId}
               className="grid grid-cols-7 gap-1 mb-2 p-2"
             >
-              <div className="col-span-3 flex">
+              <div className="col-span-6 flex">
                 <div className="w-[80px] h-[80px] relative rounded-md overflow-hidden">
                   <img
                     className="h-full w-full"
@@ -38,16 +40,31 @@ const OrderCard = ({ order }: { order: orderType }) => {
                     {item.productQuantity}items
                   </div>
                 </div>
+                <div className="flex flex-col">
+
                 <h2>{item.productName}</h2>
+                <div className="block sm:hidden">Qty:{item.productQuantity}</div>
+                </div>
               </div>
-              <div>Qty:{item.productQuantity}</div>
+              <div className="hidden sm:block">Qty:{item.productQuantity}</div>
 
-              <div>
-
-              <div className={`${order.status === 'pending' ? 'bg-gray-400' : order.status === 'confirmed' ? 'bg-orange-300' : order.status === 'shipped' ? 'bg-sky-400': 'bg-green-500'} text-white rounded-lg px-3 py-0 inline-block`}>{order.status}</div>
+              <div className=" col-span-2">
+                <div
+                  className={`${
+                    order.status === "pending"
+                      ? "bg-gray-400"
+                      : order.status === "confirmed"
+                      ? "bg-orange-300"
+                      : order.status === "shipped"
+                      ? "bg-sky-400"
+                      : "bg-green-500"
+                  } text-white rounded-lg px-3 py-0 inline-block`}
+                >
+                  {order.status}
+                </div>
               </div>
 
-              <div className="col-span-2 text-right">
+              <div className="col-span-7 md:col-span-5 text-left md:text-right">
                 {order.status === "pending"
                   ? `Order Placed on: ${formatDate(order.createdAt)}`
                   : order.status === "confirmed"

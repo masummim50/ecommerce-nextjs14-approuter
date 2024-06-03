@@ -20,8 +20,12 @@ const MyOrders = async()=> {
   });
   
   const orders = await result.json();
+
     return (
         <div className="max-w-[1100px] m-auto text-black dark:text-gray-300 p-2">
+          {
+            orders?.data?.length > 0 ?
+            <div>
             <h2>My orders:</h2>
             {
               orders?.data?.map((order:orderType)=> {
@@ -30,6 +34,9 @@ const MyOrders = async()=> {
                 )
               })
             }
+            </div> : 
+            <div className="bg-gray-200 dark:bg-gray-800 text-black dark:text-gray-300 h-[300px] w-full rounded-md flex justify-center items-center p-2 my-2 font-semibold text-lg">You have not placed any order yet</div>
+          }
         </div>
     )
 }

@@ -3,9 +3,9 @@ import React from "react";
 import ProductContainer from "../category/[category]/ProductContainer";
 import Pages from "../category/[category]/Pagination";
 
-const PopularPage = async ({searchParams}:{searchParams:{page:string}}) => {
+const NewestPage = async ({searchParams}:{searchParams:{page:string}}) => {
   // fetch popular data
-  const data = await fetch(`${baseUrl}/product/popular?page=${searchParams.page}`);
+  const data = await fetch(`${baseUrl}/product/newest?page=${searchParams.page}`);
   const result = await data.json();
   const metaInfo: {
     page: number;
@@ -24,7 +24,7 @@ const PopularPage = async ({searchParams}:{searchParams:{page:string}}) => {
   <div className="max-w-[1100px]  m-auto text-black dark:text-gray-300">
     {result.data?.length > 0 && (
       <div>
-        <h2 className="text-xl font-semibold">Popular Items</h2>
+        <h2 className="text-xl font-semibold">New Arrival</h2>
         <p>
           showing {metaInfo.page * metaInfo.size - (metaInfo.size - 1)} to{" "}
           {to} of {metaInfo.total}
@@ -41,4 +41,4 @@ const PopularPage = async ({searchParams}:{searchParams:{page:string}}) => {
 </div>;
 };
 
-export default PopularPage;
+export default NewestPage;

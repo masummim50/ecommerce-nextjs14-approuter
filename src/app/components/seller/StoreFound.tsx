@@ -4,9 +4,9 @@ import CreateProductModal from "./CreateProductModal";
 import Link from "next/link";
 import Products from "@/app/(seller)/seller/store/Products";
 import TestForm from "./TestForm";
-import SearchBox from "./SearchBox";
 import StoreEditButton from "./StoreEditButton";
 import EditStoreInfoModal from "@/app/(seller)/seller/store/EditStoreInfoModal";
+import SellerSearchBox from "./SellerSearchBox";
 
 const StoreFound = ({ store }: { store: any }) => {
   return (
@@ -34,7 +34,7 @@ const StoreFound = ({ store }: { store: any }) => {
         {store?.products?.length > 0 && (
           <div className="flex items-center justify-center">
             <CreateProductModal />
-            <SearchBox />
+            <SellerSearchBox />
           </div>
         )}
       </div>

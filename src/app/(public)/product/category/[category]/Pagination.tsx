@@ -1,32 +1,53 @@
 "use client";
-import React from "react";
-import { Pagination } from "@nextui-org/react";
+import React, { useEffect, useState } from "react";
+import { Pagination, Progress } from "@nextui-org/react";
 
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { TiSortAlphabetically } from "react-icons/ti";
 
-export default function Pages({meta}:{meta:{page:number, size:number, total:number,totalPage:number}}) {
+export default function Pages({
+  meta,
+}: {
+  meta: { page: number; size: number; total: number; totalPage: number };
+}) {
   const router = useRouter();
   const pathname = usePathname();
   const { replace } = useRouter();
-  
-  const searchParams = useSearchParams();
 
+  console.log("pathname: ", pathname);
+
+  const searchParams = useSearchParams();
+  const [initialPage, setInitialPage] = useState(
+    Number(searchParams.get("page")) || 1
+  );
+
+  useEffect(() => {
+    setInitialPage(Number(searchParams.get("page")) || 1);
+  }, [searchParams]);
+
+  const params = new URLSearchParams(searchParams);
   function handleSearch(page: string) {
     const params = new URLSearchParams(searchParams);
     if (page) {
-      params.set('page', page);
+      params.set("page", page);
     } else {
-      params.delete('page');
+      params.delete("page");
     }
-    replace(`${pathname}?page=${page}`);
+    replace(`${pathname}?${params.toString()}`);
   }
 
   return (
-    <Pagination
-      onChange={(page: number) => handleSearch(page.toString())}
-      total={meta.totalPage}
-      initialPage={meta.page || 1}
-    />
+    <div className="w-full flex items-center flex-col">
+      <Pagination
+        onChange={(page: number) => handleSearch(page.toString())}
+        total={meta.totalPage}
+        initialPage={initialPage}
+      />
+      <Progress
+        size="sm"
+        className="w-full max-w-[200px] my-2"
+        isIndeterminate
+      />
+    </div>
   );
 }

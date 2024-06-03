@@ -6,7 +6,7 @@ import { useAppSelector } from '@/redux/hooks';
 import Link from 'next/link'
 
 import { RootState } from '@/redux/store';
-import SearchBox from './components/seller/SearchBox';
+import SearchBox from './SearchBox';
 interface decodedUser  {
     id: string;
     name: string;
