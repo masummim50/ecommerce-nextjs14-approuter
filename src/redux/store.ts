@@ -4,6 +4,7 @@ import authReducer from "@/redux/features/auth/authSlice";
 import productReducer from "@/redux/features/product/productSlice";
 import { apiSlice } from "./features/api/apiSlice";
 import prevSearchAndPaginationReducer from "@/redux/features/searchAndPagination/searchAndPaginationSlice";
+import toastReducer from "@/redux/features/toast/toastSlice";
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     auth: authReducer,
     product: productReducer,
     prevSearchAndPagination: prevSearchAndPaginationReducer,
+    toasts: toastReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),

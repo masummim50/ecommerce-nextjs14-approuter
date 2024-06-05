@@ -29,12 +29,12 @@ export function formatDate(str: string, short: boolean = true): string {
   } ${year} ${hours}:${minutes}:${seconds}`;
 }
 
-export function dateOnly(dateString) {
+export function dateOnly(dateString: any) {
   // Parse the date string
   const date = new Date(dateString);
 
   // Check if the date is valid
-  if (isNaN(date)) {
+  if (isNaN(date as any)) {
     throw new Error("Invalid date string");
   }
 
@@ -44,7 +44,7 @@ export function dateOnly(dateString) {
   const year = date.getFullYear();
 
   // Function to get the ordinal suffix for a day
-  function getOrdinalSuffix(day) {
+  function getOrdinalSuffix(day: any) {
     if (day > 3 && day < 21) return "th"; // special case for 11th to 20th
     switch (day % 10) {
       case 1:

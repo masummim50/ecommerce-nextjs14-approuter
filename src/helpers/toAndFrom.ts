@@ -6,6 +6,7 @@ type metaInfo = {
 };
 
 export function getToAndFrom(metaInfo: metaInfo) {
+  console.log("metainfo: ", metaInfo);
   const from = metaInfo.page * metaInfo.size - (metaInfo.size - 1);
 
   const to =

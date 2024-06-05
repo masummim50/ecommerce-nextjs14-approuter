@@ -49,7 +49,7 @@ export const options = {
     tooltip: {
       intersect: false,
       callbacks: {
-        title: (s) => {
+        title: (s:any) => {
           return s[0].label;
         },
       },
@@ -81,14 +81,14 @@ const LineChart = ({ data }: { data: any }) => {
     setChartData([...data.chartOverviewArray]);
   };
 
-  const labels = chartData?.map((d) => dateOnly(d.date));
+  const labels = chartData?.map((d:any) => dateOnly(d.date));
 
   const orderData = {
     labels,
     datasets: [
       {
         label: "order",
-        data: chartData?.map((d) => d.orderCount),
+        data: chartData?.map((d:any) => d.orderCount),
         // borderColor: "rgb(255, 99, 132)",
     borderColor: 'rgb(132 204 22)',
         backgroundColor: "rgb(132 204 22)",
@@ -98,7 +98,7 @@ const LineChart = ({ data }: { data: any }) => {
       },
       {
         label: "items sold",
-        data: chartData?.map((d) => d.items),
+        data: chartData?.map((d:any) => d.items),
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132)",
         tension: 0.3,
@@ -112,7 +112,7 @@ const LineChart = ({ data }: { data: any }) => {
     datasets: [
       {
         label: "incoming cash",
-        data: chartData?.map((d) => d.cash),
+        data: chartData?.map((d:any) => d.cash),
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132)",
       },

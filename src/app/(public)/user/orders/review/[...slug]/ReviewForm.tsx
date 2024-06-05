@@ -1,5 +1,6 @@
 "use client";
 import { addReviewAction, updateReviewAction } from "@/actions/userActions";
+import { Button } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 
@@ -18,20 +19,26 @@ const ReviewForm = ({
 
   const [content, setContent] = useState(data?.content ? data.content : "");
 
+  const [postingReview, setPostingReview] = useState(false);
+
   const handleAddReview = async () => {
+    setPostingReview(true);
     console.log("add review running");
     const data = { rating: starIndex + 1, content, orderId };
-
+    
     await addReviewAction(productId, data);
+    setPostingReview(false);
   };
-
+  
   const handleUpdateReview = async () => {
     const review = { rating: starIndex + 1, content };
     
     if (data && data.id) {
       if(review.rating !== data?.rating || review.content !== data?.content){
-      
+        setPostingReview(true);
+        
         await updateReviewAction(data.id, review);
+        setPostingReview(false);
       }else{
         setShowNothingToUpdate(true);
         setTimeout(() => {
@@ -83,6 +90,7 @@ const ReviewForm = ({
       </div>
       <div className="text flex items-center justify-center">
         <textarea
+        disabled={postingReview}
           className="w-full rounded-md p-4 resize-none bg-gray-300 focus:outline-none"
           rows={4}
           placeholder="write review here"
@@ -94,19 +102,26 @@ const ReviewForm = ({
       </div>
       <div className="flex justify-end">
         {data?.rating ? (
-          <button
+          <Button
+          size="sm"
+          isLoading={postingReview}
+          disabled={postingReview}
             onClick={() => handleUpdateReview()}
             className="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-1 rounded-md mt-2"
           >
-            Update
-          </button>
+            {postingReview ? "updating..." : 
+            "Update"}
+          </Button>
         ) : (
-          <button
+          <Button
+          isLoading={postingReview}
+          size="sm"
             onClick={() => handleAddReview()}
             className="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-1 rounded-md mt-2"
           >
-            Submit
-          </button>
+            {postingReview ? "Submitting..." : 
+            "Submit"}
+          </Button>
         )}
       </div>
         {

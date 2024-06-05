@@ -6,6 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
 import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
+import ToastContainer from "./components/shared/ToastContainer";
 
 const Main = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useAppDispatch();
@@ -19,7 +20,9 @@ const Main = ({ children }: { children: React.ReactNode }) => {
   }, [token, dispatch]);
 
   return (
-    <div className="bg-white dark:bg-neutral-900 min-h-[100vh]">{children}</div>
+    <div className="bg-white dark:bg-neutral-900 min-h-[100vh]">
+      <ToastContainer/>
+      {children}</div>
   );
 };
 

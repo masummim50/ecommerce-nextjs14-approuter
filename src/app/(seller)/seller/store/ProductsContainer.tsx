@@ -12,7 +12,7 @@ const ProductsContainer = ({ products }: { products: productType[] }) => {
     const filtered = state.filter((p: productType) => p.id !== id);
     return [...filtered];
   });
-  const [parent] = useAutoAnimate()
+  const [parent] = useAutoAnimate();
 
   return (
     <div ref={parent}>

@@ -14,6 +14,7 @@ const SearchPage = async ({
     `${baseUrl}/product/search?query=${searchParams.query}&page=${searchParams.page || '1'}`
   );
   const data = await result.json();
+  console.log('searchpage data: ', data)
 
   const { from, to, total } = getToAndFrom(data.meta);
   return (
@@ -30,6 +31,7 @@ const SearchPage = async ({
           </div>
         )}
         <SearchLoadingStateUpdate data={data} date={new Date().getTime()}/>
+        
         {data.data.length > 0 && <ProductContainer products={data.data} />}
         {data.meta.totalPage > 1 && (
           <div className="flex justify-center">

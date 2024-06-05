@@ -2,6 +2,7 @@ import { baseUrl } from "@/shared/urls";
 import React from "react";
 import ProductContainer from "../category/[category]/ProductContainer";
 import Pages from "../category/[category]/Pagination";
+import SearchLoadingStateUpdate from "../../search/SearchLoadingStateUpdate";
 
 const NewestPage = async ({searchParams}:{searchParams:{page:string}}) => {
   // fetch popular data
@@ -32,6 +33,7 @@ const NewestPage = async ({searchParams}:{searchParams:{page:string}}) => {
       </div>
     )}
     {result.data.length > 0 && <ProductContainer products={result.data} />}
+    <SearchLoadingStateUpdate data={result.data} date={new Date().getTime()} />
     {result.meta.totalPage > 1 && (
       <div className="flex justify-center">
         <Pages meta={result.meta} />

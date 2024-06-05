@@ -4,17 +4,22 @@ import { Pagination, Progress } from "@nextui-org/react";
 
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { TiSortAlphabetically } from "react-icons/ti";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { pageClickStarted } from "@/redux/features/searchAndPagination/searchAndPaginationSlice";
+import { RootState } from "@/redux/store";
 
 export default function Pages({
   meta,
 }: {
   meta: { page: number; size: number; total: number; totalPage: number };
 }) {
-  const router = useRouter();
+  const pageTime = useAppSelector(
+    (state: RootState) => state.prevSearchAndPagination.pageTime
+  );
+  const dispatch = useAppDispatch();
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  console.log("pathname: ", pathname);
 
   const searchParams = useSearchParams();
   const [initialPage, setInitialPage] = useState(
@@ -33,6 +38,8 @@ export default function Pages({
     } else {
       params.delete("page");
     }
+    
+    dispatch(pageClickStarted(undefined));
     replace(`${pathname}?${params.toString()}`);
   }
 
@@ -45,8 +52,10 @@ export default function Pages({
       />
       <Progress
         size="sm"
-        className="w-full max-w-[200px] my-2"
         isIndeterminate
+        className={`w-full max-w-[200px] my-2 transition-all ${
+          pageTime.curr == pageTime.prev ? "opacity-100" : "opacity-0"
+        }`}
       />
     </div>
   );

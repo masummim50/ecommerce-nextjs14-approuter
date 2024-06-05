@@ -28,15 +28,35 @@ const SelectedItems = ({
     dispatch(setProduct(cartProducts));
     router.push("/user/create-order");
   };
+
+  const smallDeviceInformation = cartItems.reduce(
+    (prev, curr) => {
+      prev["total"] = prev["total"] + curr.quantity;
+      prev["totalCost"] =
+        prev["totalCost"] + curr.quantity * curr.product.price;
+      return prev;
+    },
+    { total: 0, totalCost: 0 }
+  );
   return (
     <>
       {cartItems.length > 0 ? (
-        <div className="dark:bg-gray-800 mt-6 p-2 rounded-md">
-          <h2>Selected Items:</h2>
-          <div className="grid gap-2 grid-cols-1">
+        <div className="dark:bg-gray-800 mt-6  rounded-md p-0 md:p-2">
+          <h2 className="hidden md:block">Selected Items:</h2>
+          {/* small device component */}
+          <div className="flex md:hidden justify-between items-center ">
+            <p>{smallDeviceInformation.total} items selected</p>
+            <p>${smallDeviceInformation.totalCost}</p>
+          </div>
+
+          {/* small device end */}
+          <div className="hidden md:grid gap-2 grid-cols-1">
             {cartItems.map((c) => {
               return (
-                <div className="relative rounded-lg flex shadow-md bg-gray-200 dark:bg-gray-700 p-2" key={c.id}>
+                <div
+                  className="relative rounded-lg flex shadow-md bg-gray-100 dark:bg-gray-700 p-2"
+                  key={c.id}
+                >
                   <Image
                     alt="mini image"
                     height={70}
@@ -52,11 +72,14 @@ const SelectedItems = ({
               );
             })}
           </div>
-
-          <Button className="mt-2" onClick={handleBuyNow}>Buy now</Button>
+          <div className="text-right">
+            <Button className="mt-2 text-right" onClick={handleBuyNow}>
+              Buy now
+            </Button>
+          </div>
         </div>
       ) : (
-        <div className="flex h-[80vh] rounded-md bg-white justify-center items-center shadow-md dark:bg-gray-800 text-black dark:text-gray-300 mt-6">
+        <div className="flex h-[100px] md:h-[80vh] rounded-md bg-gray-200 justify-center items-center shadow-md dark:bg-gray-800 text-black dark:text-gray-300 mt-6">
           <p>Select some item to Buy them</p>
         </div>
       )}

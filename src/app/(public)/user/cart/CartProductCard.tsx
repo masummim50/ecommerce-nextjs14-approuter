@@ -1,64 +1,13 @@
-"use client";
-import { cartItemTypeForCartPage } from "@/app/interfaces/cartItemInterface";
-import {
-  Button,
-  ButtonGroup,
-  Checkbox,
-  CheckboxGroup,
-  Input,
-  cn,
-} from "@nextui-org/react";
-import { headers } from "next/headers";
-import Image from "next/image";
-import React, { startTransition, useOptimistic, useState } from "react";
-import SelectedItems from "./SelectedItems";
-import {
-  decreaseQuantityOfCartItemAction,
-  increaseQuantityOfCartItemAction,
-} from "@/actions/userActions";
+import { decreaseQuantityOfCartItemAction, increaseQuantityOfCartItemAction, removeCartItemAction } from '@/actions/userActions';
+import { Button, ButtonGroup, Checkbox, cn } from '@nextui-org/react';
+import Image from 'next/image';
+import React, { startTransition } from 'react';
+import { MdDeleteOutline } from 'react-icons/md';
+import { cartItemTypeForCartPage } from '@/app/interfaces/cartItemInterface';
 
-const CartContainer = ({
-  cartItems,
-}: {
-  cartItems: cartItemTypeForCartPage[];
-}) => {
-  const [OptimisticCartItems, OptimisticCartItemAction] = useOptimistic<
-    cartItemTypeForCartPage[],
-    { type: string; id: string }
-  >(cartItems, (state, { type, id }) => {
-    if (type === "increment") {
-      state.forEach((s) => {
-        if (s.id === id) {
-          s.quantity = s.quantity + 1;
-        }
-      });
-      return [...state];
-    }
-    if (type === "decrement") {
-      state.forEach((s) => {
-        if (s.id === id) {
-          s.quantity = s.quantity - 1;
-        }
-      });
-      return [...state];
-    }
-
-    return [...state];
-  });
-
-  const [selected, setSelected] = useState<string[]>([]);
-  return (
-    <div className="flex gap-3">
-      <div className="w-[60%] flex flex-col gap-2">
-        <CheckboxGroup
-          label="Select item from your cart"
-          color="warning"
-          value={selected}
-          onValueChange={setSelected}
-        >
-          {[...OptimisticCartItems]?.map((cartItem) => {
-            return (
-              <div className="w-full mb-2" key={cartItem.id}>
+const CartProductCard = ({cartItem,OptimisticCartItemAction}:{cartItem:cartItemTypeForCartPage,OptimisticCartItemAction:any}) => {
+    return (
+        <div className="w-full mb-2 relative" key={cartItem.id}>
                 <Checkbox
                   color="primary"
                   classNames={{
@@ -73,6 +22,24 @@ const CartContainer = ({
                   key={cartItem.id}
                   value={cartItem.id}
                 >
+                  <div
+                    onClick={async (e) => {
+                      e?.preventDefault();
+                      startTransition(() => {
+                        OptimisticCartItemAction({
+                          type: "delete",
+                          id: cartItem.id,
+                        });
+                      });
+                      // change this
+                      await removeCartItemAction(
+                        cartItem.id
+                      );
+                    }}
+                    className="absolute top-0 right-0 text-red-600 z-40 p-2 border rounded-full bg-red-100 hover:bg-red-200"
+                  >
+                    <MdDeleteOutline />
+                  </div>
                   <div className="flex w-[100%]">
                     <Image
                       src={cartItem.product.images[0]}
@@ -82,16 +49,21 @@ const CartContainer = ({
                     />
                     <div className="grow flex flex-col">
                       <div className="info">
-                        <h2>{cartItem.product.name}</h2>
-                        <p>Sold by: {cartItem.product.store.name}</p>
+                        <h2 className="text-sm md:text-medium w-[80%] line-clamp-1">
+                          {cartItem.product.name}
+                        </h2>
+                        <p className="text-xs md:text-sm">
+                          Sold by: {cartItem.product.store.name}
+                        </p>
                       </div>
                       <div className="flex justify-between">
                         <div className="price">${cartItem.product.price}</div>
                         <div className="quantity">
                           <ButtonGroup>
                             <Button
-                            className="disabled:bg-red-300"
+                              size="sm"
                               disabled={cartItem.quantity < 2}
+                              className="h-auto min-w-1 px-3 py-1 md:px-4 md:py-1"
                               onClick={async () => {
                                 startTransition(() => {
                                   OptimisticCartItemAction({
@@ -103,15 +75,20 @@ const CartContainer = ({
                                   cartItem.id
                                 );
                               }}
-                              size="sm"
                             >
                               -
                             </Button>
-                            <Button color="primary" disabled size="sm">
+                            <Button
+                              className="h-auto min-w-1 px-3 py-1 md:px-4 md:py-1"
+                              color="primary"
+                              disabled
+                              size="sm"
+                            >
                               {cartItem.quantity}
                             </Button>
 
                             <Button
+                              className="h-auto min-w-1 px-3 py-1 md:px-4 md:py-1"
                               onClick={async () => {
                                 startTransition(() => {
                                   OptimisticCartItemAction({
@@ -134,18 +111,7 @@ const CartContainer = ({
                   </div>
                 </Checkbox>
               </div>
-            );
-          })}
-        </CheckboxGroup>
-        {/* {selected.join(" ")} */}
-      </div>
-      <div className="w-[40%]">
-        <SelectedItems
-          cartItems={cartItems.filter((items) => selected.includes(items.id))}
-        />
-      </div>
-    </div>
-  );
+    );
 };
 
-export default CartContainer;
+export default CartProductCard;

@@ -48,6 +48,7 @@ export const searchAndPaginationSlice = createSlice({
   },
 });
 
-export const { searchEnded, searchStarted } = searchAndPaginationSlice.actions;
+export const { searchEnded, searchStarted, pageClickEnded, pageClickStarted } =
+  searchAndPaginationSlice.actions;
 
 export default searchAndPaginationSlice.reducer;

@@ -25,6 +25,7 @@ export async function addProductToCartAction(productId: string) {
   );
 
   const data = await result.json();
+  revalidatePath("/user/cart");
 
   return data;
 }
@@ -45,7 +46,7 @@ export async function increaseQuantityOfCartItemAction(cartItemId: string) {
   );
 
   const data = await result.json();
-
+  revalidatePath("/user/cart");
   return data;
 }
 export async function decreaseQuantityOfCartItemAction(cartItemId: string) {
@@ -63,11 +64,32 @@ export async function decreaseQuantityOfCartItemAction(cartItemId: string) {
       },
     }
   );
-
   const data = await result.json();
+  revalidatePath("/user/cart");
 
   return data;
 }
+
+export async function removeCartItemAction(cartItemId: string) {
+  const cookieStore = cookies();
+  const token = cookieStore.get("accessToken")?.value;
+
+  const result = await fetch(
+    `http://localhost:5000/api/v1/product/cart/delete/${cartItemId}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  const data = await result.json();
+  revalidatePath("/user/cart");
+
+  return data;
+}
+
 export async function createOrderAction(orderItems: any) {
   const cookieStore = cookies();
   const token = cookieStore.get("accessToken")?.value;
