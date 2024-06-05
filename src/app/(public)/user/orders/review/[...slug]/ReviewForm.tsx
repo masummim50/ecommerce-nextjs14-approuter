@@ -1,6 +1,7 @@
 "use client";
 import { addReviewAction, updateReviewAction } from "@/actions/userActions";
 import { Button } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 
@@ -13,6 +14,7 @@ const ReviewForm = ({
   productId: string;
   orderId: string;
 }) => {
+  const router = useRouter();
   const [starIndex, setStarIndex] = useState(
     (data?.rating && data.rating - 1) || 0
   );
@@ -28,6 +30,7 @@ const ReviewForm = ({
     
     await addReviewAction(productId, data);
     setPostingReview(false);
+    router.push(`/product/${productId}`)
   };
   
   const handleUpdateReview = async () => {
@@ -39,6 +42,7 @@ const ReviewForm = ({
         
         await updateReviewAction(data.id, review);
         setPostingReview(false);
+        router.push(`/product/${productId}`)
       }else{
         setShowNothingToUpdate(true);
         setTimeout(() => {
