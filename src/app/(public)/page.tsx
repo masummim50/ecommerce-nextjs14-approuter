@@ -2,6 +2,7 @@
 // a section to show some category links
 // a section for newest arrivals
 
+
 import { Suspense } from "react";
 import PopularSection from "./PopularSection";
 import NewArrivalSection from "./NewArrivalSection";
@@ -12,6 +13,18 @@ import DiscountedSection from "./DiscountedSection";
 const PublicPage = () => {
   return (
     <div className="max-w-[1100px] m-auto mt-4 px-2">
+
+{/* testing animation */}
+
+
+
+
+{/* animation end */}
+
+
+
+
+      
       <div>
         <div className="flex justify-between mb-2 text-black dark:text-gray-300 items-center">
           <h1 className="text-large border-b-4 inline-block">Popular Items</h1>

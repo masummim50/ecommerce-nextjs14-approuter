@@ -14,7 +14,7 @@ const SellerProductDetails = ({ product }: { product: productType }) => {
     // {JSON.stringify(product)}
     // </>
     <>
-      <div className=" mt-4 gap-5 flex justify-center bg-white dark:bg-gray-800 p-4 rounded-md">
+      <div className=" mt-1 gap-5 flex justify-center bg-white dark:bg-gray-800 p-4 rounded-md">
         <div className="w-[40%]">
           <ProductImages images={product?.images} />
         </div>

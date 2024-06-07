@@ -2,8 +2,6 @@
 import { RootState } from "@/redux/store";
 import { baseUrl } from "@/shared/urls";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { useCookies } from "react-cookie";
-import { cookies } from "next/headers";
 
 // Define a service using a base URL and expected endpoints
 export const apiSlice = createApi({

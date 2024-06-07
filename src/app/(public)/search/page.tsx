@@ -30,6 +30,7 @@ const SearchPage = async ({
             </p>
           </div>
         )}
+        
         <SearchLoadingStateUpdate data={data} date={new Date().getTime()}/>
         
         {data.data.length > 0 && <ProductContainer products={data.data} />}

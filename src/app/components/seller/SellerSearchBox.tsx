@@ -1,13 +1,18 @@
 "use client";
-import { Input } from "@nextui-org/react";
+import { Input, Spinner } from "@nextui-org/react";
 
 import React from "react";
 import { CiSearch } from "react-icons/ci";
 
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { sellerSearchStarted } from "@/redux/features/searchAndPagination/searchAndPaginationSlice";
+import { RootState } from "@/redux/store";
 
 const SellerSearchBox = () => {
+  const dispatch = useAppDispatch();
+  const sellerSearchTime = useAppSelector((state:RootState)=> state.prevSearchAndPagination.sellerSearchTime)
   const searchParams = useSearchParams();
   console.log(
     "search params from component: ",
@@ -20,13 +25,12 @@ const SellerSearchBox = () => {
     const params = new URLSearchParams(searchParams);
     if (term) {
       params.set("query", term);
-      params.delete("page")
+      params.delete("page");
     } else {
       params.delete("query");
     }
-
-      replace(`${pathname}/?${params.toString()}`);
-    
+    dispatch(sellerSearchStarted(undefined));
+    replace(`${pathname}/?${params.toString()}`);
   }, 500);
 
   return (
@@ -61,6 +65,14 @@ const SellerSearchBox = () => {
         placeholder="Type to search..."
         startContent={
           <CiSearch className="text-black/50 mb-0.5 dark:text-white/90 text-slate-400 pointer-events-none flex-shrink-0" />
+        }
+        endContent={
+          <Spinner
+            size="sm"
+            className={` transition-all ${
+              sellerSearchTime.curr == sellerSearchTime.prev ? "opacity-100" : "opacity-0"
+            }`}
+          />
         }
       />
     </div>

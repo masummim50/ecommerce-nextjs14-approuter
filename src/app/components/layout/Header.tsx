@@ -1,5 +1,5 @@
 "use client"
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Navbar,
   NavbarBrand,
@@ -21,17 +21,13 @@ import ThemeContextProvider, {
 } from "@/providers/ThemeContextProvider";
 import Link from "next/link";
 import useAuthCookie from "@/auth-cookie/cookies";
-import { usePathname } from "next/navigation";
+
 import useIsLoggedIn from "@/shared/isLoggedIn";
 import { SearchIcon } from "./SearchIcon";
 import UserAvatar from "./UserAvatar";
 
 export default function Header({token}: {token:undefined | string}) {
 
-  // const { dark, setDark } = useThemeContext();
-  // const changetheme = () => {
-  //   setDark((prev) => !prev);
-  // };
   const menuItems = [
     "Profile",
     "Dashboard",
@@ -84,18 +80,6 @@ export default function Header({token}: {token:undefined | string}) {
         
       }
 
-        {/* {isLoggedIn  ? (
-          <UserAvatar />
-        ) : (
-          <NavbarItem className="flex">
-              <Button variant="flat" color="primary">
-            <Link href="/login">
-                Log in
-            </Link>
-              </Button>
-          </NavbarItem>
-        )} */}
-        {/* <Button onClick={changetheme}>theme</Button> */}
       </NavbarContent>
     </Navbar>
   );

@@ -39,7 +39,7 @@ const OrdersContainer = ({ orders }: { orders: SellerOrder[] }) => {
             >
               <div className="p-2">
                 <h2 className="truncate">Order #{order.id}</h2>
-                <p className="">Placed on: {formatDate(order.createdAt)}</p>
+                <p className="text-xs md:text-medium">Placed on: {formatDate(order.createdAt)}</p>
               </div>
               <Divider />
               <div className="px-2 flex justify-between">
@@ -54,7 +54,7 @@ const OrdersContainer = ({ orders }: { orders: SellerOrder[] }) => {
                   })}
                 </AvatarGroup>
                 <div className="">
-                  <h2>
+                  <h2 className="text-xs md:text-medium">
                     Total:{" "}
                     {order.items.reduce(
                       (prev, curr) => prev + curr.productQuantity,
