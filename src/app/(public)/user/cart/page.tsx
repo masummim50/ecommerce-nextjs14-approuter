@@ -16,6 +16,7 @@ const CartPage = async () => {
       // "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
+    cache:'no-store'
   });
 
   const data = await result.json();

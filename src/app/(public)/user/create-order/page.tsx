@@ -23,41 +23,28 @@ const CreateOrderPage = () => {
     dispatch(decreaseQuantity({storeId,productId}));
   };
   return (
-    <div className="max-w-[1100px] m-auto flex gap-3">
-      <div className="w-[60%]">
-        {/* {products?.map((product) => {
-          return (
-            <div className="flex shadow-lg p-3" key={product.id}>
-              <Image height={200} width={200} src={product.images[0]} alt="product image" />
-              <div>
-                <h2>{product.name}</h2>
-                <div>
-                  <Button disabled={product.quantity == 1} onClick={()=>handleDecreaseQuantity(product.id)}>-</Button>
-                  {product.quantity}
-                  <Button onClick={()=>handleIncreaseQuantity(product.id)}>+</Button>
-                </div>
-                <p>{product.price}</p>
-              </div>
-            </div>
-          );
-        })} */}
+    <div className="max-w-[1100px] m-auto flex flex-col md:flex-row gap-3 mt-2 text-black dark:text-gray-300">
+      <div className="w-full md:w-[60%]">
+       
         {Object.keys(products).map((key) => {
           return (
             <div key={key}>
-              <h2>{products[key][0].store.name}</h2>
               {products[key].map((product) => {
                 return (
-                  <div className="flex shadow-lg p-3" key={product.id}>
+                  <div className="flex shadow-lg p-3 bg-white dark:bg-gray-800 mb-2" key={product.id}>
+                    <div className="relative h-[100px] md:h-[150px] w-[30%] mr-1">
                     <Image
-                      height={200}
-                      width={200}
+                    fill
+                      
                       src={product.images[0]}
                       alt="product image"
                     />
+                    </div>
                     <div>
                       <h2>{product.name}</h2>
                       <div>
                         <Button
+                        className="min-w-1 h-auto px-5 py-1 md:px-6"
                           disabled={product.quantity == 1}
                           onClick={() => handleDecreaseQuantity(product.storeId, product.id)}
                         >
@@ -65,6 +52,7 @@ const CreateOrderPage = () => {
                         </Button>
                         {product.quantity}
                         <Button
+                        className="min-w-1 h-auto px-5 py-1 md:px-6"
                           onClick={() => handleIncreaseQuantity(product.storeId, product.id)}
                         >
                           +
@@ -79,7 +67,7 @@ const CreateOrderPage = () => {
           );
         })}
       </div>
-      <div className="w-[40%]">
+      <div className="w-full md:w-[40%] p-2 bg-white dark:bg-gray-800 mb-2">
         <OrderDetails />
       </div>
     </div>

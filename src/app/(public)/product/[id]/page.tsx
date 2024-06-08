@@ -9,7 +9,7 @@ import RelatedProducts from "./RelatedProducts";
 import PublicProductCardSkeleton from "@/app/components/skeletons/PublicProductCardSkeleton";
 
 const ProductDetailsPage = async ({ params }: { params: { id: string } }) => {
-  const data = await fetch(`${baseUrl}/product/${params.id}`);
+  const data = await fetch(`${baseUrl}/product/${params.id}`, {cache: 'no-store'});
   const result = await data.json();
   return (
     <div className="bg-gray-100 dark:bg-gray-900 pt-3 p-2">

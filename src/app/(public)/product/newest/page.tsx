@@ -6,7 +6,7 @@ import SearchLoadingStateUpdate from "../../search/SearchLoadingStateUpdate";
 
 const NewestPage = async ({searchParams}:{searchParams:{page:string}}) => {
   // fetch popular data
-  const data = await fetch(`${baseUrl}/product/newest?page=${searchParams.page}`);
+  const data = await fetch(`${baseUrl}/product/newest?page=${searchParams.page}`, {cache: 'no-store'});
   const result = await data.json();
   const metaInfo: {
     page: number;

@@ -17,6 +17,7 @@ const MyOrders = async()=> {
       // "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
+    cache:'no-store'
   });
   
   const orders = await result.json();

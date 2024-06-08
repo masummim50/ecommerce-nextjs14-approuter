@@ -8,8 +8,7 @@ import {
   Input,
   cn,
 } from "@nextui-org/react";
-import { headers } from "next/headers";
-import Image from "next/image";
+
 import React, { startTransition, useOptimistic, useState } from "react";
 import SelectedItems from "./SelectedItems";
 import {

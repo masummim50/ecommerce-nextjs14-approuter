@@ -13,7 +13,7 @@ const CategoryPage = async ({
   console.log("params: ", searchParams);
   const currentPage = Number(searchParams?.page) || 1;
   const data = await fetch(
-    `${baseUrl}/product/category/${params.category}?page=${currentPage}`
+    `${baseUrl}/product/category/${params.category}?page=${currentPage}`, {cache: 'no-store'}
   );
   const result = await data.json();
   const metaInfo: {
@@ -29,7 +29,7 @@ const CategoryPage = async ({
       : metaInfo.total;
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-900 h-[90vh] pt-3 p-2">
+    <div className="bg-gray-100 dark:bg-gray-900 min-h-[60vh] pt-3 p-2">
       <div className="max-w-[1100px]  m-auto text-black dark:text-gray-300">
         {result.data?.length > 0 && (
           <div>

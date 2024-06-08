@@ -8,13 +8,13 @@ import ProductImages from "./ProductImages";
 
 const ProductDetails = ({ product }: { product: productType }) => {
   return (
-    <>
-      <div className=" mt-4 gap-5 flex justify-center bg-white dark:bg-gray-800 p-4 rounded-md">
+    <div>
+      <div className="min-h-1 mt-4 gap-5 flex justify-center bg-white dark:bg-gray-800 p-4 rounded-md shadow-md">
         <div className="w-[40%]">
           <ProductImages images={product.images} />
         </div>
 
-        <div className="w-[60%] flex flex-col justify-between">
+        <div className="w-[60%] flex flex-col justify-between ">
           <div className="info">
             <p className="text-sm md:text-2xl my-2">{product.name}</p>
             <div className="text-xs md:text-medium">
@@ -67,7 +67,7 @@ const ProductDetails = ({ product }: { product: productType }) => {
           <p>{product.description}</p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

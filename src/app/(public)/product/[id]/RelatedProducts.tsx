@@ -11,7 +11,7 @@ const RelatedProducts = async ({
   currentProductId: string;
 }) => {
   // do the fetch request here
-  const data = await fetch(`${baseUrl}/product/category/${category}`);
+  const data = await fetch(`${baseUrl}/product/category/${category}`, {cache: 'no-store'});
   const result = await data.json();
   return (
     <div className="mt-4 ">

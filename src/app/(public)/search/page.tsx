@@ -11,7 +11,7 @@ const SearchPage = async ({
   searchParams: { query: string, page:string };
 }) => {
   const result = await fetch(
-    `${baseUrl}/product/search?query=${searchParams.query}&page=${searchParams.page || '1'}`
+    `${baseUrl}/product/search?query=${searchParams.query}&page=${searchParams.page || '1'}`, {cache: 'no-store'}
   );
   const data = await result.json();
   console.log('searchpage data: ', data)

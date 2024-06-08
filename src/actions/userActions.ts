@@ -107,10 +107,9 @@ export async function createOrderAction(orderItems: any) {
   );
 
   const data = await result.json();
-
+  revalidatePath("/user/orders");
   return data;
 }
-
 export async function orderReceivedAction(orderId: any) {
   const cookieStore = cookies();
   const token = cookieStore.get("accessToken")?.value;
@@ -124,6 +123,8 @@ export async function orderReceivedAction(orderId: any) {
   });
 
   const data = await result.json();
+
+  revalidatePath("/user/orders");
   revalidatePath(`/user/orders/${orderId}`);
 
   return data;
@@ -144,7 +145,7 @@ export async function addReviewAction(productId: string, review: any) {
   });
 
   const data = await result.json();
-
+  revalidatePath(`/product/${productId}`);
   return data;
 }
 
@@ -163,6 +164,8 @@ export async function updateReviewAction(reviewId: string, review: any) {
   });
 
   const data = await result.json();
+  // send productid to revalidate that data
+  // revalidatePath(`/product/${productId}`)
 
   return data;
 }

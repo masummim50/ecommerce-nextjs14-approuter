@@ -5,7 +5,7 @@ import Pages from "../category/[category]/Pagination";
 
 const PopularPage = async ({searchParams}:{searchParams:{page:string}}) => {
   // fetch popular data
-  const data = await fetch(`${baseUrl}/product/popular?page=${searchParams.page}`);
+  const data = await fetch(`${baseUrl}/product/popular?page=${searchParams.page}`, {cache: 'no-store'});
   const result = await data.json();
   const metaInfo: {
     page: number;

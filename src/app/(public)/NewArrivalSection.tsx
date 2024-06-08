@@ -6,7 +6,7 @@ import PopularSectionCarousel from './PopularSectionCarousel';
 
 export const dynamic = 'force-dynamic'
 const NewArrivalSection = async() => {
-    const data = await fetch(`${baseUrl}/product/newest`);
+    const data = await fetch(`${baseUrl}/product/newest`, {cache: 'no-store'});
     const products = await data.json();
 
     return (

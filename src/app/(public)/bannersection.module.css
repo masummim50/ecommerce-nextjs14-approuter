@@ -1,0 +1,26 @@
+
+.embla {
+    overflow: hidden;
+    width:100%;
+    position:relative;
+  }
+  .embla_container {
+    display: flex;
+    position:relative;
+    width:100%;
+  }
+  .embla_slide {
+    flex: 0 0 100%;
+    min-width: 0;
+    height: 200px;
+    position: relative;
+    border-radius:5px;
+    overflow: hidden;
+  }
+  
+  @media screen and (min-width: 700px) {
+    .embla_slide {
+      height: 350px;
+    }
+  }
+

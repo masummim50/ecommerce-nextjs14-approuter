@@ -95,7 +95,7 @@ const OrderDetails = () => {
       <div className="flex">
         {paymentType === "now" && <Button fullWidth>Checkout</Button>}
         {paymentType === "later" && (
-          <Button onClick={handlePlaceOrder} fullWidth>
+          <Button isLoading={placingOrder} onClick={handlePlaceOrder} fullWidth>
             {" "}
             {placingOrder ? "Ordering" : "Place Order"}
           </Button>
