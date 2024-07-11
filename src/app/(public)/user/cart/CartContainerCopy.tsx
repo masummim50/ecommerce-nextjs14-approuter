@@ -30,7 +30,6 @@ const CartContainerCopy = ({
     { type: string; id: string }
   >(cartItems, (state, { type, id }) => {
     if (type === "increment") {
-      console.log("type increment running")
       return state.map((s) =>
         s.id === id ? { ...s, quantity: s.quantity + 1 } : s
       );
@@ -50,6 +49,7 @@ const CartContainerCopy = ({
   const [parent] = useAutoAnimate();
   return (
     <div className="flex gap-3">
+      
       <div className="w-[100%] md:w-[60%] flex flex-col gap-2">
         <CheckboxGroup
           label="Select item from your cart"

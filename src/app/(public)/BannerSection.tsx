@@ -22,13 +22,13 @@ const BannerSection = () => {
     <div className={styles.embla} ref={emblaRef}>
       <div className={styles.embla_container}>
         <div className={styles.embla_slide}>
-          <Image src={"/banner1.jpg"} alt="banner" fill />
+          <Image src={"/banner1.jpg"} alt="banner" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
         </div>
         <div className={styles.embla_slide}>
-          <Image src={"/banner2.jpg"} alt="banner" fill />
+          <Image src={"/banner2.jpg"} alt="banner" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
         </div>
         <div className={styles.embla_slide}>
-          <Image src={"/banner3.jpg"} alt="banner" fill />
+          <Image src={"/banner3.jpg"} alt="banner" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
         </div>
       </div>
       <button

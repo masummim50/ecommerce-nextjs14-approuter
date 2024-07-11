@@ -23,6 +23,9 @@ const LastThreeOrders = ({ orders }: { orders: orderType[] }) => {
   return (
     <div>
       <h2 className="dark:text-gray-500 text-gray-800 mt-2">Recent orders:</h2>
+      {
+        orders.length === 0 ? <div className="h-[200px] rounded-md bg-gray-200 dark:bg-gray-800 text-black dark:text-gray-300 flex items-center justify-center">No order has been placed yet</div> :
+      
       <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
         {orders.map((order: orderType) => {
           return (
@@ -46,6 +49,7 @@ const LastThreeOrders = ({ orders }: { orders: orderType[] }) => {
           );
         })}
       </div>
+}
     </div>
   );
 };

@@ -138,11 +138,9 @@ export default function EditProductForm({ product }: { product: productType }) {
               placeholder="discount"
               {...register("discount", {
                 required: { value: true, message: "this field is required" },
-                min: 0,
-                maxLength: {
-                  value: 1,
-                  message: "This input is number only.",
-                },
+                min: {value: 0, message: "The minimum value is 0"},
+                max: {value: 99, message: "The maximum value is 99"},
+                validate: value=> (parseFloat(value) >= 0 && parseFloat(value) <= 99) || "Value must be between 0 and 99"
               })}
             />
             <ErrorMessage
@@ -162,6 +160,7 @@ export default function EditProductForm({ product }: { product: productType }) {
         </div>
         <div className="flex justify-end">
           <Button
+          isLoading={updating}
             disabled={updating || !isDirty}
             className={`px-8 ${
               isDirty ? "bg-indigo-500 text-white hover:bg-indigo-600" : ""

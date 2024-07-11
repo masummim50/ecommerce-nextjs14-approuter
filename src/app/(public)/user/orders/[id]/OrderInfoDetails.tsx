@@ -40,7 +40,7 @@ export type orderDetailsType = {
   id: string;
   status: "pending" | "confirmed" | "shipped" | "delivered";
   storeId: string;
-  paymentStatus: "due";
+  paymentStatus: "due" | 'paid';
   paymentMethod: "cash";
   paymentAmount: number;
   userId: string;
@@ -56,6 +56,7 @@ const OrderInfoDetails = ({ details }: { details: orderDetailsType }) => {
     string
   >(details, (state) => {
     state.status = 'delivered';
+    state.paymentStatus= 'paid'
     return {...state};
   });
   return (
@@ -68,6 +69,7 @@ const OrderInfoDetails = ({ details }: { details: orderDetailsType }) => {
         </div>
         <div>
           <p>Total: ${OptimisticDetails.paymentAmount}</p>
+          <p className={`${OptimisticDetails.paymentStatus === 'paid' ? 'bg-green-500' : 'bg-gray-300'} text-center rounded-md text-white`}>{OptimisticDetails.paymentStatus}</p>
         </div>
       </div>
       <div className="p-2 border-b-[1px] border-gray-300 bg-white dark:bg-gray-800">

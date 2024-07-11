@@ -25,12 +25,11 @@ const ReviewForm = ({
 
   const handleAddReview = async () => {
     setPostingReview(true);
-    console.log("add review running");
     const data = { rating: starIndex + 1, content, orderId };
     
     await addReviewAction(productId, data);
-    setPostingReview(false);
     router.push(`/product/${productId}`)
+    setPostingReview(false);
   };
   
   const handleUpdateReview = async () => {
@@ -40,7 +39,7 @@ const ReviewForm = ({
       if(review.rating !== data?.rating || review.content !== data?.content){
         setPostingReview(true);
         
-        await updateReviewAction(data.id, review);
+        await updateReviewAction(data.id, review,productId);
         setPostingReview(false);
         router.push(`/product/${productId}`)
       }else{

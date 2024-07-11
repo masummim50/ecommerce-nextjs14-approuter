@@ -9,7 +9,6 @@ const useToast = () => {
     const toast = { id, text };
     dispatch(addToast(toast));
     setTimeout(() => {
-      console.log("removing toast");
       dispatch(removeToast(id));
     }, 1000);
   };

@@ -9,20 +9,18 @@ export async function addProductToCartAction(productId: string) {
   const token = cookieStore.get("accessToken")?.value;
 
   if (!token) {
-    redirect("/login");
+    cookies().set("redirectUrl", `/product/${productId}`);
+    redirect(`/login`);
   }
 
-  const result = await fetch(
-    `http://localhost:5000/api/v1/product/addtocart/${productId}`,
-    {
-      method: "POST",
-      body: JSON.stringify({}),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  const result = await fetch(`${baseUrl}/product/addtocart/${productId}`, {
+    method: "POST",
+    body: JSON.stringify({}),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   const data = await result.json();
   revalidatePath("/user/cart");
@@ -33,17 +31,14 @@ export async function increaseQuantityOfCartItemAction(cartItemId: string) {
   const cookieStore = cookies();
   const token = cookieStore.get("accessToken")?.value;
 
-  const result = await fetch(
-    `http://localhost:5000/api/v1/product/cart/increase/${cartItemId}`,
-    {
-      method: "POST",
-      body: JSON.stringify({}),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  const result = await fetch(`${baseUrl}/product/cart/increase/${cartItemId}`, {
+    method: "POST",
+    body: JSON.stringify({}),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   const data = await result.json();
   revalidatePath("/user/cart");
@@ -53,17 +48,14 @@ export async function decreaseQuantityOfCartItemAction(cartItemId: string) {
   const cookieStore = cookies();
   const token = cookieStore.get("accessToken")?.value;
 
-  const result = await fetch(
-    `http://localhost:5000/api/v1/product/cart/decrease/${cartItemId}`,
-    {
-      method: "POST",
-      body: JSON.stringify({}),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  const result = await fetch(`${baseUrl}/product/cart/decrease/${cartItemId}`, {
+    method: "POST",
+    body: JSON.stringify({}),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
   const data = await result.json();
   revalidatePath("/user/cart");
 
@@ -74,37 +66,34 @@ export async function removeCartItemAction(cartItemId: string) {
   const cookieStore = cookies();
   const token = cookieStore.get("accessToken")?.value;
 
-  const result = await fetch(
-    `http://localhost:5000/api/v1/product/cart/delete/${cartItemId}`,
-    {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  const result = await fetch(`${baseUrl}/product/cart/delete/${cartItemId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
   const data = await result.json();
   revalidatePath("/user/cart");
 
   return data;
 }
 
-export async function createOrderAction(orderItems: any) {
+export async function createOrderAction(
+  orderItems: any,
+  paymentMethod: string
+) {
   const cookieStore = cookies();
   const token = cookieStore.get("accessToken")?.value;
 
-  const result = await fetch(
-    `http://localhost:5000/api/v1/order/create-order`,
-    {
-      method: "POST",
-      body: JSON.stringify(orderItems),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  const result = await fetch(`${baseUrl}/order/create-order`, {
+    method: "POST",
+    body: JSON.stringify({ orderItems, paymentMethod }),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   const data = await result.json();
   revalidatePath("/user/orders");
@@ -131,7 +120,6 @@ export async function orderReceivedAction(orderId: any) {
 }
 
 export async function addReviewAction(productId: string, review: any) {
-  console.log("add review action");
   const cookieStore = cookies();
   const token = cookieStore.get("accessToken")?.value;
 
@@ -149,8 +137,11 @@ export async function addReviewAction(productId: string, review: any) {
   return data;
 }
 
-export async function updateReviewAction(reviewId: string, review: any) {
-  console.log("update review action");
+export async function updateReviewAction(
+  reviewId: string,
+  review: any,
+  productId: string
+) {
   const cookieStore = cookies();
   const token = cookieStore.get("accessToken")?.value;
 
@@ -165,7 +156,7 @@ export async function updateReviewAction(reviewId: string, review: any) {
 
   const data = await result.json();
   // send productid to revalidate that data
-  // revalidatePath(`/product/${productId}`)
+  revalidatePath(`/product/${productId}`);
 
   return data;
 }

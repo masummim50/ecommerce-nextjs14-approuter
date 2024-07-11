@@ -2,6 +2,16 @@ import { baseUrl } from "@/shared/urls";
 import React from "react";
 import ProductContainer from "../category/[category]/ProductContainer";
 import Pages from "../category/[category]/Pagination";
+import SearchLoadingStateUpdate from "../../search/SearchLoadingStateUpdate";
+
+import { Metadata } from "next";
+import ScrollToTop from "@/app/ScrollToTop";
+
+
+export const metadata: Metadata = {
+  title: 'Popular Items',
+  description: '',
+}
 
 const PopularPage = async ({searchParams}:{searchParams:{page:string}}) => {
   // fetch popular data
@@ -20,7 +30,8 @@ const PopularPage = async ({searchParams}:{searchParams:{page:string}}) => {
       : metaInfo.total;
   // add pagination
 
-  return <div className="bg-gray-100 dark:bg-gray-900 h-[90vh] pt-3 p-2">
+  return <div className="bg-gray-100 dark:bg-gray-900 min-h-[300px] pt-3 p-2">
+    <ScrollToTop/>
   <div className="max-w-[1100px]  m-auto text-black dark:text-gray-300">
     {result.data?.length > 0 && (
       <div>
@@ -32,6 +43,8 @@ const PopularPage = async ({searchParams}:{searchParams:{page:string}}) => {
       </div>
     )}
     {result.data.length > 0 && <ProductContainer products={result.data} />}
+    
+    <SearchLoadingStateUpdate data={result.data} date={new Date().getTime()} />
     {result.meta.totalPage > 1 && (
       <div className="flex justify-center">
         <Pages meta={result.meta} />

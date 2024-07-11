@@ -11,6 +11,7 @@ const LoginForm = () => {
   const [pending, setPending] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const handleEmailOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
@@ -44,19 +45,30 @@ const LoginForm = () => {
     }
   }, [state]);
 
+  const handleUseTestingAccount = ()=> {
+    setEmail('user1@gmail.com');
+    setPassword('1234');
+  }
+
   return (
+    <>
+    <div className="text-right">
+      <button className="bg-purple-600 px-2 py-1 rounded-md text-white hover:bg-purple-700" onClick={handleUseTestingAccount}>Use Testing account</button>
+    </div>
     <form action={formAction} autoComplete="off">
       <Input
         onChange={(e) => handleEmailOnChange(e)}
         color={decideColor()}
-        defaultValue=""
+        // defaultValue=""
+        value={email}
         label="Email"
         name="email"
       />
       <Input
         onChange={(e) => setPassword(e.target.value)}
         label="Password"
-        defaultValue=""
+        // defaultValue=""
+        value={password}
         name="password"
         type="password"
       />
@@ -70,14 +82,7 @@ const LoginForm = () => {
       </p>
 
       <div className="flex gap-2 justify-end">
-        {/* <Button
-          type="submit"
-          fullWidth
-          color={checkFormisFilled() ? "primary" : "danger"}
-          disabled={!checkFormisFilled() || pending}
-        >
-          {pending ? "Logging in..." : "Login"}
-        </Button> */}
+       
         <LoginButton  text="Login" pendingText="Loggin In..." formIsFilled={checkFormisFilled()}/>
       </div>
       <div className="flex justify-center mt-5">
@@ -86,6 +91,8 @@ const LoginForm = () => {
         </Button>
       </div>
     </form>
+    
+    </>
   );
 };
 

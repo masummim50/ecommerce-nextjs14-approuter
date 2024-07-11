@@ -66,7 +66,7 @@ const SelectedItems = ({
                   />
                   <div>
                     <p>quanity: {c.quantity}</p>
-                    <p>cost: {c.quantity * c.product.price}</p>
+                    <p>cost: {(c.quantity * (c.product.price - (c.product.price * c.product.discount)/100)).toFixed(2)}</p>
                   </div>
                 </div>
               );
@@ -79,7 +79,7 @@ const SelectedItems = ({
           </div>
         </div>
       ) : (
-        <div className="flex h-[100px] md:h-[80vh] rounded-md bg-gray-200 justify-center items-center shadow-md dark:bg-gray-800 text-black dark:text-gray-300 mt-6">
+        <div className="flex h-[100px] md:h-[90vh] rounded-md bg-gray-200 justify-center items-center shadow-md dark:bg-gray-800 text-black dark:text-gray-300 mt-6">
           <p>Select some item to Buy them</p>
         </div>
       )}

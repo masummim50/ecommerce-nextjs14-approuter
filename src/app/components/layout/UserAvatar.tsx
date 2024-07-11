@@ -15,15 +15,21 @@ import {
 import {
   Avatar
 } from "@nextui-org/avatar";
-import { redirect } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import React from "react";
+import { logoutAction } from "@/actions/authActions";
 
 const UserAvatar = () => {
+  const pathname = usePathname();
   const { removeCookies } = useAuthCookie();
-  const handleLogout = ()=> {
-    removeCookies("accessToken");
-    redirect("/");
+  const handleLogout = async()=> {
+    // console.log("logout");
+    // removeCookies("accessToken");
+    // redirect("/");
+    console.log("log out clicked: will redirect to : ", pathname);
+    logoutAction(pathname);
   }
+
   return (
     <Dropdown placement="bottom-end">
       <DropdownTrigger>

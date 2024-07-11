@@ -33,6 +33,7 @@ const PublicProductCard = ({ product }: { product: productType }) => {
           src={product.images[0]}
           fill={true}
           alt={product.name}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
 
         {/* the blurry part */}

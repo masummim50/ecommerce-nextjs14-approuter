@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { useCookies } from "react-cookie";
 import { jwtDecode } from "jwt-decode";
@@ -5,6 +6,7 @@ import { jwtDecode } from "jwt-decode";
 const useAuthCookie = () => {
   const [cookies, setCookies, removeCookies] = useCookies(["accessToken"]);
   let user = null;
+
   if (cookies.accessToken) {
     user = jwtDecode(cookies.accessToken) as {
       id: string;

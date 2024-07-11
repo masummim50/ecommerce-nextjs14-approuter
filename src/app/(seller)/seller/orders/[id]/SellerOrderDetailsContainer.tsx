@@ -20,17 +20,18 @@ const SellerOrderDetailsContainer = ({
 }: {
   orderDetails: sellerOrderDetails;
 }) => {
-  const [optimisticDetails, optimisticStatusUpdate] = useOptimistic(orderDetails, (state, type)=> {
-    if(type === 'accept'){
-      return {...state, order: {...state.order, status: 'confirmed'}}
-    }else if(type === 'cancel'){
-      return {...state, order: {...state.order, status: 'canceled'}}
-      
-    }else if(type === 'ship'){
-      return {...state, order: {...state.order, status: 'shipped'}}
-
-    }else return state;
-  })
+  const [optimisticDetails, optimisticStatusUpdate] = useOptimistic(
+    orderDetails,
+    (state, type) => {
+      if (type === "accept") {
+        return { ...state, order: { ...state.order, status: "confirmed" } };
+      } else if (type === "cancel") {
+        return { ...state, order: { ...state.order, status: "canceled" } };
+      } else if (type === "ship") {
+        return { ...state, order: { ...state.order, status: "shipped" } };
+      } else return state;
+    }
+  );
   const [showStockError, setShowStockError] = useState<boolean>(false);
   const [updating, setUpdating] = useState({
     accepting: false,
@@ -41,24 +42,22 @@ const SellerOrderDetailsContainer = ({
   const handleCancelOrder = async () => {
     setUpdating((prev) => ({ ...prev, cancelling: true }));
     await cancelOrderByIdAction(optimisticDetails.order.id);
-    startTransition(()=> {
-      optimisticStatusUpdate('cancel')
-    })
+    startTransition(() => {
+      optimisticStatusUpdate("cancel");
+    });
     setUpdating((prev) => ({ ...prev, cancelling: false }));
   };
 
   const handleShipOrder = async () => {
     setUpdating((prev) => ({ ...prev, shipping: true }));
     await shipOrderByIdAction(optimisticDetails.order.id);
-    startTransition(()=> {
-      optimisticStatusUpdate('ship')
-    })
+    startTransition(() => {
+      optimisticStatusUpdate("ship");
+    });
     setUpdating((prev) => ({ ...prev, shipping: false }));
   };
 
-
   const handleAcceptOrder = async () => {
-    console.log("order details: ", optimisticDetails);
     let stockerror = false;
     optimisticDetails.order.items.forEach((item) => {
       if (
@@ -72,9 +71,9 @@ const SellerOrderDetailsContainer = ({
     if (!stockerror) {
       setUpdating((prev) => ({ ...prev, accepting: true }));
       await acceptOrderByIdAction(optimisticDetails.order.id);
-      startTransition(()=> {
-        optimisticStatusUpdate('accept')
-      })
+      startTransition(() => {
+        optimisticStatusUpdate("accept");
+      });
       setUpdating((prev) => ({ ...prev, accepting: false }));
     } else {
       setTimeout(() => {
@@ -89,7 +88,7 @@ const SellerOrderDetailsContainer = ({
         return (
           <div className="flex justify-end">
             <Button
-            isLoading={updating.accepting}
+              isLoading={updating.accepting}
               disabled={updating.accepting}
               color="success"
               onClick={handleAcceptOrder}
@@ -97,8 +96,10 @@ const SellerOrderDetailsContainer = ({
               {updating.accepting ? "Accepting" : "Accept Order"}
             </Button>
             <Button
-            isLoading={updating.cancelling}
-              disabled={updating.cancelling || updating.accepting || updating.shipping}
+              isLoading={updating.cancelling}
+              disabled={
+                updating.cancelling || updating.accepting || updating.shipping
+              }
               color="danger"
               onClick={handleCancelOrder}
             >
@@ -167,21 +168,47 @@ const SellerOrderDetailsContainer = ({
                   height={100}
                   alt={item.productName}
                 />
-                <Link
-                  href={
-                    !haveStock && optimisticDetails.order.status === "pending"
-                      ? `/seller/store/edit-product/${item.productId}`
-                      : `/seller/store/product/${item.productId}`
-                  }
-                  className="truncate grow text-indigo-500 font-semibold"
-                >
-                  {item.productName}
-                </Link>
+                <div className="grow">
+                  <Link
+                    href={
+                      !haveStock && optimisticDetails.order.status === "pending"
+                        ? `/seller/store/edit-product/${item.productId}`
+                        : `/seller/store/product/${item.productId}`
+                    }
+                    className="truncate grow text-indigo-500 font-semibold block"
+                  >
+                    {item.productName}
+                  </Link>
+                  {item.productDiscount ? (
+                    <p className="text-green-600 font-semibold">
+                      {" "}
+                      <span className="line-through text-gray-400 font-normal">
+                        ${item.productPrice}
+                      </span>{" "}
+                      $
+                      {(
+                        item.productPrice -
+                        (item.productPrice * item.productDiscount) / 100
+                      ).toFixed(2)}
+                    </p>
+                  ) : (
+                    <p className="text-green-600 font-semibold">
+                      ${item.productPrice}
+                    </p>
+                  )}
+                </div>
                 <div className="flex flex-col md:flex-row">
                   <p className="px-4 text-xs md:text-medium">
                     Qty: {item.productQuantity}
                   </p>
-                  <p> ${item.productQuantity * item.productPrice}</p>
+                  <p>
+                    $
+                    {(
+                      item.productQuantity * item.productPrice -
+                      item.productQuantity *
+                        (((item.productDiscount || 0) * item.productPrice) / 100)
+                    ).toFixed(2)}
+                  </p>
                 </div>
               </div>
               {!haveStock && optimisticDetails.order.status === "pending" && (

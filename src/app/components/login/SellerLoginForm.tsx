@@ -43,19 +43,30 @@ const SellerLoginForm = () => {
   }, [state]);
   const { pending } = useFormStatus();
 
+
+  const handleUseTestingAccount = ()=> {
+    setEmail('seller1@gmail.com');
+    setPassword('1234');
+  }
+
+
   return (
+    <>
+    <div className="text-right">
+      <button className="bg-purple-600 px-2 py-1 rounded-md text-white hover:bg-purple-700" onClick={handleUseTestingAccount}>Use Testing account</button>
+    </div>
     <form action={formAction}>
       <Input
         onChange={(e) => handleEmailOnChange(e)}
         color={decideColor()}
-        defaultValue="masum@gmail.comselle"
+        value={email}
         label="Email"
         name="email"
       />
       <Input
         onChange={(e) => setPassword(e.target.value)}
         label="Password"
-        defaultValue="123"
+        value={password}
         name="password"
       />
       <p className={`${showErrorMessage ? "block" : "hidden"} text-red-700 text-small`}>
@@ -78,6 +89,7 @@ const SellerLoginForm = () => {
         </Button>
       </div>
     </form>
+    </>
   );
 };
 

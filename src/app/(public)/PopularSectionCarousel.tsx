@@ -14,7 +14,12 @@ const PopularSectionCarousel = ({ products }: { products: productType[] }) => {
         <div className="embla__container ">
           {products?.map((product: productType) => {
             return (
-              <Link href={`/product/${product.id}`} key={product.id} className="embla__slide shadow hover:shadow-lg">
+              <Link
+              scroll={false}
+                href={`/product/${product.id}`}
+                key={product.id}
+                className="embla__slide shadow hover:shadow-lg"
+              >
                 <PublicProductCard product={product} />
               </Link>
             );

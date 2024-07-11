@@ -9,7 +9,7 @@ export async function loginAction(prevState: any, formData: FormData) {
     email: formData.get("email")?.toString(),
     password: formData.get("password")?.toString(),
   };
-  const result = await fetch("http://localhost:5000/api/v1/auth/user/signin", {
+  const result = await fetch(`${baseUrl}/auth/user/signin`, {
     method: "POST",
     body: JSON.stringify(payload),
     headers: { "Content-Type": "application/json" },
@@ -19,8 +19,11 @@ export async function loginAction(prevState: any, formData: FormData) {
     return { message: data.message };
   }
   cookies().set("accessToken", data.data.accessToken, { maxAge: 360000 });
-  redirect("/");
+  const redirectUrl = cookies().get("redirectUrl")?.value;
+  redirect(redirectUrl || "/");
+  // redirect("/");
 }
+
 export async function signUpAction(prevState: any, formData: FormData) {
   const payload = {
     name: formData.get("name")?.toString(),
@@ -60,18 +63,37 @@ export async function sellerLoginAction(prevState: any, formData: FormData) {
     email: formData.get("email")?.toString(),
     password: formData.get("password")?.toString(),
   };
-  const result = await fetch(
-    "http://localhost:5000/api/v1/auth/seller/signin",
-    {
-      method: "POST",
-      body: JSON.stringify(payload),
-      headers: { "Content-Type": "application/json" },
-    }
-  );
+  const result = await fetch(`${baseUrl}/auth/seller/signin`, {
+    method: "POST",
+    body: JSON.stringify(payload),
+    headers: { "Content-Type": "application/json" },
+  });
   const data = await result.json();
   if (result.status !== 200) {
     return { message: data.message };
   }
   cookies().set("accessToken", data.data.accessToken, { maxAge: 360000 });
-  redirect("/seller");
+  // redirect("/seller/dashboard");
+  const redirectUrl = cookies().get("redirectUrl")?.value;
+  redirect(redirectUrl || "/seller/dashboard");
+}
+
+export async function logoutAction(pathname: string) {
+  cookies().delete("accessToken");
+  cookies().delete("redirectUrl");
+  // if pathname contains user or seller then redirect to home
+  // else its a public page so redirect to pathname
+  if (pathname.startsWith("/user") || pathname.startsWith("/seller")) {
+    redirect("/");
+  } else {
+    redirect(pathname);
+  }
+}
+
+export async function setRedirect(pathname: string) {
+  try {
+    cookies().set("redirectUrl", pathname);
+  } catch (error) {
+    return null;
+  }
 }

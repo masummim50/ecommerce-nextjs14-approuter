@@ -3,6 +3,13 @@ import { cookies } from "next/headers";
 import React from "react";
 import OrdersContainer from "./OrdersContainer";
 
+import { Metadata } from "next";
+
+export const metadata:Metadata = {
+  title:'My Orders',
+  description:''
+}
+
 const SellerOrderPage = async () => {
   const cookieStore = cookies();
   const token = cookieStore.get("accessToken")?.value;

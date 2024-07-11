@@ -5,6 +5,7 @@ import React from "react";
 import ProductButtons from "./ProductButtons";
 import Link from "next/link";
 import ProductImages from "./ProductImages";
+import ReviewCarousel from "@/app/(seller)/seller/store/product/[id]/ReviewCarousel";
 
 const ProductDetails = ({ product }: { product: productType }) => {
   return (
@@ -67,6 +68,17 @@ const ProductDetails = ({ product }: { product: productType }) => {
           <p>{product.description}</p>
         </div>
       </div>
+      {product?.reviews?.length > 0 ? (
+        <div className="bg-white dark:bg-gray-800 mt-3 p-2">
+          {/* here add the embla carousel */}
+          <h2 className="text-center m-2">Reviews</h2>
+          <ReviewCarousel reviews={product.reviews} />
+        </div>
+      ) : (
+        <div className="flex justify-center items-center h-[100px] bg-white dark:bg-gray-800 rounded-md mt-2">
+          No review Yet
+        </div>
+      )}
     </div>
   );
 };

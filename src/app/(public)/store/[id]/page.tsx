@@ -5,6 +5,7 @@ import Pages from "../../product/category/[category]/Pagination";
 import ProductContainer from "../../product/category/[category]/ProductContainer";
 import { getToAndFrom } from "@/helpers/toAndFrom";
 import SearchLoadingStateUpdate from "../../search/SearchLoadingStateUpdate";
+import ScrollToTop from "@/app/ScrollToTop";
 
 type Review = {
   rating: number;
@@ -42,7 +43,8 @@ const StorePage = async ({
   const store: Store = storeJson.data;
 
   const productsResult = await fetch(
-    `${baseUrl}/product/getfromstore/${params.id}?page=${searchParams.page}`, {cache: 'no-store'}
+    `${baseUrl}/product/getfromstore/${params.id}?page=${searchParams.page}`,
+    { cache: "no-store" }
   );
   const productsJson = await productsResult.json();
 
@@ -52,9 +54,7 @@ const StorePage = async ({
   // fetch products of that store
   return (
     <div className="max-w-[1100px] m-auto">
-      {/* a card to show store information */}
-      {/* name, description, rating, a follow button */}
-
+<ScrollToTop/>
       <div className="bg-indigo-500 text-white flex flex-col items-center justify-center p-3 rounded-md relative my-4">
         <h2 className="text-lg">{store.name}</h2>
         <p>{store?.followers?.length} Followers</p>
@@ -73,12 +73,11 @@ const StorePage = async ({
       {/* all the product cards */}
       <ProductContainer products={data} />
       {/* pagination if necessary */}
-      {
-        meta.totalPage > 1 &&
-      <div className="flex justify-center my-4">
-        <Pages meta={meta} />
-      </div>
-      }
+      {meta.totalPage > 1 && (
+        <div className="flex justify-center my-4">
+          <Pages meta={meta} />
+        </div>
+      )}
     </div>
   );
 };

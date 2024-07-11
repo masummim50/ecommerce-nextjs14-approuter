@@ -44,7 +44,7 @@ export default function Pages({
   }
 
   return (
-    <div className="w-full flex items-center flex-col">
+    <div className="w-full flex items-center flex-col mt-2">
       <Pagination
         onChange={(page: number) => handleSearch(page.toString())}
         total={meta.totalPage}

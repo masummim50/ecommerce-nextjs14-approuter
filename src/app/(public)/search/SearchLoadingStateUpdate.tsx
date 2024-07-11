@@ -17,7 +17,6 @@ const SearchLoadingStateUpdate = ({
   date: number;
   type?: "seller" | "public";
 }) => {
-  console.log("client compo date: ", date);
 
   const dispatch = useAppDispatch();
   if (type == "seller") {

@@ -4,6 +4,13 @@ import { cookies } from "next/headers";
 import {  orderType } from "@/app/interfaces/orderInterface";
 import OrderCard from "./OrderCard";
 import { baseUrl } from "@/shared/urls";
+import { Metadata } from "next";
+import ScrollToTop from "@/app/ScrollToTop";
+
+export const metadata:Metadata = {
+  title:'My Orders',
+  description:''
+}
 
 export const dynamic = 'force-dynamic'
 
@@ -24,6 +31,7 @@ const MyOrders = async()=> {
 
     return (
         <div className="max-w-[1100px] m-auto text-black dark:text-gray-300 p-2">
+          <ScrollToTop/>
           {
             orders?.data?.length > 0 ?
             <div>

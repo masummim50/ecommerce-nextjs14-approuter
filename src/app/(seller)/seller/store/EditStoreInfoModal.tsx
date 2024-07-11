@@ -17,6 +17,7 @@ import {
   Input,
   Progress,
   Textarea,
+  Spinner,
 } from "@nextui-org/react";
 
 import {
@@ -35,7 +36,6 @@ interface IFormInput {
 }
 
 const EditStoreInfoModal = ({ store }: { store: storeType }) => {
-
   const [showResponseMessage, setShowResponseMessage] = useState({
     show: false,
     message: "",
@@ -52,6 +52,7 @@ const EditStoreInfoModal = ({ store }: { store: storeType }) => {
 
   const submitFunction = async (data: IFormInput) => {
     setPending(true);
+    
     const createProductData = await updateStoreInformationAction(
       store.id,
       data
@@ -96,6 +97,8 @@ const EditStoreInfoModal = ({ store }: { store: storeType }) => {
                 <form onSubmit={(e) => handleSubmit(e)}>
                   <Input
                     value={myValues.name}
+                    errorMessage="Name is required"
+                    isInvalid={myValues.name === ''}
                     onChange={(e) =>
                       setMyValues({ ...myValues, name: e.target.value })
                     }
@@ -104,7 +107,9 @@ const EditStoreInfoModal = ({ store }: { store: storeType }) => {
                     label="Product name"
                   />
                   <Textarea
-                  maxRows={3}
+                    maxRows={3}
+                    errorMessage="Description is required"
+                    isInvalid={myValues.description === ''}
                     value={myValues.description}
                     onChange={(e) =>
                       setMyValues({ ...myValues, description: e.target.value })
@@ -117,8 +122,9 @@ const EditStoreInfoModal = ({ store }: { store: storeType }) => {
                   <Button
                     color="primary"
                     className="disabled:bg-gray-400"
-                    disabled={pending}
+                    disabled={pending || myValues.name === '' || myValues.description === ''}
                     type="submit"
+                    endContent={pending ? <Spinner/> : null}
                   >
                     {pending ? "Updating..." : "Update"}
                   </Button>

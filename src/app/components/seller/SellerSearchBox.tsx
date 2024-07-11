@@ -14,10 +14,7 @@ const SellerSearchBox = () => {
   const dispatch = useAppDispatch();
   const sellerSearchTime = useAppSelector((state:RootState)=> state.prevSearchAndPagination.sellerSearchTime)
   const searchParams = useSearchParams();
-  console.log(
-    "search params from component: ",
-    searchParams.get("query")?.toString()
-  );
+ 
   const pathname = usePathname();
   const { replace, push } = useRouter();
 

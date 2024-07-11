@@ -25,7 +25,7 @@ const StoreFound = ({ store }: { store: any }) => {
       <div>
         {store?.products?.length === 0 && (
           <div>
-            <p>No product has been added to the store</p>
+            <p className="text-black dark:text-gray-400">No product has been added to the store</p>
             <CreateProductModal />
           </div>
         )}

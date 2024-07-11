@@ -24,7 +24,6 @@ const TestForm = () => {
     <>
       <button
         onClick={() => {
-            console.log("change clicked")
           setMyValues({ firstName: "mim" });
         }}
       >

@@ -20,6 +20,7 @@ import {
 import { useFormState, useFormStatus } from "react-dom";
 
 import { revalidatePath } from "next/cache";
+import { uploadImage } from "./imageUpload";
 
 interface IFormInput {
   name: string;
@@ -82,20 +83,10 @@ const CreateProductPage = () => {
     setUploadValue(0);
     if (images) {
       for (let i = 0; i < images.length; i++) {
-        const imageData = new FormData();
-        imageData.set("key", "e714769a5c6946f2db13d49ca7ee48b3");
-        imageData.set("image", images[i]);
-        const upload = await fetch("https://api.imgbb.com/1/upload", {
-          method: "POST",
-          body: imageData,
-        });
-        if (upload.ok) {
-          setUploadValue(100 / (images.length - i));
-          const data = await upload.json();
-          setUploadedImages((prev) => [...prev, data?.data?.display_url]);
-        } else {
-          console.log("upload failed");
-        }
+        const url = await uploadImage(images[i]);
+          
+            setUploadValue(100 / (images.length - i));
+            setUploadedImages((prev) => [...prev, url]);
       }
     }
   };

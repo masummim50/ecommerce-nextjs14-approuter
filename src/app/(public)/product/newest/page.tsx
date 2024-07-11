@@ -3,6 +3,14 @@ import React from "react";
 import ProductContainer from "../category/[category]/ProductContainer";
 import Pages from "../category/[category]/Pagination";
 import SearchLoadingStateUpdate from "../../search/SearchLoadingStateUpdate";
+import { Metadata } from "next";
+import ScrollToTop from "@/app/ScrollToTop";
+
+
+export const metadata: Metadata = {
+  title: 'Newest Arrivals',
+  description: '',
+}
 
 const NewestPage = async ({searchParams}:{searchParams:{page:string}}) => {
   // fetch popular data
@@ -21,7 +29,8 @@ const NewestPage = async ({searchParams}:{searchParams:{page:string}}) => {
       : metaInfo.total;
   // add pagination
 
-  return <div className="bg-gray-100 dark:bg-gray-900 h-[90vh] pt-3 p-2">
+  return <div className="bg-gray-100 dark:bg-gray-900 min-h-[300px] pt-3 p-2">
+    <ScrollToTop/>
   <div className="max-w-[1100px]  m-auto text-black dark:text-gray-300">
     {result.data?.length > 0 && (
       <div>

@@ -56,7 +56,9 @@ const OrderCard = ({ order }: { order: orderType }) => {
                       : order.status === "confirmed"
                       ? "bg-orange-300"
                       : order.status === "shipped"
-                      ? "bg-sky-400"
+                      ? "bg-sky-400" 
+                      : order.status === "canceled"
+                      ? "bg-red-400"
                       : "bg-green-500"
                   } text-white rounded-lg px-3 py-0 inline-block`}
                 >

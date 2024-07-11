@@ -2,6 +2,12 @@ import { baseUrl } from "@/shared/urls";
 import { cookies } from "next/headers";
 import LineChart from "./LineChart";
 import SalesOverview from "./SalesOverview";
+import { Metadata } from "next";
+
+export const metadata:Metadata = {
+  title:'Dashboard',
+  description:''
+}
 
 const SellerDashboardPage = async () => {
   // fetch the data for the dashboard
@@ -15,12 +21,11 @@ const SellerDashboardPage = async () => {
     credentials: "include",
   });
   const data = await result.json();
-  console.log("seller dashboard data: ", data);
+  
   return (
     <div className="bg-gray-100 dark:bg-gray-900">
 
     <div className="p-2">
-      <h2>dashboard page</h2>
       <LineChart data={data.data} />
       {/* <pre>{JSON.stringify(data.data.recentOrders, null, 2)}</pre> */}
       {/* <SalesOverview data={data.data?.salesOverview}/> */}

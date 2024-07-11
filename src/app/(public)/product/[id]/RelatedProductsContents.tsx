@@ -12,7 +12,7 @@ const RelatedProductsContents = ({ products }: { products: productType[] }) => {
             {
                 products?.map((product)=> {
                     return (
-                        <Link href={`/product/${product.id}`} key={product.id} className=" shadow hover:shadow-lg">
+                        <Link scroll={false} href={`/product/${product.id}`} key={product.id} className=" shadow hover:shadow-lg">
                         <PublicProductCard key={product?.id} product={product}/>
                         </Link>
                     )

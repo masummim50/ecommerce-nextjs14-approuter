@@ -155,11 +155,11 @@ const LineChart = ({ data }: { data: any }) => {
               <p>items sold</p>
             </div>
             <div className="rounded-md flex items-center flex-col justify-center bg-teal-600 text-white">
-              <p>{overview.pendingAmount}</p>
+              <p>{overview.pendingAmount || 0}</p>
               <p>pending cash</p>
             </div>
             <div className="rounded-md flex items-center flex-col justify-center bg-teal-600 text-white">
-              <p>{overview.clearedAmount}</p>
+              <p>{overview.clearedAmount || 0}</p>
               <p>cleared cash</p>
             </div>
           </div>
@@ -167,7 +167,10 @@ const LineChart = ({ data }: { data: any }) => {
           <div className="flex flex-col items-center justify-center bg-red-200 py-2 rounded-md mt-2 ">
             <p>Cancellation rate</p>
             <p className="text-red-900 font-bold">
-              {((overview.cancelRate * 100) / overview.totalOrders).toFixed(2)}%
+              {
+                isNaN(parseFloat(((overview.cancelRate * 100) / overview.totalOrders).toFixed(2))) ? 0 :
+              ((overview.cancelRate * 100) / overview.totalOrders).toFixed(2)
+              }%
             </p>
             <p>
               {overview.cancelRate} of {overview.totalOrders} orders has been

@@ -3,8 +3,6 @@ import { CgProfile } from "react-icons/cg";
 import { FaLightbulb } from "react-icons/fa";
 import { PiSunLight } from "react-icons/pi";
 
-
-
 import {
   Dropdown,
   DropdownTrigger,
@@ -59,11 +57,29 @@ const DynamicLinks = ({
                 </Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="Static Actions">
-                <DropdownItem key="new">
-                  <Link className="block" href="/seller/dashboard">Dashboard</Link>
+                <DropdownItem key="info">
+                  <div className="w-full flex-col items-center justify-center py-3 hidden md:flex">
+                    <h2 className="font-bold">{loggedInUser.name}</h2>
+                    <p className="text-xs font-extralight text-gray-500">
+                      {loggedInUser.email}
+                    </p>
+                  </div>
                 </DropdownItem>
-                <DropdownItem key="copy">Copy link</DropdownItem>
-                <DropdownItem key="edit">Edit file</DropdownItem>
+                <DropdownItem key="dashboard">
+                  <Link className="block" href="/seller/dashboard">
+                    Dashboard
+                  </Link>
+                </DropdownItem>
+                <DropdownItem key="store">
+                  <Link className="block" href="/seller/store">
+                    Store
+                  </Link>
+                </DropdownItem>
+                <DropdownItem key="orders">
+                  <Link className="block" href="/seller/orders">
+                    Orders
+                  </Link>
+                </DropdownItem>
                 <DropdownItem
                   key="delete"
                   className="text-danger"
@@ -86,6 +102,14 @@ const DynamicLinks = ({
                 </Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="Static Actions">
+                <DropdownItem key="info" className="p-0">
+                <div className="w-full flex-col items-center justify-center py-3 hidden md:flex">
+                    <h2 className="font-bold">{loggedInUser.name}</h2>
+                    <p className="text-xs font-extralight text-gray-500">
+                      {loggedInUser.email}
+                    </p>
+                  </div>
+                </DropdownItem>
                 <DropdownItem key="cart" className="p-0">
                   <Link
                     className=" w-full h-full inline-block p-2"
@@ -102,8 +126,6 @@ const DynamicLinks = ({
                     My Orders
                   </Link>
                 </DropdownItem>
-                <DropdownItem key="copy">Copy link</DropdownItem>
-                <DropdownItem key="edit">Edit file</DropdownItem>
                 <DropdownItem
                   key="delete"
                   className="text-danger"
@@ -119,7 +141,12 @@ const DynamicLinks = ({
     } else {
       return (
         <Button className="px-0 py-0">
-          <Link className="w-[100%] h-[100%] flex items-center  justify-center" href="/login">Login</Link>
+          <Link
+            className="w-[100%] h-[100%] flex items-center  justify-center"
+            href="/login"
+          >
+            Login
+          </Link>
         </Button>
       );
     }
@@ -138,12 +165,12 @@ const DynamicLinks = ({
         </Button>
       ) : (
         <Button
-        isIconOnly
-        size="md"
-        radius="full"
-        onClick={() => setDark(true)}
+          isIconOnly
+          size="md"
+          radius="full"
+          onClick={() => setDark(true)}
         >
-        <FaLightbulb />
+          <FaLightbulb />
         </Button>
       )}
       <div>{toRender()}</div>

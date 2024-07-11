@@ -1,4 +1,5 @@
 "use client";
+import { setRedirect } from "@/actions/authActions";
 import { addProductToCartAction } from "@/actions/userActions";
 import useToast from "@/app/components/shared/UseToast";
 import { productType } from "@/app/interfaces/productInterface";
@@ -8,26 +9,36 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
 import {Button, ButtonGroup} from "@nextui-org/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const ProductButtons = ({ product }: { product: productType }) => {
+  const pathname = usePathname();
   const {performToast} = useToast()
   const [addingToCart, setAddingToCart] = useState(false);
   const dispatch = useAppDispatch();
   const userFromStore = useAppSelector((state: RootState) => state.auth.user);
   const router = useRouter();
   const handleBuyNowClick = () => {
-    dispatch(setProduct([{ ...product, quantity: 1 }]));
-    router.push("/user/create-order");
+    if(userFromStore.id === ""){
+      setRedirect(pathname);
+      router.push("/login")
+    }else{
+
+      dispatch(setProduct([{ ...product, quantity: 1 }]));
+      router.push("/user/create-order");
+    }
   };
 
   const [showToaster, setShowToaster] = useState(false);
   const handleAddToCart = async () => {
     setAddingToCart(true);
-    await addProductToCartAction(product.id);
+    const addtocartResult = await addProductToCartAction(product.id);
     setAddingToCart(false);
-    performToast("Added to cart successfully");
+    console.log("add to cart result: ", addtocartResult);
+    if(addtocartResult?.success ){
+      performToast("Added to cart successfully");
+    }
   };
   return (
     <div>

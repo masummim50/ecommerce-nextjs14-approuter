@@ -16,6 +16,7 @@ import {
   useDisclosure,
   Input,
   Progress,
+  Spinner,
 } from "@nextui-org/react";
 
 import {
@@ -128,7 +129,7 @@ const CreateProductModal = () => {
           });
           myimages.push(data?.data?.display_url);
         } else {
-          console.log("upload failed: ", upload);
+          console.log("upload failed: ");
         }
       }
     }
@@ -171,7 +172,7 @@ const CreateProductModal = () => {
             <>
               <ModalHeader className="flex flex-col gap-1">
                 Create Product
-                <Button size="sm" onClick={generateValues}>
+                <Button className="bg-indigo-400 hover:bg-indigo-500 text-white" size="sm" onClick={generateValues}>
                   Add a random product
                 </Button>
                 <div>{showResponseMessage.show && "response"}</div>
@@ -257,9 +258,10 @@ const CreateProductModal = () => {
 
                   <Button
                     color="primary"
-                    className="disabled:bg-gray-400"
+                    className="disabled:bg-gray-400 mt-2"
                     disabled={uploadValue !== 100 || pending}
                     type="submit"
+                    endContent={pending ? <Spinner/> : null}
                   >
                     {pending ? "Creating..." : "Create Product"}
                   </Button>

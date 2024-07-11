@@ -9,7 +9,7 @@ interface item {
 
 export type orderType = {
   id: string;
-  status: "pending" | "confirmed" | "shipped" | "delivered";
+  status: "pending" | "confirmed" | "shipped" | "delivered" | "canceled";
   storeId: string;
   paymentStatus: "due" | "paid";
   paymentMethod: "cash" | "bank";

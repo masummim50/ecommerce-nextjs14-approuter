@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { signUpAction } from "@/actions/authActions";
 import validateEmail from "@/helpers/validateEmail";
 import { Button, Input } from "@nextui-org/react";
@@ -7,29 +7,28 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { LoginButton } from "./LoginButton";
 
-
 const SignUpForm = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const handleEmailOnChange = (e:ChangeEvent<HTMLInputElement>)=> {
-    setEmail(e.target.value)
-  }
-  const decideColor = ()=> {
-    if(email === "" || validateEmail(email)){
-      return 'default'
+  const handleEmailOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+  const decideColor = () => {
+    if (email === "" || validateEmail(email)) {
+      return "default";
     }
-    if(!validateEmail(email)){
-      return 'danger'
+    if (!validateEmail(email)) {
+      return "danger";
     }
-  }
-  const checkFormisFilled = ()=> {
-    if(validateEmail(email) && name && password){
+  };
+  const checkFormisFilled = () => {
+    if (validateEmail(email) && name && password) {
       return true;
-    }else{
+    } else {
       return false;
     }
-  }
+  };
   const initialState = {
     message: "",
   };
@@ -44,11 +43,11 @@ const SignUpForm = () => {
       }, 1000);
     }
   }, [state]);
-  const {pending} = useFormStatus()
+  const { pending } = useFormStatus();
   return (
     <form action={formAction} className="flex flex-col gap-4 h-[300px]">
       <Input
-      onChange={(e)=> setName(e.target.value)}
+        onChange={(e) => setName(e.target.value)}
         name="name"
         isRequired
         defaultValue=""
@@ -57,9 +56,8 @@ const SignUpForm = () => {
         type="text"
       />
       <Input
-      
-      onChange={(e)=>handleEmailOnChange(e)}
-      color={decideColor()}
+        onChange={(e) => handleEmailOnChange(e)}
+        color={decideColor()}
         name="email"
         isRequired
         defaultValue=""
@@ -68,8 +66,7 @@ const SignUpForm = () => {
         type="email"
       />
       <Input
-      
-      onChange={(e)=> setPassword(e.target.value)}
+        onChange={(e) => setPassword(e.target.value)}
         name="password"
         defaultValue=""
         isRequired
@@ -77,12 +74,19 @@ const SignUpForm = () => {
         placeholder="Enter your password"
         type="password"
       />
-      <p className={`${showErrorMessage ? "block" : "hidden"} text-red-700 text-small`}>
+      <p
+        className={`${
+          showErrorMessage ? "block" : "hidden"
+        } text-red-700 text-small`}
+      >
         {state.message}
       </p>
       <div className="flex gap-2 justify-end">
-        
-      <LoginButton text="Sign up" pendingText="Signing Up..." formIsFilled={checkFormisFilled()}/>
+        <LoginButton
+          text="Sign up"
+          pendingText="Signing Up..."
+          formIsFilled={checkFormisFilled()}
+        />
         {/* <Button type="submit" fullWidth color={checkFormisFilled() ? 'primary' : 'danger'} disabled={!checkFormisFilled()}>
           
           {pending ? "Signing up..." : "Sign up"}
@@ -90,11 +94,9 @@ const SignUpForm = () => {
       </div>
       <div className="flex justify-center mt-5 text-white">
         <Button color="success" size="sm">
-        <Link href="/login">Login instead</Link>
-
+          <Link href="/login">Login instead</Link>
         </Button>
       </div>
-      
     </form>
   );
 };

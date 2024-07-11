@@ -13,7 +13,6 @@ const FollowButton = ({
   followers: { id: string }[];
   storeId: string;
 }) => {
-  console.log("followers: ", followers);
   const [followProcessing, setFollowProcessing] = useState(false);
 
   // optimistic followers

@@ -9,6 +9,9 @@ import { Button } from "@nextui-org/react";
 import Image from "next/image";
 import React from "react";
 import OrderDetails from "./OrderDetails";
+import ScrollToTop from "@/app/ScrollToTop";
+
+
 
 const CreateOrderPage = () => {
   const dispatch = useAppDispatch();
@@ -24,6 +27,7 @@ const CreateOrderPage = () => {
   };
   return (
     <div className="max-w-[1100px] m-auto flex flex-col md:flex-row gap-3 mt-2 text-black dark:text-gray-300">
+      <ScrollToTop/>
       <div className="w-full md:w-[60%]">
        
         {Object.keys(products).map((key) => {
@@ -52,13 +56,35 @@ const CreateOrderPage = () => {
                         </Button>
                         {product.quantity}
                         <Button
+                        disabled={product.quantity >= product.stock}
                         className="min-w-1 h-auto px-5 py-1 md:px-6"
                           onClick={() => handleIncreaseQuantity(product.storeId, product.id)}
                         >
                           +
                         </Button>
                       </div>
-                      <p>{product.price}</p>
+                      {product.discount ? (
+                <div>
+                  <p className="text-green-600 font-semibold">
+                    {" "}
+                    <span className="line-through text-gray-400 font-normal">
+                      ${product.price}
+                    </span>{" "}
+                    $
+                    {(
+                      product.price -
+                      (product.price * product.discount) / 100
+                    ).toFixed(2)}
+                  </p>
+                  <p className="text-green-600 font-light text-sm">
+                    {product.discount}% OFF
+                  </p>
+                </div>
+              ) : (
+                <p className="text-indigo-500 font-semibold">
+                  ${product.price}
+                </p>
+              )}
                     </div>
                   </div>
                 );

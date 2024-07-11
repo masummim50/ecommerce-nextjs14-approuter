@@ -7,12 +7,13 @@ import { productType } from "@/app/interfaces/productInterface";
 import { cartItemType } from "@/redux/features/product/productSlice";
 import { createOrderAction } from "@/actions/userActions";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type stateType = {
   [key: string]: cartItemType[];
 };
 
-const calculateMoneyDetails = (param: stateType) => {
+export const calculateMoneyDetails = (param: stateType) => {
   let items = 0;
   let cost = 0;
   let deliveryCharge = 0;
@@ -20,10 +21,13 @@ const calculateMoneyDetails = (param: stateType) => {
     deliveryCharge += 50;
     value.forEach((product) => {
       items += product.quantity;
-      cost = cost + product.price * product.quantity;
+      cost =
+        cost +
+        (product.price - (product.price * product.discount) / 100) *
+          product.quantity;
     });
   }
-
+  cost = parseFloat(cost.toFixed(2));
   return { items, cost, deliveryCharge };
 };
 
@@ -36,15 +40,17 @@ const OrderDetails = () => {
   const [placingOrder, setPlacingOrder] = useState(false);
   const [orderPlaced, setOrderPlaced] = useState(false);
 
-  const handlePlaceOrder = async () => {
+  const handleCheckOutClick = ()=> {
+    router.push(`/user/checkout/${cost}`)
+  }
+  const handlePlaceOrder = async (paymentMethod: string) => {
     // find the array of objects to create order
     setPlacingOrder(true);
-    await createOrderAction(products)
+    await createOrderAction(products, paymentMethod);
     setOrderPlaced(true);
     setPlacingOrder(false);
     setTimeout(() => {
-      console.log("s");
-      router.push("/user/orders")
+      router.push("/user/orders");
     }, 2000);
   };
   return (
@@ -74,7 +80,7 @@ const OrderDetails = () => {
       <div className="border-b-3"></div>
       <div className="flex justify-between items-center">
         <p>Total: </p>
-        <p>{cost + deliveryCharge}</p>
+        <p>{(cost + deliveryCharge).toFixed(2)}</p>
       </div>
 
       <div className="flex">
@@ -93,9 +99,18 @@ const OrderDetails = () => {
         </RadioGroup>
       </div>
       <div className="flex">
-        {paymentType === "now" && <Button fullWidth>Checkout</Button>}
+        {/* <Button fullWidth>Checkout</Button> */}
+        {paymentType === "now" && (
+          <Button onClick={handleCheckOutClick} >
+            checkout now
+          </Button>
+        )}
         {paymentType === "later" && (
-          <Button isLoading={placingOrder} onClick={handlePlaceOrder} fullWidth>
+          <Button
+            isLoading={placingOrder}
+            onClick={() => handlePlaceOrder("cash")}
+            fullWidth
+          >
             {" "}
             {placingOrder ? "Ordering" : "Place Order"}
           </Button>

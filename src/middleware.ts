@@ -1,4 +1,5 @@
 import { jwtDecode } from "jwt-decode";
+import { cookies } from "next/headers";
 
 import { NextRequest, NextResponse } from "next/server";
 
@@ -69,7 +70,9 @@ export async function middleware(request: NextRequest) {
     if (!pathname.startsWith("/user") && !pathname.startsWith("/seller")) {
       return NextResponse.next();
     } else {
-      return NextResponse.redirect(new URL("/login", request.url));
+      // return NextResponse.redirect(new URL("/login", request.url));
+      // change below line to send some extra param to login
+      return NextResponse.redirect(new URL(`/login`, request.url));
     }
   }
 }

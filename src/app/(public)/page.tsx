@@ -9,6 +9,10 @@ import Link from "next/link";
 import FeaturedCategories from "./FeaturedCategories";
 import DiscountedSection from "./DiscountedSection";
 import BannerSection from "./BannerSection";
+import HomePageSuspenseSkeleton from "./HomePageSuspenseSkeleton";
+
+export const revalidate = 60
+
 
 const PublicPage = () => {
   return (
@@ -27,7 +31,7 @@ const PublicPage = () => {
             View All
           </Link>
         </div>
-        <Suspense fallback={<p>loading popular contents</p>}>
+        <Suspense fallback={<HomePageSuspenseSkeleton/>}>
           <PopularSection />
         </Suspense>
       </div>
@@ -42,7 +46,7 @@ const PublicPage = () => {
             View All
           </Link>
         </div>
-        <Suspense fallback={<p>loading new items</p>}>
+        <Suspense fallback={<HomePageSuspenseSkeleton/>}>
           <NewArrivalSection />
         </Suspense>
       </div>
@@ -63,17 +67,16 @@ const PublicPage = () => {
             Discounted Items
           </h1>
           <Link
-            href="/product/newest"
+            href="/product/discounted"
             className="bg-indigo-400 px-3 py-1 rounded-md hover:bg-indigo-500"
           >
             View All
           </Link>
         </div>
-        <Suspense fallback={<p>loading new items</p>}>
+        <Suspense fallback={<HomePageSuspenseSkeleton/>}>
           <DiscountedSection />
         </Suspense>
       </div>
-
     </div>
   );
 };

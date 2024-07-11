@@ -7,27 +7,36 @@ import { AiTwotoneProfile } from "react-icons/ai";
 import { FaStore } from "react-icons/fa";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import { FaClipboardList } from "react-icons/fa6";
+import Image from "next/image";
+import { useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
 
 
 
-const Icon = ()=> {
-  return (
-    <div>icon</div>
-  )
-}
+
 
 const sellerSidebarLinks = [
   { icon: <LuLayoutDashboard />, title: "dashboard", url: "/seller/dashboard" },
-  { icon: <AiTwotoneProfile />, title: "profile", url: "/seller/profile" },
+  // { icon: <AiTwotoneProfile />, title: "profile", url: "/seller/profile" },
   { icon: <FaStore />, title: "store", url: "/seller/store" },
-  { icon: <IoMdInformationCircleOutline />, title: "info", url: "/seller/info" },
+  // { icon: <IoMdInformationCircleOutline />, title: "info", url: "/seller/info" },
   { icon: <FaClipboardList />, title: "orders", url: "/seller/orders" },
 ];
 const SellerSidebar = () => {
   const pathname = usePathname();
+  const {name, email} = useAppSelector((state:RootState)=> state.auth.user);
   return (
     <div className="w-[50px] md:w-[150px] transition-[width] duration-100 h-[100vh] sticky top-0 left-0 flex-col justify-start  rounded-sm text-black dark:text-white bg-[#f0f0f0] dark:bg-gray-800">
-      <div className="text-center py-7">Logo</div>
+      <div className="w-full flex justify-center py-3">
+        <Image src={"/logo.png"} alt="logo" width={50} height={50} />
+      </div>
+      {name && email &&
+      <div className="w-full flex-col items-center justify-center py-3 hidden md:flex">
+        <h2 className="font-bold">{name}</h2>
+        <p className="text-xs font-extralight text-gray-500">{email}</p>
+      </div>
+}
+
       {sellerSidebarLinks.map((link, index) => (
         <Link
           className={`${

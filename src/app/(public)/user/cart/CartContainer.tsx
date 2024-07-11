@@ -8,144 +8,89 @@ import {
   Input,
   cn,
 } from "@nextui-org/react";
-import { headers } from "next/headers";
-import Image from "next/image";
+
 import React, { startTransition, useOptimistic, useState } from "react";
 import SelectedItems from "./SelectedItems";
 import {
   decreaseQuantityOfCartItemAction,
   increaseQuantityOfCartItemAction,
+  removeCartItemAction,
 } from "@/actions/userActions";
+import { MdDeleteOutline } from "react-icons/md";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
+import CartProductCard from "./CartProductCard";
+import Link from "next/link";
 
-const CartContainer = ({
+const CartContainerCopy = ({
   cartItems,
 }: {
-  cartItems: cartItemTypeForCartPage[];
+  cartItems: { [key: string]: cartItemTypeForCartPage[] };
 }) => {
   const [OptimisticCartItems, OptimisticCartItemAction] = useOptimistic<
-    cartItemTypeForCartPage[],
-    { type: string; id: string }
-  >(cartItems, (state, { type, id }) => {
+    { [key: string]: cartItemTypeForCartPage[] },
+    { type: string; id: string; storeId: string }
+  >(cartItems, (state, { type, id, storeId }) => {
     if (type === "increment") {
-      state.forEach((s) => {
-        if (s.id === id) {
-          s.quantity = s.quantity + 1;
-        }
-      });
-      return [...state];
-    }
-    if (type === "decrement") {
-      state.forEach((s) => {
-        if (s.id === id) {
-          s.quantity = s.quantity - 1;
-        }
-      });
-      return [...state];
-    }
-
-    return [...state];
+      return  {...state, [storeId]: state[storeId].map((s) =>
+        s.id === id ? { ...s, quantity: s.quantity + 1 } : s
+      )}
+    } else if (type === "decrement") {
+      return {...state, [storeId]:state[storeId].map((s) =>
+        s.id === id ? { ...s, quantity: s.quantity - 1 } : s
+      )}
+    } else if (type === "delete") {
+      return {...state, [storeId]: state[storeId].filter((s) => s.id !== id)}
+      
+    } else return state;
   });
 
   const [selected, setSelected] = useState<string[]>([]);
+
+  const [parent] = useAutoAnimate();
   return (
     <div className="flex gap-3">
-      <div className="w-[60%] flex flex-col gap-2">
+      <div className="w-[100%] md:w-[60%] flex flex-col gap-2">
         <CheckboxGroup
           label="Select item from your cart"
           color="warning"
           value={selected}
           onValueChange={setSelected}
         >
-          {[...OptimisticCartItems]?.map((cartItem) => {
-            return (
-              <div className="w-full mb-2" key={cartItem.id}>
-                <Checkbox
-                  color="primary"
-                  classNames={{
-                    base: cn(
-                      "inline-flex w-full max-w-[100%] bg-white dark:bg-gray-800 mb-1 shadow-md justify-start",
-                      // "hover:bg-content2 ",
-                      "cursor-pointer rounded-lg gap-2 border-transparent",
-                      "data-[selected=true]:border-primary"
-                    ),
-                    label: "w-full",
-                  }}
+          <div ref={parent}>
+            {Object.entries(OptimisticCartItems).map(([key, value]) => {
+              return (
+                <div key={key}>
+                  <Link href={`/store/${value[0].product.store.id}`} className=" block text-indigo-600 font-semibold">{value[0].product.store.name}</Link>
+                  <div className="bg-indigo-500 h-[2px] mb-3 block w-[50%]"></div>
+                  {value.map((v) => {
+                    return <CartProductCard key={v.id} cartItem={v} OptimisticCartItemAction={OptimisticCartItemAction} />;
+                  })}
+                </div>
+              );
+            })}
+            {/* {[...OptimisticCartItems]?.map((cartItem) => {
+              return (
+                <CartProductCard
                   key={cartItem.id}
-                  value={cartItem.id}
-                >
-                  <div className="flex w-[100%]">
-                    <Image
-                      src={cartItem.product.images[0]}
-                      height={100}
-                      width={100}
-                      alt={"cart item"}
-                    />
-                    <div className="grow flex flex-col">
-                      <div className="info">
-                        <h2>{cartItem.product.name}</h2>
-                        <p>Sold by: {cartItem.product.store.name}</p>
-                      </div>
-                      <div className="flex justify-between">
-                        <div className="price">${cartItem.product.price}</div>
-                        <div className="quantity">
-                          <ButtonGroup>
-                            <Button
-                            className="disabled:bg-red-300"
-                              disabled={cartItem.quantity < 2}
-                              onClick={async () => {
-                                startTransition(() => {
-                                  OptimisticCartItemAction({
-                                    type: "decrement",
-                                    id: cartItem.id,
-                                  });
-                                });
-                                await decreaseQuantityOfCartItemAction(
-                                  cartItem.id
-                                );
-                              }}
-                              size="sm"
-                            >
-                              -
-                            </Button>
-                            <Button color="primary" disabled size="sm">
-                              {cartItem.quantity}
-                            </Button>
-
-                            <Button
-                              onClick={async () => {
-                                startTransition(() => {
-                                  OptimisticCartItemAction({
-                                    type: "increment",
-                                    id: cartItem.id,
-                                  });
-                                });
-                                await increaseQuantityOfCartItemAction(
-                                  cartItem.id
-                                );
-                              }}
-                              size="sm"
-                            >
-                              +
-                            </Button>
-                          </ButtonGroup>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </Checkbox>
-              </div>
-            );
-          })}
+                  cartItem={cartItem}
+                  OptimisticCartItemAction={OptimisticCartItemAction}
+                />
+              );
+            })} */}
+          </div>
         </CheckboxGroup>
         {/* {selected.join(" ")} */}
       </div>
-      <div className="w-[40%]">
+      <div className="w-[100%] fixed z-50 md:w-[40%] md:relative bottom-0 left-0  mb-1 p-2 md:p-0 bg-gray-200 dark:bg-gray-800 rounded-md">
         <SelectedItems
-          cartItems={cartItems.filter((items) => selected.includes(items.id))}
+          // cartItems={cartItems.filter((items) => selected.includes(items.id))}
+          cartItems={Object.values(OptimisticCartItems).flat().filter((items) =>
+            selected.includes(items.id)
+          )}
         />
       </div>
     </div>
   );
 };
 
-export default CartContainer;
+export default CartContainerCopy;

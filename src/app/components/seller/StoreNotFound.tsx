@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -25,14 +25,28 @@ const StoreNotFound = () => {
       description: "",
     },
   });
+  const [creatingStore, setCreatingStore] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
-
+  const onSubmit: SubmitHandler<IFormInput> = async(data) => {
     // close the modal
-    createStoreAction(data);
-    onOpenChange()
+    setCreatingStore(true);
+    const result = await createStoreAction(data);
+    if(result?.message){
+      // error occured
+      setCreatingStore(false);
+      setErrorMessage(result.message)
+      setTimeout(() => {
+        setErrorMessage("")
+      }, 1000);
+    }else{
+      onOpenChange();
+      setCreatingStore(false);
+    }
+
     // revalidate path /seller/store
   };
+
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   return (
     <div className="h-[300px] bg-slate-500 text-white flex flex-col items-center justify-center">
@@ -43,36 +57,38 @@ const StoreNotFound = () => {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Modal Title
+                Create Store
               </ModalHeader>
               <ModalBody>
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <Controller
                     name="name"
                     control={control}
+                    rules={{ required: "Store Name is required" }}
                     render={({ field }) => (
-                      <Input label="Store name" {...field} />
+                      <Input className="mb-3" label="Store name" {...field} />
                     )}
                   />
                   <Controller
                     name="description"
                     control={control}
+                    rules={{ required: "Store Description is required" }}
                     render={({ field }) => (
-                      <Input label="description" {...field} />
+                      <Input className="mb-3" label="description" {...field} />
                     )}
                   />
-
-                  <Button type="submit">Create Store</Button>
+                  <div className="text-red-500 font-semibold">
+                    <p className={`${errorMessage ? 'opacity-100' : 'opacity-0'}`}>{errorMessage}</p>
+                  </div>
+                  <div className="text-right">
+                    <Button isLoading={creatingStore} className="bg-indigo-400" type="submit">
+                      {
+                        creatingStore ? 'Creating Store...' : 'Create Store'
+                      }
+                    </Button>
+                  </div>
                 </form>
               </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button color="primary" onPress={onClose}>
-                  Action
-                </Button>
-              </ModalFooter>
             </>
           )}
         </ModalContent>
