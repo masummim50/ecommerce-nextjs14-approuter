@@ -78,9 +78,9 @@ function Form({ products }: { products: any }) {
     stripe
       ?.confirmPayment({
         elements,
-
+        
         confirmParams: {
-          return_url: "http://localhost:3000/user/stripe/success",
+          return_url: "https://best-buy-nu.vercel.app/user/stripe/success",
         },
       })
       .then((value) => {
