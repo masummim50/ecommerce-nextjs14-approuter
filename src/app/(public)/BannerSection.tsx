@@ -1,8 +1,8 @@
 "use client";
-import React, { useCallback } from "react";
+import { useCallback } from "react";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import bannerone from '../../../public/banner1.jpg';
 import styles from "./bannersection.module.css";
-import { IoIosArrowBack } from "react-icons/io";
-import { IoIosArrowForward } from "react-icons/io";
 
 import useEmblaCarousel from "embla-carousel-react";
 
@@ -22,7 +22,7 @@ const BannerSection = () => {
     <div className={styles.embla} ref={emblaRef}>
       <div className={styles.embla_container}>
         <div className={styles.embla_slide}>
-          <Image src={"/banner1.jpg"} alt="banner" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
+          <Image src={bannerone} alt="banner" placeholder="blur" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
         </div>
         <div className={styles.embla_slide}>
           <Image src={"/banner2.jpg"} alt="banner" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
