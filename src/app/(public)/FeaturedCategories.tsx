@@ -1,4 +1,3 @@
-import React from "react";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -18,6 +17,8 @@ const FeaturedCategories = () => {
           className="absolute group-hover:scale-125 transition-all"
           src={"/ram.png"}
           fill
+          placeholder="blur"
+          blurDataURL="/ram.png"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           alt="ram"
         />
@@ -33,6 +34,8 @@ const FeaturedCategories = () => {
         <Image
           className="absolute group-hover:scale-125 transition-all"
           src={"/motherboard.jpg"}
+          placeholder="blur"
+          blurDataURL="/motherboard.jpg"
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           alt="ram"
@@ -49,6 +52,8 @@ const FeaturedCategories = () => {
         <Image
           className="absolute group-hover:scale-125 transition-all"
           src={"/processor.jpg"}
+          placeholder="blur"
+          blurDataURL="/processor.jpg"
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           alt="ram"
@@ -65,6 +70,8 @@ const FeaturedCategories = () => {
         <Image
           className="absolute group-hover:scale-125 transition-all"
           src={"/mobile.jpg"}
+          placeholder="blur"
+          blurDataURL="/mobile.jpg"
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           alt="ram"
@@ -81,6 +88,8 @@ const FeaturedCategories = () => {
         <Image
           className="absolute group-hover:scale-125 transition-all"
           src={"/monitor.jpg"}
+          placeholder="blur"
+          blurDataURL="/monitor.jpg"
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           alt="ram"
@@ -97,6 +106,8 @@ const FeaturedCategories = () => {
         <Image
           className="absolute group-hover:scale-125 transition-all"
           src={"/tablet.jpg"}
+          placeholder="blur"
+          blurDataURL="/tablet.jpg"
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           alt="ram"
@@ -113,6 +124,8 @@ const FeaturedCategories = () => {
         <Image
           className="absolute group-hover:scale-125 transition-all"
           src={"/laptop.jpg"}
+          placeholder="blur"
+          blurDataURL="/laptop.jpg"
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           alt="ram"
@@ -129,6 +142,8 @@ const FeaturedCategories = () => {
         <Image
           className="absolute group-hover:scale-125 transition-all"
           src={"/speaker.jpg"}
+          placeholder="blur"
+          blurDataURL="/speaker.jpg"
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           alt="ram"

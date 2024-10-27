@@ -25,10 +25,10 @@ const BannerSection = () => {
           <Image src={bannerone} alt="banner" placeholder="blur" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
         </div>
         <div className={styles.embla_slide}>
-          <Image src={"/banner2.jpg"} alt="banner" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
+          <Image src={"/banner2.jpg"} placeholder="blur" blurDataURL="/banner2.jpg" alt="banner" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
         </div>
         <div className={styles.embla_slide}>
-          <Image src={"/banner3.jpg"} alt="banner" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
+          <Image src={"/banner3.jpg"}  alt="banner" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
         </div>
       </div>
       <button
